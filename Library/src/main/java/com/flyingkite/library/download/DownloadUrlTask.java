@@ -2,8 +2,10 @@ package com.flyingkite.library.download;
 
 import android.util.Log;
 
+import com.flyingkite.library.FilesHelper;
+import com.flyingkite.library.IOUtil;
+
 import java.io.BufferedInputStream;
-import java.io.Closeable;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -104,15 +106,15 @@ public class DownloadUrlTask implements Runnable {
                     mListener.onProgress(write, length);
                 }
                 fos.flush();
-                closeIt(is, fos);
+                IOUtil.closeIt(is, fos);
                 mListener.onComplete(mFile);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            safeDelete(mFile);
+            FilesHelper.fullDelete(mFile);
             mListener.onError(e);
         } finally {
-            closeIt(is, fos);
+            IOUtil.closeIt(is, fos);
             if (con != null) {
                 con.disconnect();
             }
@@ -144,37 +146,11 @@ public class DownloadUrlTask implements Runnable {
     private boolean checkCancel() {
         if (mIsCancelled.get()) {
             mListener.onCancelled();
-            safeDelete(mFile);
+            FilesHelper.fullDelete(mFile);
             onPostExecute();
             return true;
         }
         return false;
-    }
-
-    // When file is created and deleted and then again created, it will throw
-    // FileNotFoundException : open failed: EBUSY (Device or resource busy)
-    // So we rename it to safe delete the file
-    // See https://stackoverflow.com/questions/11539657/open-failed-ebusy-device-or-resource-busy
-    private void safeDelete(File f) {
-        if (f == null) return;
-
-        File to = new File(f.getAbsolutePath() + "" + System.currentTimeMillis());
-        f.renameTo(to);
-        to.delete();
-    }
-
-    private void closeIt(Closeable... c) {
-        if (c == null) return;
-
-        for (Closeable aC : c) {
-            if (aC == null) continue;
-
-            try {
-                aC.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     private static final Listener silent = new Listener() {
