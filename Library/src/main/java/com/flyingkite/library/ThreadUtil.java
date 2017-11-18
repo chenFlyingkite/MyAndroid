@@ -1,6 +1,5 @@
 package com.flyingkite.library;
 
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -30,13 +29,7 @@ public final class ThreadUtil {
 
     public static void runOnWorkerThread(final Runnable action) {
         if (isUIThread()) {
-            new AsyncTask<Void, Void, Void>() {
-                @Override
-                protected Void doInBackground(Void... params) {
-                    action.run();
-                    return null;
-                }
-            }.execute();
+            cachedThreadPool.submit(action);
         } else {
             action.run();
         }
