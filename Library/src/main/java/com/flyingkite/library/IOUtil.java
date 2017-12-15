@@ -8,10 +8,10 @@ public class IOUtil {
         if (cs == null) return;
 
         for (Closeable c : cs) {
-            if (c == null) continue;
-
             try {
-                c.close();
+                if (c != null) {
+                    c.close();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

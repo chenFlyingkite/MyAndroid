@@ -16,6 +16,14 @@ public class Say {
         Log(String.format(format, args));
     }
 
+    public static void LogW(String s) {
+        Log.w(TAG, s);
+    }
+
+    public static void LogW(String format, Object... args) {
+        LogW(String.format(format, args));
+    }
+
     public static void LogI(String s) {
         Log.i(TAG, s);
     }
