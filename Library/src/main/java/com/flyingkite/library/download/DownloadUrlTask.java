@@ -19,51 +19,54 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public class DownloadUrlTask implements Runnable {
     private static final String TAG = "DownloadUriTask";
     private static final int BUFFER_SIZE = 65536; // 64KB = Max TCP packet size
 
-    public interface Listener {
-        void onComplete(File result);
+    public interface Listener<T> {
+        default void onComplete(T result) {}
 
-        void onError(Exception error);
+        default void onError(Exception error) {}
 
-        void onCancelled();
+        default void onCancelled() {}
 
-        void onProgress(long progress, long max);
+        default void onProgress(long progress, long max) {}
+
+        default void onPreExecute() {}
+
+        default void onPostExecute() {}
     }
 
     private AtomicBoolean mIsCancelled = new AtomicBoolean(false);
 
+    // The Listener that do nothing
+    private static final Listener<File> silent = new Listener<File>(){};
     private String mURL;
     private File mFolder;
     private String mFilename;
     private File mFile;
-    private Listener mListener = silent;
+    private Listener<File> mListener = silent;
 
-    public DownloadUrlTask(String sourceUrl, File folder, Listener listener) {
+    public DownloadUrlTask(String sourceUrl, File folder, Listener<File> listener) {
         this(sourceUrl, folder, null, listener);
     }
 
-    public DownloadUrlTask(String sourceUrl, String folder, String name, Listener listener) {
+    public DownloadUrlTask(String sourceUrl, String folder, String name, Listener<File> listener) {
         this(sourceUrl, new File(folder), name, listener);
     }
 
-    public DownloadUrlTask(String sourceUrl, File folder, String name, Listener listener) {
+    public DownloadUrlTask(String sourceUrl, File folder, String name, Listener<File> listener) {
         mURL = sourceUrl;
         mFolder = folder;
         mFilename = name;
         mListener = listener == null ? silent : listener;
     }
 
-    protected void onPreExecute() {}
-
-    protected void onPostExecute() {}
-
     @Override
     public void run() {
-        onPreExecute();
+        mListener.onPreExecute();
 
         if (checkCancel()) return;
 
@@ -120,7 +123,7 @@ public class DownloadUrlTask implements Runnable {
             }
         }
 
-        onPostExecute();
+        mListener.onPostExecute();
     }
 
     private static final OkHttpClient CLIENT = new OkHttpClient();
@@ -135,7 +138,8 @@ public class DownloadUrlTask implements Runnable {
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder().url(url).post(body).build();
         Response response = CLIENT.newCall(request).execute();
-        return response.body().string();
+        ResponseBody resBody = response.body();
+        return resBody == null ? null : resBody.string();
 
     }
 
@@ -147,24 +151,9 @@ public class DownloadUrlTask implements Runnable {
         if (mIsCancelled.get()) {
             mListener.onCancelled();
             FilesHelper.fullDelete(mFile);
-            onPostExecute();
+            mListener.onPostExecute();
             return true;
         }
         return false;
     }
-
-    private static final Listener silent = new Listener() {
-        @Override
-        public void onComplete(File result) { }
-
-        @Override
-        public void onError(Exception error) { }
-
-        @Override
-        public void onCancelled() { }
-
-        @Override
-        public void onProgress(long progress, long max) { }
-    };
-
 }
