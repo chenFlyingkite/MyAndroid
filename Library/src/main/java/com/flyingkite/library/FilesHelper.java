@@ -2,6 +2,8 @@ package com.flyingkite.library;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class FilesHelper {
     private FilesHelper() {}
@@ -23,7 +25,7 @@ public class FilesHelper {
      * @return {@link File#delete()}
      * @see File#delete()
      * */
-    public static boolean fullDelete(File from) {
+    public static boolean ensureDelete(File from) {
         if (isGone(from)) return true;
 
         // When file is created and deleted and then again created, it will throw
@@ -63,7 +65,7 @@ public class FilesHelper {
     public static void createNewFile(File f) {
         if (f == null) return;
         if (f.exists() && f.isDirectory()) {
-            fullDelete(f);
+            ensureDelete(f);
         }
 
         if (!f.exists()) {
@@ -75,7 +77,24 @@ public class FilesHelper {
         }
     }
 
-    private static boolean isGone(File f) {
+    public static boolean isGone(File f) {
         return f == null || !f.exists();
+    }
+
+    public static void copy(InputStream is, OutputStream fos) {
+        if (is == null || fos == null) return;
+
+        try {
+            // Read stream and write to file
+            int read;
+            byte[] buffer = new byte[65536];
+            while ((read = is.read(buffer)) != -1) {
+                fos.write(buffer, 0, read);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            IOUtil.closeIt(is, fos);
+        }
     }
 }

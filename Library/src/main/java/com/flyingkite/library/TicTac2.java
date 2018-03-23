@@ -51,7 +51,7 @@ public class TicTac2 {
     // A handy tic-tac to track the performance
     private final Stack<Long> tictac = new Stack<>();
 
-    public boolean showLog = true;
+    protected boolean showLog = true;
 
     public void tic() {
         tictac.push(System.currentTimeMillis());
@@ -79,6 +79,10 @@ public class TicTac2 {
         // Our message
         s.append("[").append(tac - tic).append("] : ").append(msg);
         logTac(s.toString());
+    }
+
+    public void showLog(boolean show) {
+        showLog = show;
     }
 
     public void reset() {

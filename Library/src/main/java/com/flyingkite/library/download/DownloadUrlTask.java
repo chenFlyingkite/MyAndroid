@@ -49,14 +49,30 @@ public class DownloadUrlTask implements Runnable {
     private File mFile;
     private Listener<File> mListener = silent;
 
+    /**
+     * As DownloadUrlTask#DownloadUrlTask(String, File, null, Listener)
+     * @see DownloadUrlTask#DownloadUrlTask(String, File, String, Listener)
+     */
     public DownloadUrlTask(String sourceUrl, File folder, Listener<File> listener) {
         this(sourceUrl, folder, null, listener);
     }
 
+    /**
+     * As DownloadUrlTask#DownloadUrlTask(String, File, name, Listener)
+     * @see DownloadUrlTask#DownloadUrlTask(String, File, String, Listener)
+     */
     public DownloadUrlTask(String sourceUrl, String folder, String name, Listener<File> listener) {
         this(sourceUrl, new File(folder), name, listener);
     }
 
+    /**
+     * Download the sourceUrl into folder and file named as name with reporting listener
+     *
+     * @param sourceUrl Url to download
+     * @param folder The target folder to put downloaded file
+     * @param name The downloaded file name. Null to use the name in sourceUrl's name after last '/'
+     * @param listener The listener to be notified download status
+     */
     public DownloadUrlTask(String sourceUrl, File folder, String name, Listener<File> listener) {
         mURL = sourceUrl;
         mFolder = folder;
@@ -114,7 +130,7 @@ public class DownloadUrlTask implements Runnable {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            FilesHelper.fullDelete(mFile);
+            FilesHelper.ensureDelete(mFile);
             mListener.onError(e);
         } finally {
             IOUtil.closeIt(is, fos);
@@ -150,7 +166,7 @@ public class DownloadUrlTask implements Runnable {
     private boolean checkCancel() {
         if (mIsCancelled.get()) {
             mListener.onCancelled();
-            FilesHelper.fullDelete(mFile);
+            FilesHelper.ensureDelete(mFile);
             mListener.onPostExecute();
             return true;
         }
