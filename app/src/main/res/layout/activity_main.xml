@@ -13,4 +13,23 @@
         android:text="Hello World!"
         android:layout_centerInParent="true"/>
 
+    <SurfaceView
+        android:id="@+id/screenSurface"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <ImageView
+        android:id="@+id/screenSave"
+        android:layout_width="@dimen/t50dp"
+        android:layout_height="@dimen/t50dp"
+        android:src="#05d"
+        android:layout_centerHorizontal="true"/>
+
+    <ImageView
+        android:id="@+id/screen"
+        android:layout_width="@dimen/t150dp"
+        android:layout_height="@dimen/t150dp"
+        android:src="#00f"
+        android:layout_centerInParent="true"/>
+
 </RelativeLayout>
