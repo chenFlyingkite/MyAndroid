@@ -3,12 +3,15 @@ apply plugin: 'com.github.dcendents.android-maven'
 
 group = 'com.github.chenFlyingkite'
 
+def libraryVersion = "26.0.1"
+def googlePlayVersion = "9.8.0"
+
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.2"
 
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 17
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -32,4 +35,5 @@ dependencies {
     //implementation 'com.android.support:appcompat-v7:26.+'
     implementation 'com.squareup.okhttp3:okhttp:3.9.1'
     implementation 'com.google.code.gson:gson:2.8.2'
+    implementation "com.android.support:recyclerview-v7:$libraryVersion"
 }
