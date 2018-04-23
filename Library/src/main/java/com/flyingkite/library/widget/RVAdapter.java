@@ -9,6 +9,19 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Simple {@link RecyclerView RecyclerView} Adapter using the List as data set to show content.
+ * RVAdapter is the abbreviation for RecyclerViewAdapter.<br/>
+ *
+ * We abstract on the method {@link RecyclerView.Adapter#onCreateViewHolder(ViewGroup, int) onCreateViewHolder} since proper creation of {@link RecyclerView.ViewHolder ViewHolder} is your turn. :)
+ * <p>
+ * To use the template type in inner or static classes, see <br/>
+ * https://www.safaribooksonline.com/library/view/java-generics-and/0596527756/ch04s03.html
+ * </p>
+ *
+ * @param <T> The data type for {@link List List}
+ * @param <VH> Same as {@link RecyclerView.Adapter RecyclerView.Adapter}, A class that extends ViewHolder that will be used by the adapter.
+ */
 public abstract class RVAdapter<T, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
     /**
      * Item listener for RVAdapter(RecyclerViewAdapter)
@@ -16,6 +29,8 @@ public abstract class RVAdapter<T, VH extends RecyclerView.ViewHolder> extends R
     public interface ItemListener<M, MVH> {
         void onClick(M item, MVH holder, int position);
     }
+    // To use the template type in inner or static classes, see
+    // https://www.safaribooksonline.com/library/view/java-generics-and/0596527756/ch04s03.html
 
     // Members & setters
     protected List<T> dataList = new ArrayList<>();
@@ -78,8 +93,7 @@ public abstract class RVAdapter<T, VH extends RecyclerView.ViewHolder> extends R
     }
 
     /**
-     * Called when {@link RecyclerView.ViewHolder#itemView itemView}
-     * is clicked
+     * Called when {@link RecyclerView.ViewHolder#itemView itemView} is clicked.
      */
     protected void onClickItem(T item, VH holder) {
 
