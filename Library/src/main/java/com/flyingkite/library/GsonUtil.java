@@ -12,8 +12,10 @@ import java.io.PrintWriter;
 import java.io.Reader;
 
 public class GsonUtil {
+    private GsonUtil() {}
+
     public static void writeFile(File file, String msg) {
-        file.delete();
+        FilesHelper.ensureDelete(file);
         PrintWriter fos = null;
         try {
             fos = new PrintWriter(file);

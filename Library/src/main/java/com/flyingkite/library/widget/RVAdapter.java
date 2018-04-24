@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.flyingkite.library.ListUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,14 +86,6 @@ public abstract class RVAdapter<T, VH extends RecyclerView.ViewHolder> extends R
         }
     }
 
-    public T itemOf(int index) {
-        if (index < 0 || dataList.size() <= index) {
-            return null;
-        } else {
-            return dataList.get(index);
-        }
-    }
-
     /**
      * Called when {@link RecyclerView.ViewHolder#itemView itemView} is clicked.
      */
@@ -99,8 +93,12 @@ public abstract class RVAdapter<T, VH extends RecyclerView.ViewHolder> extends R
 
     }
 
+    public T itemOf(int index) {
+        return ListUtil.itemOf(dataList, index);
+    }
+
     protected <Z> List<Z> nonNull(List<Z> list) {
-        return list == null ? new ArrayList<>() : list;
+        return ListUtil.nonNull(list);
     }
     //endregion
 }

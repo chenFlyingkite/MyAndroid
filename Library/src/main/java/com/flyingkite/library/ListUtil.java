@@ -1,15 +1,16 @@
-package com.flyingkite.library.util;
+package com.flyingkite.library;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public interface ListUtil {
+public class ListUtil {
+    private ListUtil() {}
 
-    default <T> List<T> nonNull(List<T> list) {
+    public static <T> List<T> nonNull(List<T> list) {
         return list == null ? new ArrayList<>() : list;
     }
 
-    default <T> T itemOf(List<T> list, int index) {
+    public static <T> T itemOf(List<T> list, int index) {
         if (list == null || index < 0 || list.size() <= index) {
             return null;
         } else {
@@ -17,7 +18,7 @@ public interface ListUtil {
         }
     }
 
-    default <T> int indexOf(T[] list, T item) {
+    public static <T> int indexOf(T[] list, T item) {
         if (list != null) {
             // Just as it done in ArrayList#indexOf(Object)
             for (int i = 0; i < list.length; i++) {

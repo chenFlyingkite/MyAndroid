@@ -4,6 +4,8 @@ import java.io.Closeable;
 import java.io.IOException;
 
 public class IOUtil {
+    private IOUtil() {}
+
     public static void closeIt(Closeable... cs) {
         if (cs == null) return;
 
