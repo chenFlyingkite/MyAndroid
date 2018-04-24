@@ -23,8 +23,12 @@ import java.util.List;
  *
  * @param <T> The data type for {@link List List}
  * @param <VH> Same as {@link RecyclerView.Adapter RecyclerView.Adapter}, A class that extends ViewHolder that will be used by the adapter.
+ * @param <TListener> The listener type for {@link RecyclerView.ViewHolder ViewHolder}
  */
-public abstract class RVAdapter<T, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
+public abstract class RVAdapter<T,
+        VH extends RecyclerView.ViewHolder,
+        TListener extends RVAdapter.ItemListener<T, VH>>
+        extends RecyclerView.Adapter<VH> {
     /**
      * Item listener for RVAdapter(RecyclerViewAdapter)
      */
@@ -36,7 +40,7 @@ public abstract class RVAdapter<T, VH extends RecyclerView.ViewHolder> extends R
 
     // Members & setters
     protected List<T> dataList = new ArrayList<>();
-    protected ItemListener<T, VH> onItem;
+    protected TListener onItem;
 
     //region Member setters
     public RVAdapter setDataList(List<T> list) {
@@ -44,7 +48,7 @@ public abstract class RVAdapter<T, VH extends RecyclerView.ViewHolder> extends R
         return this;
     }
 
-    public RVAdapter setItemListener(ItemListener<T, VH> listener) {
+    public RVAdapter setItemListener(TListener listener) {
         onItem = listener;
         return this;
     }
