@@ -29,4 +29,5 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(path: ':Library')
     //implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation "com.android.support:recyclerview-v7:$supportLibVersion"
 }
