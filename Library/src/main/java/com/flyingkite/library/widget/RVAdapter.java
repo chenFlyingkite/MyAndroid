@@ -43,12 +43,12 @@ public abstract class RVAdapter<T,
     protected TListener onItem;
 
     //region Member setters
-    public RVAdapter setDataList(List<T> list) {
+    public RVAdapter<T, VH, TListener> setDataList(List<T> list) {
         dataList = nonNull(list);
         return this;
     }
 
-    public RVAdapter setItemListener(TListener listener) {
+    public RVAdapter<T, VH, TListener> setItemListener(TListener listener) {
         onItem = listener;
         return this;
     }
