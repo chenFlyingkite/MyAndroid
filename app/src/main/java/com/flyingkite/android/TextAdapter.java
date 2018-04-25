@@ -31,4 +31,22 @@ public class TextAdapter extends RVAdapter<String, TextAdapter.TextVH, TextAdapt
             text = itemView.findViewById(R.id.itemText);
         }
     }
+
+    /*
+    //https://developer.android.com/training/data-storage/room/?hl=zh-tw
+    @Entity
+    private class A {
+        @PrimaryKey
+        int x;
+
+        @ColumnInfo(name = "aaa", collate = 2)
+        String y;
+    }
+
+    @Dao
+    private interface DAO {
+        @Query("SELECT * from A")
+        List<A> getAs();
+    }
+    */
 }
