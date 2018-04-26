@@ -13,8 +13,6 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.flyingkite.library.R;
-
 public class DialogManager {
     @Deprecated
     public static class Builder {
@@ -324,7 +322,7 @@ public class DialogManager {
         private final int themeResId;
 
         public GenericViewBuilder(@NonNull Activity activity, @LayoutRes int layoutId, InflateListener onInflate) {
-            this(activity, layoutId, R.style.MyAlertDialog, onInflate);
+            this(activity, layoutId, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT, onInflate);
         }
 
         public GenericViewBuilder(@NonNull Activity activity, @LayoutRes int layoutId, @StyleRes int themeId, InflateListener onInflate) {

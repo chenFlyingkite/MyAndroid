@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Deprecated, to use AlertDialog#THEME_DEVICE_DEFAULT_LIGHT -->
     <style name="MyAlertDialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>

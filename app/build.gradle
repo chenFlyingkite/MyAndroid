@@ -34,6 +34,7 @@ dependencies {
     // https://developer.android.com/topic/libraries/architecture/adding-components?hl=zh-tw
     // https://developer.android.com/training/data-storage/room/?hl=zh-tw
     // Room (use 1.1.0-beta3 for latest beta)
-    implementation "android.arch.persistence.room:runtime:1.0.0"
-    annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
+    // This requires supportLibVersion = 26.1.0
+//    implementation "android.arch.persistence.room:runtime:1.0.0"
+//    annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
 }
