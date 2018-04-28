@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.flyingkite.library.ListUtil;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +43,16 @@ public abstract class RVAdapter<T,
     protected List<T> dataList = new ArrayList<>();
     protected TListener onItem;
 
+    // Center Scroller
+    protected WeakReference<RecyclerView> recycler;
+    protected boolean autoScroll = true;
+    protected CenterScroller scroller = new CenterScroller() {
+        @Override
+        public RecyclerView getRecyclerView() {
+            return recycler == null ? null : recycler.get();
+        }
+    };
+
     //region Member setters
     public RVAdapter<T, VH, TListener> setDataList(List<T> list) {
         dataList = nonNull(list);
@@ -52,6 +63,11 @@ public abstract class RVAdapter<T,
         onItem = listener;
         return this;
     }
+
+    public void setAutoScroll(boolean toCenter) {
+        autoScroll = toCenter;
+    }
+
     //endregion
 
     // We left creation to be abstract
@@ -68,12 +84,24 @@ public abstract class RVAdapter<T,
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int pos = holder.getAdapterPosition();
+                if (autoScroll) {
+                    scroller.smoothScrollToCenter(pos);
+                }
+
                 onClickItem(item, holder);
                 if (onItem != null) {
-                    onItem.onClick(item, holder, holder.getAdapterPosition());
+                    onItem.onClick(item, holder, pos);
                 }
             }
         });
+    }
+
+
+    protected void initCenterScroller(ViewGroup vg) {
+        if (vg instanceof RecyclerView) {
+            recycler = new WeakReference<>((RecyclerView) vg);
+        }
     }
 
     @Override
