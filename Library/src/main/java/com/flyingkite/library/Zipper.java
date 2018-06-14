@@ -79,7 +79,7 @@ public final class Zipper {
 
             // Read from zis and flush to dstFile
             FileOutputStream fos = new FileOutputStream(dstFile);
-            FilesHelper.copy(zis, fos);
+            FileUtil.copy(zis, fos);
             zis.closeEntry();
         }
 

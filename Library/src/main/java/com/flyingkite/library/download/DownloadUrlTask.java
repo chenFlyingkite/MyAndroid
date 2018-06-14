@@ -2,7 +2,7 @@ package com.flyingkite.library.download;
 
 import android.util.Log;
 
-import com.flyingkite.library.FilesHelper;
+import com.flyingkite.library.FileUtil;
 import com.flyingkite.library.IOUtil;
 
 import java.io.BufferedInputStream;
@@ -22,7 +22,7 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 public class DownloadUrlTask implements Runnable {
-    private static final String TAG = "DownloadUriTask";
+    private static final String TAG = "DownloadUrlTask";
     private static final int BUFFER_SIZE = 65536; // 64KB = Max TCP packet size
 
     public interface Listener<T> {
@@ -130,7 +130,7 @@ public class DownloadUrlTask implements Runnable {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            FilesHelper.ensureDelete(mFile);
+            FileUtil.ensureDelete(mFile);
             mListener.onError(e);
         } finally {
             IOUtil.closeIt(is, fos);
@@ -166,7 +166,7 @@ public class DownloadUrlTask implements Runnable {
     private boolean checkCancel() {
         if (mIsCancelled.get()) {
             mListener.onCancelled();
-            FilesHelper.ensureDelete(mFile);
+            FileUtil.ensureDelete(mFile);
             mListener.onPostExecute();
             return true;
         }

@@ -15,7 +15,7 @@ public class GsonUtil {
     private GsonUtil() {}
 
     public static void writeFile(File file, String msg) {
-        FilesHelper.ensureDelete(file);
+        FileUtil.ensureDelete(file);
         PrintWriter fos = null;
         try {
             fos = new PrintWriter(file);

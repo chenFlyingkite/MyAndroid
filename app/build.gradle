@@ -2,14 +2,23 @@ apply plugin: 'com.android.application'
 apply plugin: 'android-maven'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
     defaultConfig {
         applicationId "com.flyingkite.android"
         minSdkVersion 17
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
+    }
+
+    signingConfigs {
+        config {
+            keyAlias 'MyAndroidKey'
+            keyPassword 'MyAndroid'
+            storeFile file('../../KeyStores/chenflyingkite.jks')
+            storePassword 'MyAndroid'
+        }
     }
 
     compileOptions {
@@ -21,15 +30,16 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(path: ':Library')
+    api fileTree(dir: 'libs', include: ['*.jar'])
+    api project(path: ':Library')
     //implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    implementation "com.android.support:recyclerview-v7:$supportLibVersion"
+    api "com.android.support:recyclerview-v7:$supportLibVersion"
 
     // https://developer.android.com/topic/libraries/architecture/adding-components?hl=zh-tw
     // https://developer.android.com/training/data-storage/room/?hl=zh-tw

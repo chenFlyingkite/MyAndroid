@@ -1,12 +1,18 @@
 package com.flyingkite.library;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-public class FilesHelper {
-    private FilesHelper() {}
+public class FileUtil {
+    private FileUtil() {}
 
     /**
      * Delete the file by renaming to another one and call delete.
@@ -96,5 +102,35 @@ public class FilesHelper {
         } finally {
             IOUtil.closeIt(is, fos);
         }
+    }
+
+    public static List<String> readFromFile(String name) {
+        return readFromFile(new File(name));
+    }
+
+    public static List<String> readFromFile(File file) {
+        if (isGone(file)){
+            return Collections.emptyList();
+        }
+
+        List<String> contents = new ArrayList<>();
+        BufferedReader br = null;
+        InputStreamReader is = null;
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(file);
+            is = new InputStreamReader(fis, "UTF-8");
+            br = new BufferedReader(is);
+
+            String line;
+            while ((line = br.readLine()) != null) {
+                contents.add(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            IOUtil.closeIt(fis, is, br);
+        }
+        return contents;
     }
 }

@@ -23,12 +23,11 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 
-public class StringUtils {
-
-    private static final String TAG = "StringUtils";
+public class StringUtil {
+    private static final String TAG = "StringUtil";
     private static final boolean DEBUG = true;
 
-    private StringUtils() { }
+    private StringUtil() {}
 
     public static String formatByte(long bytes) {
         if (bytes < 1024) {
@@ -55,11 +54,11 @@ public class StringUtils {
         long max = rt.maxMemory();
         long free = rt.freeMemory();
         long used = rt.totalMemory() - free;
-        return String.format(Locale.US, "Max[%s] Free[%s] Used[%s]", StringUtils.formatByte(max), StringUtils.formatByte(free), StringUtils.formatByte(used));
+        return String.format(Locale.US, "Max[%s] Free[%s] Used[%s]", StringUtil.formatByte(max), StringUtil.formatByte(free), StringUtil.formatByte(used));
     }
 
-    public static String toTimeStringMMSS(long ms) {
-        if (ms < 0) return "-" + toTimeStringMMSS(-ms);
+    public static String toTimeMMSS(long ms) {
+        if (ms < 0) return "-" + toTimeMMSS(-ms);
 
         ms = ms + 500; // Round on second
         final long s = ms / 1000;
@@ -70,8 +69,8 @@ public class StringUtils {
         return (min < 10 ? "0" : "") + min + ":" + (sec < 10 ? "0" : "") + sec;
     }
 
-    public static String toTimeStringMMSSF(long ms) {
-        if (ms < 0) return "-" + toTimeStringMMSSF(-ms);
+    public static String toTimeMMSSF(long ms) {
+        if (ms < 0) return "-" + toTimeMMSSF(-ms);
 
         ms = (ms + 50); // Round on frame
         final long s = ms / 1000;
@@ -88,8 +87,8 @@ public class StringUtils {
      * @param ms
      * @return
      */
-    public static String toTimeStringHHMMSS(long ms) {
-        if (ms < 0) return "-" + toTimeStringHHMMSS(-ms);
+    public static String toTimeHHMMSS(long ms) {
+        if (ms < 0) return "-" + toTimeHHMMSS(-ms);
 
         ms = ms + 500; // Round on second
         final long hours = ms / 3600000;
@@ -106,8 +105,8 @@ public class StringUtils {
      * @param ms
      * @return
      */
-    public static String toTimeStringHHMM(long ms) {
-        if (ms < 0) return "-" + toTimeStringHHMM(-ms);
+    public static String toTimeHHMM(long ms) {
+        if (ms < 0) return "-" + toTimeHHMM(-ms);
 
         ms = ms + 500; // Round on second
         final long hours = ms / 3600000;
@@ -136,7 +135,7 @@ public class StringUtils {
     private final static char[] HEX_DIGITS = "0123456789ABCDEF".toCharArray();
 
     // http://stackoverflow.com/a/9855338/509029
-    public static String toHexString(byte[] bytes) {
+    public static String toHex(byte[] bytes) {
         char[] hexChars = new char[bytes.length * 2];
         int i = 0;
         for (byte b : bytes) {
@@ -184,7 +183,7 @@ public class StringUtils {
     }
 
     public static String hashToString(String algo, String src) {
-        return toHexString(hash(algo, src));
+        return toHex(hash(algo, src));
     }
 
     public static byte[] hash(String algo, String src) {
@@ -201,14 +200,6 @@ public class StringUtils {
         }
 
         return hash;
-    }
-
-    public static boolean isEmpty(CharSequence str) {
-        return TextUtils.isEmpty(str);
-    }
-
-    public static boolean equals(CharSequence a, CharSequence b) {
-        return TextUtils.equals(a, b);
     }
 
     public static boolean equalsIgnoreCase(CharSequence a, CharSequence b) {
@@ -275,7 +266,7 @@ public class StringUtils {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA1");
             byte[] publicKey = md.digest(c.getEncoded());
-            hexString = toHexString(publicKey);
+            hexString = toHex(publicKey);
         } catch (NoSuchAlgorithmException e) {
             if (DEBUG) Log.e(TAG, "No SHA1 algorithm.", e);
         } catch (CertificateEncodingException e) {
