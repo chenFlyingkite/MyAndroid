@@ -21,6 +21,10 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
+/**
+ * Hide it
+ * @hide
+ */
 public class DownloadUrlTask implements Runnable {
     private static final String TAG = "DownloadUrlTask";
     private static final int BUFFER_SIZE = 65536; // 64KB = Max TCP packet size
