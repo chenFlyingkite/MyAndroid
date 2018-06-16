@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/aicPlay1"
+                android:layout_width="@dimen/t360dp"
+                android:layout_height="@dimen/t180dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/tos5"/>
+
+                <ImageView
+                    android:layout_width="@dimen/t70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:adjustViewBounds="true"
+                    android:layout_alignParentBottom="true"
+                    android:src="@drawable/freemove"/>
+
+                <ImageView
+                    android:layout_width="@dimen/t60dp"
+                    android:layout_height="@dimen/t60dp"
+                    android:padding="@dimen/t5dp"
+                    android:layout_alignParentBottom="true"
+                    android:src="@drawable/tos_app_icon"/>
+
+            </RelativeLayout>
+
+            <FrameLayout
+                android:id="@+id/aicIcon1"
+                android:layout_width="1024px"
+                android:layout_height="1024px"
+                android:background="#0fff">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/skyBlue"
+                    android:layout_marginLeft="-60dp"
+                    android:layout_marginTop="-80dp"
+                    android:textSize="320dp"
+                    android:text=" \u222B "/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/skyBlue"
+                    android:layout_gravity="center_vertical|right"
+                    android:textSize="90dp"
+                    android:text="dt"/>
+
+                <ImageView
+                    android:layout_width="530px"
+                    android:layout_height="530px"
+                    android:layout_gravity="center"
+                    android:src="@drawable/article_1003"/>
+            </FrameLayout>
+        </LinearLayout>
+    </HorizontalScrollView>
+</ScrollView>

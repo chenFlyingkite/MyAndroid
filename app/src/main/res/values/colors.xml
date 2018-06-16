@@ -6,4 +6,20 @@
 
     <color name="gray_d">#fddd</color>
     <color name="blue_d">#600d</color>
+
+    <!-- Tos App -->
+    <color name="transparent">#0000</color>
+    <color name="gray8">#888</color>
+    <color name="grayd">#ddd</color>
+    <color name="skyBlue">#00A2FF</color>
+    <color name="skyBlue2">#2000A2FF</color>
+    <color name="skyBlue4">#4000A2FF</color>
+    <color name="green">#F1A5</color>
+    <color name="green4">#41A5</color>
+    <color name="green8">#81A5</color>
+    <color name="yellow">#FFD4</color>
+    <color name="yellow4">#4FD4</color>
+    <color name="yellow8">#8FD4</color>
+    <color name="red8">#a00</color>
+
 </resources>

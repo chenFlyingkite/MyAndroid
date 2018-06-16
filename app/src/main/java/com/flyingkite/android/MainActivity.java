@@ -18,6 +18,7 @@ import android.view.KeyEvent;
 import android.view.SurfaceView;
 import android.view.View;
 
+import com.flyingkite.android.tos.AppIconDialog;
 import com.flyingkite.library.IOUtil;
 import com.flyingkite.library.Say;
 
@@ -41,6 +42,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setTos();
 
         mpm = (MediaProjectionManager) getSystemService(MEDIA_PROJECTION_SERVICE);
 
@@ -101,6 +103,12 @@ public class MainActivity extends Activity {
                 Say.Log("Save");
                 saveImage(surfView);
             }
+        });
+    }
+
+    private void setTos() {
+        findViewById(R.id.tosApp).setOnClickListener((v) -> {
+            new AppIconDialog().show(MainActivity.this);
         });
     }
 
