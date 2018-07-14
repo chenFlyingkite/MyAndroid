@@ -15,9 +15,6 @@ public class TextRVAdapter extends RVAdapter<String, TextRVAdapter.TextVH, TextR
         //void onDelete(String data, TextVH vh, int position);
     }
 
-    private int vhLayout = holderLayout();
-    private int idText = itemId();
-
     @LayoutRes
     protected int holderLayout() {
         return R.layout.view_square_image;
@@ -32,7 +29,7 @@ public class TextRVAdapter extends RVAdapter<String, TextRVAdapter.TextVH, TextR
     @Override
     public TextVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         initCenterScroller(parent);
-        return new TextVH(inflateView(parent, vhLayout));
+        return new TextVH(inflateView(parent, holderLayout()));
     }
 
     @Override
@@ -47,7 +44,7 @@ public class TextRVAdapter extends RVAdapter<String, TextRVAdapter.TextVH, TextR
 
         public TextVH(View v) {
             super(v);
-            text = v.findViewById(idText);
+            text = v.findViewById(itemId());
         }
     }
 }

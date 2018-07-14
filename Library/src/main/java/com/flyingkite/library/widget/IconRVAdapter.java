@@ -17,9 +17,6 @@ public class IconRVAdapter extends RVAdapter<Integer, IconRVAdapter.IconVH, Icon
         //void onClick(String name, IconVH vh, int position);
     }
 
-    private int vhLayout = holderLayout();
-    private int idImage = itemId();
-
     @LayoutRes
     protected int holderLayout() {
         return R.layout.view_square_image;
@@ -33,7 +30,7 @@ public class IconRVAdapter extends RVAdapter<Integer, IconRVAdapter.IconVH, Icon
     @NonNull
     @Override
     public IconVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new IconVH(inflateView(parent, vhLayout));
+        return new IconVH(inflateView(parent, holderLayout()));
     }
 
     @Override
@@ -54,7 +51,7 @@ public class IconRVAdapter extends RVAdapter<Integer, IconRVAdapter.IconVH, Icon
 
         public IconVH(View itemView) {
             super(itemView);
-            icon = itemView.findViewById(idImage);
+            icon = itemView.findViewById(itemId());
         }
     }
 }
