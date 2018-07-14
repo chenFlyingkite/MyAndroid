@@ -1,9 +1,5 @@
 package com.flyingkite.library;
 
-import android.util.Log;
-
-import java.util.Stack;
-
 /**
  * The simple class for performance profiling.
  * It uses a static Stack to hold all the time stamps where {@link #tic()} is called.
@@ -50,52 +46,39 @@ import java.util.Stack;
  */
 public class TicTac {
     private static final String TAG = "TicTac";
-    // A handy tic-tac to track the performance
-    private static final Stack<Long> tictac = new Stack<>();
 
-    public static boolean showLog = true;
+    private static TicTac2 tictac = new TicTac2();
+
+    static {
+        tictac.setTag(TAG);
+    }
+
+    public static long tic() {
+        return tictac.tic();
+    }
+
+    public static long tacL() {
+        return tictac.tacL();
+    }
+
+    public static long tac(String msg) {
+        return tictac.tac(msg);
+    }
+
+    public static long tac(String format, Object... param) {
+        return tictac.tac(format, param);
+    }
+
+    public static void showLog(boolean show) {
+        tictac.showLog = show;
+    }
 
     public static void reset() {
-        tictac.clear();
+        tictac.reset();
     }
 
-    public static void tic() {
-        tictac.push(System.currentTimeMillis());
-    }
-
-    public static void tac(String format, Object... params) {
-        tac(String.format(format, params));
-    }
-
-    public static void tac(String msg) {
-        long tac = System.currentTimeMillis();
-        if (tictac.size() < 1) {
-            logError(tac, msg);
-            return;
-        }
-
-        long tic = tictac.pop();
-
-        StringBuilder s = new StringBuilder();
-        // Reveal the tic's depth by adding space " "
-        int n = tictac.size();
-        for (int i = 0; i < n; i++) {
-            s.append(" ");
-        }
-        // Our message
-        s.append("[").append(tac - tic).append("] : ").append(msg);
-        log(s.toString());
-    }
-
-    protected static void logError(long tac, String msg) {
-        if (showLog) {
-            Log.e(TAG, "X_X [tic = N/A, tac = " + tac + "] : " + msg);
-        }
-    }
-
-    protected static void log(String s) {
-        if (showLog) {
-            Log.e(TAG, s);
-        }
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }

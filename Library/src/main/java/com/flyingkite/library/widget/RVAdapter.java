@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.flyingkite.library.ListUtil;
+import com.flyingkite.library.util.ListUtil;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;

@@ -1,6 +1,7 @@
-package com.flyingkite.library;
+package com.flyingkite.library.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ListUtil {
@@ -8,6 +9,10 @@ public class ListUtil {
 
     public static <T> List<T> nonNull(List<T> list) {
         return list == null ? new ArrayList<>() : list;
+    }
+
+    public static <T> List<T> nonNull(T[] array) {
+        return array == null ? new ArrayList<>() : Arrays.asList(array);
     }
 
     public static <T> T itemOf(List<T> list, int index) {

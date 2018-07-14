@@ -2,8 +2,8 @@ package com.flyingkite.library.download;
 
 import android.util.Log;
 
-import com.flyingkite.library.FileUtil;
-import com.flyingkite.library.IOUtil;
+import com.flyingkite.library.util.FileUtil;
+import com.flyingkite.library.util.IOUtil;
 
 import java.io.BufferedInputStream;
 import java.io.File;

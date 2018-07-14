@@ -13,9 +13,9 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 
-import com.flyingkite.library.FileUtil;
-import com.flyingkite.library.IOUtil;
-import com.flyingkite.library.ThreadUtil;
+import com.flyingkite.library.util.FileUtil;
+import com.flyingkite.library.util.IOUtil;
+import com.flyingkite.library.util.ThreadUtil;
 import com.flyingkite.library.TicTac2;
 
 import java.io.File;

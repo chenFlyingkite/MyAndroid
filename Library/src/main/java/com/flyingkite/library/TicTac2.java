@@ -47,25 +47,39 @@ import java.util.Stack;
  * </pre>
  */
 public class TicTac2 {
-    private static final String TAG = "TicTac2";
+    private static String TAG = "TicTac2";
     // A handy tic-tac to track the performance
     private final Stack<Long> tictac = new Stack<>();
 
     protected boolean showLog = true;
 
-    public void tic() {
-        tictac.push(System.currentTimeMillis());
+    /**
+     * Push time of tic
+     * @return tic Time of tic
+     */
+    public long tic() {
+        long tic = System.currentTimeMillis();
+        tictac.push(tic);
+        return tic;
     }
 
-    public void tac(String format, Object... params) {
-        tac(String.format(format, params));
+    /**
+     * Print formatted
+     * @see #tac(String)
+     */
+    public long tac(String format, Object... params) {
+        return tac(String.format(format, params));
     }
 
-    public void tac(String msg) {
+    /**
+     * Evaluate time diff, Print logs and return the tac time
+     * @return time diff = tac - tic, -1 if no tic
+     */
+    public long tac(String msg) {
         long tac = System.currentTimeMillis();
         if (tictac.size() < 1) {
             logError(tac, msg);
-            return;
+            return -1;
         }
 
         long tic = tictac.pop();
@@ -79,30 +93,104 @@ public class TicTac2 {
         // Our message
         s.append("[").append(tac - tic).append("] : ").append(msg);
         logTac(s.toString());
+        return tac;
     }
 
+    /**
+     * Evaluate time diff and return the tac time
+     * @return time diff = tac - tic, -1 if no tic
+     */
+    public long tacL() {
+        long tac = System.currentTimeMillis();
+        if (tictac.size() < 1) {
+            return -1;
+        }
+
+        long tic = tictac.pop();
+        return tac - tic;
+    }
+
+    /**
+     * Set log or not
+     * @see #logTac(String)
+     * @see #logError(long, String)
+     */
     public void showLog(boolean show) {
         showLog = show;
     }
 
+    /**
+     * Clear all the pushed tics
+     */
     public void reset() {
         tictac.clear();
     }
 
+    /**
+     * Print log when {@link #tac(String)} is called with no tic
+     */
     protected void logError(long tac, String msg) {
         if (showLog) {
-            Log.e(TAG, "X_X [tic = N/A, tac = " + tac + "] : " + msg);
+            Log.e(TAG, errorString(tac, msg));
         }
     }
 
+    protected String errorString(long tac, String msg) {
+        return "X_X [tic = N/A, tac = " + tac + "] : " + msg;
+    }
+
+    /**
+     * Print log when {@link #tac(String)} is called with valid tic
+     */
     protected void logTac(String s) {
         if (showLog) {
             Log.e(TAG, s);
         }
     }
 
+    public void setTag(String tag) {
+        TAG = tag;
+    }
+
     @Override
     public String toString() {
         return String.format("%s : tictac.size() = %s", TAG, tictac.size());
+    }
+
+    /**
+     * Tictac2 apply Log with {@link Log#v(String, String)}
+     */
+    public static class v extends TicTac2 {
+        @Override
+        protected void logError(long tac, String msg) {
+            if (showLog) {
+                Log.v(TAG, errorString(tac, msg));
+            }
+        }
+
+        @Override
+        protected void logTac(String s) {
+            if (showLog) {
+                Log.v(TAG, s);
+            }
+        }
+    }
+    /**
+     * Tictac2 apply Log with {@link Log#i(String, String)}
+     */
+    public static class i extends TicTac2 {
+        @Override
+        protected void logError(long tac, String msg) {
+            if (showLog) {
+                Log.i(TAG, errorString(tac, msg));
+            }
+        }
+
+        @Override
+        protected void logTac(String s) {
+            if (showLog) {
+                Log.i(TAG, s);
+            }
+        }
     }
 }

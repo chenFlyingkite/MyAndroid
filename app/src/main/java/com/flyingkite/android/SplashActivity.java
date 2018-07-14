@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-public class SplashActivity extends Activity {
+import com.flyingkite.library.logging.Loggable;
+
+public class SplashActivity extends Activity implements Loggable {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

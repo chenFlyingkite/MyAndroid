@@ -19,7 +19,7 @@ import android.view.SurfaceView;
 import android.view.View;
 
 import com.flyingkite.android.tos.AppIconDialog;
-import com.flyingkite.library.IOUtil;
+import com.flyingkite.library.util.IOUtil;
 import com.flyingkite.library.Say;
 
 import java.io.File;
