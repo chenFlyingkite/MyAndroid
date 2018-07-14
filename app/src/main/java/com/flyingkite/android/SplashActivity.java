@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 
 import com.flyingkite.library.logging.Loggable;
 
-public class SplashActivity extends Activity implements Loggable {
+public class SplashActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -17,5 +17,10 @@ public class SplashActivity extends Activity implements Loggable {
 
         startActivity(new Intent(this, clazz));
         finish();
+    }
+
+    private static Loggable x = new Loggable() {};
+    private static void f() {
+        x.log("123");
     }
 }

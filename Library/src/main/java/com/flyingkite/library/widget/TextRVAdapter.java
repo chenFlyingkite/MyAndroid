@@ -10,9 +10,9 @@ import android.widget.TextView;
 
 import com.flyingkite.library.R;
 
-public class TextRVAdapter extends RVAdapter<String, TextRVAdapter.ButtonVH, TextRVAdapter.ItemListener> {
-    public interface ItemListener extends RVAdapter.ItemListener<String, ButtonVH> {
-        //void onDelete(String data, ButtonVH vh, int position);
+public class TextRVAdapter extends RVAdapter<String, TextRVAdapter.TextVH, TextRVAdapter.ItemListener> {
+    public interface ItemListener extends RVAdapter.ItemListener<String, TextVH> {
+        //void onDelete(String data, TextVH vh, int position);
     }
 
     private int vhLayout = holderLayout();
@@ -30,22 +30,22 @@ public class TextRVAdapter extends RVAdapter<String, TextRVAdapter.ButtonVH, Tex
 
     @NonNull
     @Override
-    public ButtonVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public TextVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         initCenterScroller(parent);
-        return new ButtonVH(inflateView(parent, vhLayout));
+        return new TextVH(inflateView(parent, vhLayout));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ButtonVH vh, int position) {
+    public void onBindViewHolder(@NonNull TextVH vh, int position) {
         super.onBindViewHolder(vh, position);
         String msg = itemOf(position);
         vh.text.setText(msg);
     }
 
-    public class ButtonVH extends RecyclerView.ViewHolder {
+    public class TextVH extends RecyclerView.ViewHolder {
         private TextView text;
 
-        public ButtonVH(View v) {
+        public TextVH(View v) {
             super(v);
             text = v.findViewById(idText);
         }
