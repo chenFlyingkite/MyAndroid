@@ -2,6 +2,9 @@ package com.flyingkite.library;
 
 import android.util.Log;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Stack;
 
 /**
@@ -47,6 +50,8 @@ import java.util.Stack;
  * </pre>
  */
 public class TicTac2 {
+    // https://en.wikipedia.org/wiki/ISO_8601
+    private static final SimpleDateFormat formatISO8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
     private static String TAG = "TicTac2";
     // A handy tic-tac to track the performance
     private final Stack<Long> tictac = new Stack<>();
@@ -136,7 +141,11 @@ public class TicTac2 {
     }
 
     protected String errorString(long tac, String msg) {
-        return "X_X [tic = N/A, tac = " + tac + "] : " + msg;
+        return "X_X [tic = N/A, tac = " + getTime(tac) + "] : " + msg;
+    }
+
+    protected String getTime(long time) {
+        return formatISO8601.format(new Date(time));
     }
 
     /**
