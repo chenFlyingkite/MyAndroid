@@ -3,6 +3,8 @@ plugins {
 }
 apply plugin: 'java-library'
 
+group = 'com.github.chenFlyingkite'
+
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
     api 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
