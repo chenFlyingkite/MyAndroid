@@ -26,13 +26,12 @@ compileTestKotlin {
     }
 }
 
-boolean copyJar = true
 String[] clients = ["Library"]
 
 jar.doLast {
     def jarPath = jar.archivePath
     println "Jar at $jarPath"
-    if (!copyJar) return
+    // $project.name
 
     println "Copy jar to /libs of $clients"
     for (int i = 0; i < clients.length; i++) {
@@ -42,7 +41,7 @@ jar.doLast {
         copy {
             from "$jarPath"
             into "$dst"
-            //rename '(.*)', MyBuildInfo.APK_NAME
+            rename '(.*)', "${project.name}.jar"
         }
     }
 }
