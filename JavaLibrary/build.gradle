@@ -26,7 +26,7 @@ compileTestKotlin {
     }
 }
 
-boolean copyJar = false
+boolean copyJar = true
 String[] clients = ["Library"]
 
 jar.doLast {
