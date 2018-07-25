@@ -1,4 +1,4 @@
-package flyingkite.logging;
+package flyingkite.log;
 
 import flyingkite.files.CSVTable;
 

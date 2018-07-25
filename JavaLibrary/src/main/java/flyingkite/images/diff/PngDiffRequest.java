@@ -3,7 +3,7 @@ package flyingkite.images.diff;
 import flyingkite.math.MathUtil;
 import flyingkite.images.base.PngParam;
 import flyingkite.images.base.PngRequest;
-import flyingkite.logging.L;
+import flyingkite.log.L;
 
 import java.awt.image.BufferedImage;
 import java.io.File;

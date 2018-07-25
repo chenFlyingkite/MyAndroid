@@ -50,7 +50,11 @@ public class TicTac {
     private static TicTac2 tictac = new TicTac2();
 
     static {
-        tictac.setTag(TAG);
+        setTag(TAG);
+    }
+
+    public static void reset() {
+        tictac.reset();
     }
 
     public static long tic() {
@@ -70,15 +74,15 @@ public class TicTac {
     }
 
     public static void showLog(boolean show) {
-        tictac.showLog = show;
+        tictac.setLog(show);
     }
 
-    public static void reset() {
-        tictac.reset();
+    public static void setTag(String tag) {
+        tictac.setTag(tag);
     }
 
     @Override
     public String toString() {
-        return super.toString();
+        return tictac.toString();
     }
 }

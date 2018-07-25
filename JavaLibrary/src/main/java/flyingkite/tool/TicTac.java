@@ -45,9 +45,11 @@ package flyingkite.tool;
  * </pre>
  */
 public class TicTac {
-    private static final String TAG = "TicTac";
-
     private static TicTac2 tictac = new TicTac2();
+
+    public static void reset() {
+        tictac.reset();
+    }
 
     public static long tic() {
         return tictac.tic();
@@ -69,13 +71,9 @@ public class TicTac {
         tictac.setLog(show);
     }
 
-    public static void reset() {
-        tictac.reset();
-    }
-
     @Override
     public String toString() {
-        return super.toString();
+        return tictac.toString();
     }
 }
 

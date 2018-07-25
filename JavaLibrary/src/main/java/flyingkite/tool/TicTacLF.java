@@ -1,6 +1,6 @@
 package flyingkite.tool;
 
-import flyingkite.logging.LF;
+import flyingkite.log.LF;
 
 public class TicTacLF extends TicTac2 {
     private LF logFile;

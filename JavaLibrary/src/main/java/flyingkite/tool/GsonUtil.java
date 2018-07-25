@@ -8,7 +8,6 @@ import java.io.PrintWriter;
 import java.io.Reader;
 
 public class GsonUtil {
-    private GsonUtil() {}
 
     public static void writeFile(File file, String msg) {
         PrintWriter fos = null;
@@ -27,19 +26,14 @@ public class GsonUtil {
         return load(IOUtil.getReader(file), clazz);
     }
 
-//    public static <T> T loadAsset(String assetFile, Class<T> clazz, AssetManager am) {
-//        return load(IOUtil.getReader(assetFile, am), clazz);
-//    }
-
     public static <T> T load(Reader reader, Class<T> clazz) {
+        if (reader == null) return null;
+
         Gson gson = new Gson();
         try {
-            if (reader != null) {
-                return gson.fromJson(reader, clazz);
-            }
+            return gson.fromJson(reader, clazz);
         } finally {
             IOUtil.closeIt(reader);
         }
-        return null;
     }
 }

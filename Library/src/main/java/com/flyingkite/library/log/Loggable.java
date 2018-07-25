@@ -1,9 +1,8 @@
-package com.flyingkite.library.logging;
+package com.flyingkite.library.log;
 
-import android.support.annotation.NonNull;
 import android.util.Log;
 
-public interface Loggable {
+public interface Loggable extends flyingkite.log.Loggable {
     /**
      * @return Tag for Logcat's TAG
      */
@@ -17,6 +16,7 @@ public interface Loggable {
      */
     default void log(String message) {
         Log.v(LTag(), message);
+
     }
 
     /**
@@ -56,16 +56,4 @@ public interface Loggable {
         logE(_fmt(format, param));
     }
     //--
-
-    default void printLog(@NonNull LogSS ss, String tag, String message) {
-        ss.run(tag, message);
-    }
-
-    default void printfLog(@NonNull LogSS ss, String tag, String format, Object... param) {
-        printLog(ss, tag, _fmt(format, param));
-    }
-
-    default String _fmt(String format, Object... param) {
-        return String.format(java.util.Locale.US, format, param);
-    }
 }

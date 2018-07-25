@@ -2,10 +2,7 @@ package com.flyingkite.library;
 
 import android.util.Log;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Stack;
+import com.flyingkite.library.log.Loggable;
 
 /**
  * The class performing the same intention with {@link TicTac}.
@@ -48,95 +45,23 @@ import java.util.Stack;
  *     }
  * }
  * </pre>
+ * @see flyingkite.tool.TicTac2
  */
-public class TicTac2 {
-    // https://en.wikipedia.org/wiki/ISO_8601
-    private static final SimpleDateFormat formatISO8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
-    private static String TAG = "TicTac2";
-    // A handy tic-tac to track the performance
-    private final Stack<Long> tictac = new Stack<>();
+public class TicTac2 extends flyingkite.tool.TicTac2 implements Loggable {
+    protected String TAG = "TicTac2";
 
-    protected boolean showLog = true;
-
-    /**
-     * Push time of tic
-     * @return tic Time of tic
-     */
-    public long tic() {
-        long tic = System.currentTimeMillis();
-        tictac.push(tic);
-        return tic;
+    public void setTag(String tag) {
+        TAG = tag;
     }
 
-    /**
-     * Print formatted
-     * @see #tac(String)
-     */
-    public long tac(String format, Object... params) {
-        return tac(String.format(format, params));
+    @Override
+    public void log(String message) {
+        Log.e(TAG, message);
     }
 
-    /**
-     * Evaluate time diff, Print logs and return the tac time
-     * @return time diff = tac - tic, -1 if no tic
-     */
-    public long tac(String msg) {
-        long tac = System.currentTimeMillis();
-        if (tictac.size() < 1) {
-            logError(tac, msg);
-            return -1;
-        }
-
-        long tic = tictac.pop();
-
-        StringBuilder s = new StringBuilder();
-        // Reveal the tic's depth by adding space " "
-        int n = tictac.size();
-        for (int i = 0; i < n; i++) {
-            s.append(" ");
-        }
-        // Our message
-        s.append("[").append(tac - tic).append("] : ").append(msg);
-        logTac(s.toString());
-        return tac;
-    }
-
-    /**
-     * Evaluate time diff and return the tac time
-     * @return time diff = tac - tic, -1 if no tic
-     */
-    public long tacL() {
-        long tac = System.currentTimeMillis();
-        if (tictac.size() < 1) {
-            return -1;
-        }
-
-        long tic = tictac.pop();
-        return tac - tic;
-    }
-
-    /**
-     * Set log or not
-     * @see #logTac(String)
-     * @see #logError(long, String)
-     */
-    public void showLog(boolean show) {
-        showLog = show;
-    }
-
-    /**
-     * Clear all the pushed tics
-     */
-    public void reset() {
-        tictac.clear();
-    }
-
-    /**
-     * Print log when {@link #tac(String)} is called with no tic
-     */
     protected void logError(long tac, String msg) {
-        if (showLog) {
-            Log.e(TAG, errorString(tac, msg));
+        if (log) {
+            log(errorString(tac, msg));
         }
     }
 
@@ -144,26 +69,15 @@ public class TicTac2 {
         return "X_X [tic = N/A, tac = " + getTime(tac) + "] : " + msg;
     }
 
-    protected String getTime(long time) {
-        return formatISO8601.format(new Date(time));
-    }
-
-    /**
-     * Print log when {@link #tac(String)} is called with valid tic
-     */
     protected void logTac(String s) {
-        if (showLog) {
-            Log.e(TAG, s);
+        if (log) {
+            log(s);
         }
-    }
-
-    public void setTag(String tag) {
-        TAG = tag;
     }
 
     @Override
     public String toString() {
-        return String.format("%s : tictac.size() = %s", TAG, tictac.size());
+        return TAG + " : " + super.toString();
     }
 
     /**
@@ -171,35 +85,18 @@ public class TicTac2 {
      */
     public static class v extends TicTac2 {
         @Override
-        protected void logError(long tac, String msg) {
-            if (showLog) {
-                Log.v(TAG, errorString(tac, msg));
-            }
-        }
-
-        @Override
-        protected void logTac(String s) {
-            if (showLog) {
-                Log.v(TAG, s);
-            }
+        public void log(String message) {
+            Log.v(TAG, message);
         }
     }
+
     /**
      * Tictac2 apply Log with {@link Log#i(String, String)}
      */
     public static class i extends TicTac2 {
         @Override
-        protected void logError(long tac, String msg) {
-            if (showLog) {
-                Log.i(TAG, errorString(tac, msg));
-            }
-        }
-
-        @Override
-        protected void logTac(String s) {
-            if (showLog) {
-                Log.i(TAG, s);
-            }
+        public void log(String message) {
+            Log.i(TAG, message);
         }
     }
 }

@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-import flyingkite.logging.L;
-import flyingkite.logging.LF;
+import flyingkite.log.L;
+import flyingkite.log.LF;
 import flyingkite.tool.IOUtil;
 import flyingkite.tool.TicTacLF;
 

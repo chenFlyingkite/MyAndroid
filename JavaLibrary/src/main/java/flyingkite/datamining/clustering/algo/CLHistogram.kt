@@ -2,7 +2,7 @@ package flyingkite.datamining.clustering.algo
 
 import flyingkite.datamining.clustering.util.CLClus
 import flyingkite.datamining.clustering.util.IDPair
-import flyingkite.logging.L
+import flyingkite.log.L
 import flyingkite.math.Statistics
 import java.util.*
 

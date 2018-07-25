@@ -1,4 +1,4 @@
-package flyingkite.logging;
+package flyingkite.log;
 
 import java.io.File;
 import java.io.FileOutputStream;

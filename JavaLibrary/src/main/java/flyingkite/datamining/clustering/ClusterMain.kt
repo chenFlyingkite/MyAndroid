@@ -4,7 +4,7 @@ import flyingkite.datamining.clustering.algo.CLHistogram
 import flyingkite.datamining.clustering.algo.ClusteringBySynchronization
 import flyingkite.datamining.clustering.util.CLClus
 import flyingkite.datamining.clustering.util.Clusterable
-import flyingkite.logging.L
+import flyingkite.log.L
 import java.util.*
 
 object ClusterMain {

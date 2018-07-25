@@ -27,8 +27,6 @@ public class StringUtil {
     private static final String TAG = "StringUtil";
     private static final boolean DEBUG = true;
 
-    private StringUtil() {}
-
     public static String formatByte(long bytes) {
         if (bytes < 1024) {
             return String.format(Locale.US, "%dB", bytes);

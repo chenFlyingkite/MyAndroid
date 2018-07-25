@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class IOUtil {
-    private IOUtil() {}
 
     public static void closeIt(Closeable... c) {
         if (c == null) return;
@@ -17,7 +16,7 @@ public class IOUtil {
                 try {
                     d.close();
                 } catch (IOException e) {
-                    // Ignore it
+                    e.printStackTrace();
                 }
             }
         }
@@ -35,15 +34,6 @@ public class IOUtil {
             }
         }
     }
-
-//    public static InputStreamReader getReader(String assetFile, AssetManager am) {
-//        try {
-//            return new InputStreamReader(am.open(assetFile), "UTF-8");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
 
     public static InputStreamReader getReader(String filename) {
         return getReader(new File(filename));

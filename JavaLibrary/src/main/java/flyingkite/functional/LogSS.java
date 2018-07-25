@@ -1,4 +1,4 @@
-package flyingkite.logging;
+package flyingkite.functional;
 
 @FunctionalInterface
 public interface LogSS {
