@@ -26,11 +26,14 @@ compileTestKotlin {
     }
 }
 
+boolean copyJar = false
 String[] clients = ["Library"]
 
 jar.doLast {
     def jarPath = jar.archivePath
     println "Jar at $jarPath"
+    if (!copyJar) return
+
     println "Copy jar to /libs of $clients"
     for (int i = 0; i < clients.length; i++) {
         def dst = "${rootDir}/${clients[i]}/libs"
