@@ -30,11 +30,10 @@ android {
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
+    api project(':JavaLibrary')
     //implementation 'com.android.support:appcompat-v7:26.+'
-    //api project(":JavaLibrary")
     api 'com.squareup.okhttp3:okhttp:3.10.0'
     api 'com.google.code.gson:gson:2.8.5'
     api "com.android.support:recyclerview-v7:$supportLibVersion"
     api "com.android.support:percent:$supportLibVersion"
-    api project(':JavaLibrary')
 }
