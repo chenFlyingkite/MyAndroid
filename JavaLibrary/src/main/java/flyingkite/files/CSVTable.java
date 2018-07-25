@@ -43,7 +43,7 @@ public class CSVTable {
     public static CSVTable readCSVFile(String path, OnReadCSV onRead) {
         CSVTable table = new CSVTable();
         List<Map<String, String>> data = new ArrayList<>();
-        if (FileUtil.isMissing(path)) {
+        if (FileUtil.isGone(path)) {
             if (onRead != null) {
                 onRead.onMissingFile(path);
             }

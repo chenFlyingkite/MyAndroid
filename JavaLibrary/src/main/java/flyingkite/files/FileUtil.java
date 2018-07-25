@@ -19,6 +19,10 @@ public class FileUtil {
         return f == null || !f.exists();
     }
 
+    public static boolean isGone(String s) {
+        return s == null || isGone(new File(s));
+    }
+
     /**
      * Delete the file by renaming to another one and call delete.
      * <p>
