@@ -1,9 +1,9 @@
-package flyingkite.images.create;
+package flyingkite.javaxlibrary.images.create;
 
+import flyingkite.javaxlibrary.images.base.PngParam;
+import flyingkite.javaxlibrary.images.base.PngRequest;
 import flyingkite.math.MathUtil;
 import flyingkite.data.Rect2;
-import flyingkite.images.base.PngParam;
-import flyingkite.images.base.PngRequest;
 import flyingkite.log.L;
 
 import java.awt.image.BufferedImage;

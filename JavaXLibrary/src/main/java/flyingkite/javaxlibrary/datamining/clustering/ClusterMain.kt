@@ -1,9 +1,9 @@
-package flyingkite.datamining.clustering
+package flyingkite.javaxlibrary.datamining.clustering
 
-import flyingkite.datamining.clustering.algo.CLHistogram
-import flyingkite.datamining.clustering.algo.ClusteringBySynchronization
-import flyingkite.datamining.clustering.util.CLClus
-import flyingkite.datamining.clustering.util.Clusterable
+import flyingkite.javaxlibrary.datamining.clustering.algo.CLHistogram
+import flyingkite.javaxlibrary.datamining.clustering.algo.ClusteringBySynchronization
+import flyingkite.javaxlibrary.datamining.clustering.util.CLClus
+import flyingkite.javaxlibrary.datamining.clustering.util.Clusterable
 import flyingkite.log.L
 import java.util.*
 

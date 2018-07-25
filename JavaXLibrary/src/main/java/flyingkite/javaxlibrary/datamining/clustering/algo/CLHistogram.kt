@@ -1,7 +1,7 @@
-package flyingkite.datamining.clustering.algo
+package flyingkite.javaxlibrary.datamining.clustering.algo
 
-import flyingkite.datamining.clustering.util.CLClus
-import flyingkite.datamining.clustering.util.IDPair
+import flyingkite.data.IDPair
+import flyingkite.javaxlibrary.datamining.clustering.util.CLClus
 import flyingkite.log.L
 import flyingkite.math.Statistics
 import java.util.*

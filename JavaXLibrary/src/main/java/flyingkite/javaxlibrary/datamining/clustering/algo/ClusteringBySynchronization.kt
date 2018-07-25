@@ -1,7 +1,7 @@
-package flyingkite.datamining.clustering.algo
+package flyingkite.javaxlibrary.datamining.clustering.algo
 
-import flyingkite.datamining.clustering.util.Clusterable
-import flyingkite.datamining.clustering.util.PngMaker
+import flyingkite.javaxlibrary.datamining.clustering.util.Clusterable
+import flyingkite.javaxlibrary.datamining.clustering.util.PngMaker
 import flyingkite.log.LF
 import flyingkite.math.MathUtil
 import flyingkite.tool.TicTac2

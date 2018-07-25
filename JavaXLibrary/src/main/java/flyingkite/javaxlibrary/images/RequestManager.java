@@ -1,7 +1,7 @@
-package flyingkite.images;
+package flyingkite.javaxlibrary.images;
 
-import flyingkite.images.base.PngParam;
-import flyingkite.images.create.PngCreateRequest;
+import flyingkite.javaxlibrary.images.base.PngParam;
+import flyingkite.javaxlibrary.images.create.PngCreateRequest;
 
 public class RequestManager {
     @Deprecated

@@ -1,4 +1,4 @@
-package flyingkite.images.base;
+package flyingkite.javaxlibrary.images.base;
 
 import java.io.File;
 

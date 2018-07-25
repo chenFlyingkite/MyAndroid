@@ -1,4 +1,4 @@
-package flyingkite.datamining.clustering.util
+package flyingkite.javaxlibrary.datamining.clustering.util
 
 interface CLClus<T> {
     fun distance(y: T): Double

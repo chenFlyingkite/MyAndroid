@@ -1,4 +1,4 @@
-package flyingkite.datamining.clustering.util
+package flyingkite.javaxlibrary.datamining.clustering.util
 
 interface Clusterable<T> {
     fun distance(y: T): Double

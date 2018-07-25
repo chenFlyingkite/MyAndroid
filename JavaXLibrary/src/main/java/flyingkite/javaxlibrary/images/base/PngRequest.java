@@ -1,4 +1,4 @@
-package flyingkite.images.base;
+package flyingkite.javaxlibrary.images.base;
 
 import flyingkite.files.FileUtil;
 import flyingkite.tool.TicTac2;

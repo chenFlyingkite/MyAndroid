@@ -1,6 +1,6 @@
-package flyingkite.images.diff;
+package flyingkite.javaxlibrary.images.diff;
 
-import flyingkite.images.base.PngParam;
+import flyingkite.javaxlibrary.images.base.PngParam;
 
 public class PngDiffer {
     private PngDiffer() {}

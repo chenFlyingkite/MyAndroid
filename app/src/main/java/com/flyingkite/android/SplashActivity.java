@@ -11,7 +11,7 @@ public class SplashActivity extends Activity {
         super.onCreate(savedInstanceState);
         Class clazz;
         clazz = MainActivity.class;
-        //clazz = RecyclerActivity.class;
+        clazz = RecyclerActivity.class;
 
         startActivity(new Intent(this, clazz));
         finish();

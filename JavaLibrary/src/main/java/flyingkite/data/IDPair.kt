@@ -1,4 +1,4 @@
-package flyingkite.datamining.clustering.util
+package flyingkite.data
 
 class IDPair(key: Int = 0, value: Double = 0.0) : Comparable<IDPair> {
     var k: Int = key

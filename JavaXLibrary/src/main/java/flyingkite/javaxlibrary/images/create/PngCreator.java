@@ -1,6 +1,6 @@
-package flyingkite.images.create;
+package flyingkite.javaxlibrary.images.create;
 
-import flyingkite.images.base.PngParam;
+import flyingkite.javaxlibrary.images.base.PngParam;
 
 public class PngCreator {
     private PngCreator() { }

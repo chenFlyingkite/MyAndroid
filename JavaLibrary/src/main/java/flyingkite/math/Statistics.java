@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import flyingkite.datamining.clustering.util.IIPair;
+import flyingkite.data.IIPair;
 import flyingkite.log.L;
 
 public class Statistics {

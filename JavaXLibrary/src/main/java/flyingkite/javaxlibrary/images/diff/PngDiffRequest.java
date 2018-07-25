@@ -1,8 +1,8 @@
-package flyingkite.images.diff;
+package flyingkite.javaxlibrary.images.diff;
 
+import flyingkite.javaxlibrary.images.base.PngParam;
+import flyingkite.javaxlibrary.images.base.PngRequest;
 import flyingkite.math.MathUtil;
-import flyingkite.images.base.PngParam;
-import flyingkite.images.base.PngRequest;
 import flyingkite.log.L;
 
 import java.awt.image.BufferedImage;

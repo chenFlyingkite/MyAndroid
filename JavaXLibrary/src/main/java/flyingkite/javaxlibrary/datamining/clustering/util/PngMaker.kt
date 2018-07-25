@@ -1,4 +1,4 @@
-package flyingkite.datamining.clustering.util
+package flyingkite.javaxlibrary.datamining.clustering.util
 
 import flyingkite.files.FileUtil
 import flyingkite.tool.TicTac2

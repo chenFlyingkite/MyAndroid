@@ -1,4 +1,4 @@
-package flyingkite.datamining.clustering.util
+package flyingkite.javaxlibrary.datamining.clustering.util
 
 class ClusterResult(ids: List<Int> = ArrayList(), sizes: List<Int> = ArrayList()) {
     val clusterIds = ids
