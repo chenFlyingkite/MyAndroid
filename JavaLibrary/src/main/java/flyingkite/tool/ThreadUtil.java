@@ -2,7 +2,7 @@ package flyingkite.tool;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -26,7 +26,7 @@ public class ThreadUtil {
      * Creates thread pool similar with {@link Executors#newFixedThreadPool(int)}, with atMost & alive time provided
      */
     public static ExecutorService newFlexThreadPool(int atMost, long aliveSecond) {
-        return new ThreadPoolExecutor(0, atMost, aliveSecond, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
+        return new ThreadPoolExecutor(0, atMost, aliveSecond, TimeUnit.SECONDS, new SynchronousQueue<>());
     }
     //-------------------------------------------------------------------------
 }
