@@ -1,11 +1,11 @@
 package flyingkite.log;
 
+import flyingkite.tool.IOUtil;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-
-import flyingkite.tool.IOUtil;
 
 public class FileOutput implements Loggable {
     private PrintWriter pw;
@@ -19,6 +19,10 @@ public class FileOutput implements Loggable {
     public FileOutput(File file1) {
         file = file1;
         validate();
+    }
+
+    public File getFile() {
+        return file;
     }
 
     private void validate() {
@@ -46,8 +50,8 @@ public class FileOutput implements Loggable {
             pw = new PrintWriter(fos);
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
             IOUtil.closeIt(fos, pw);
+        } finally { // Should not close it since this is open
         }
         return this;
     }

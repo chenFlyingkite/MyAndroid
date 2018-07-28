@@ -1,7 +1,6 @@
 package flyingkite.tool;
 
 public class StringUtil {
-    private StringUtil() {}
 
     /**
      * Convert milliseconds to mm:ss.SSS format

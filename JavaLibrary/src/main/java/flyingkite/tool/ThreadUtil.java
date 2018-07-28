@@ -1,5 +1,8 @@
 package flyingkite.tool;
 
+import flyingkite.log.L;
+import flyingkite.log.Loggable;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.SynchronousQueue;
@@ -29,4 +32,18 @@ public class ThreadUtil {
         return new ThreadPoolExecutor(0, atMost, aliveSecond, TimeUnit.SECONDS, new SynchronousQueue<>());
     }
     //-------------------------------------------------------------------------
+
+    public static void sleep(long ms) {
+        sleep(L.getImpl(), ms);
+    }
+
+    public static void sleep(Loggable z, long ms) {
+        z.log("zzzzz %s", ms);
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        z.log("Awake ^_^ %s", ms);
+    }
 }
