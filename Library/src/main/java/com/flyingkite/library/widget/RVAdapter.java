@@ -45,7 +45,7 @@ public abstract class RVAdapter<T,
 
     // Center Scroller
     protected WeakReference<RecyclerView> recycler;
-    protected boolean autoScroll = true;
+    protected boolean autoScroll;
     protected CenterScroller scroller = new CenterScroller() {
         @Override
         public RecyclerView getRecyclerView() {
