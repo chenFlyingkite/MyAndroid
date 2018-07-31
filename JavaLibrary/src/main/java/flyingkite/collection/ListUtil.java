@@ -44,4 +44,13 @@ public class ListUtil {
         }
         return -1;
     }
+
+    public static int containsAt(String key, String[] data) {
+        for (int i = 0; i < data.length; i++) {
+            if (key.contains(data[i])) {
+                return i;
+            }
+        }
+        return -1;
+    }
 }
