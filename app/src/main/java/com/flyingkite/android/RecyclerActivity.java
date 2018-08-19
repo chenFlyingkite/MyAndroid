@@ -19,6 +19,11 @@ import com.flyingkite.library.widget.RVSelectAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import flyingkite.log.L;
+import flyingkite.math.ChiSquarePearson;
+import flyingkite.math.ChiSquareTable;
+import flyingkite.math.DiscreteSample;
+
 public class RecyclerActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,6 +32,20 @@ public class RecyclerActivity extends Activity {
 
         initRecycler();
         initRecycler2();
+    }
+
+    private void chiTest() {
+        int draws = 20;
+        DiscreteSample s = new DiscreteSample(8);
+        double[] pdf = new double[]{0.025, 0.1, 0.1, 0.155, 0.155, 0.155, 0.155, 0.155};
+        s.setPdf(pdf);
+        for (int i = 0; i < 20; i++) {
+            s.clearSample();
+            s.drawSample(draws);
+            s.evalObservePdf();
+            boolean acc = ChiSquarePearson.acceptH0(s, ChiSquareTable.getChiTailArea(7, ChiSquareTable._100));
+            L.log("#%s ->\n%s\n => Chi %s\n-----\n", i, s, acc ? "accept" : "reject");
+        }
     }
 
     private void initRecycler() {
@@ -96,7 +115,7 @@ public class RecyclerActivity extends Activity {
             selectedIndices.clear();
             int n = dataList.size();
             for (int i = 0; i < n; i++) {
-                String si = itemOfSuper(i);
+                String si = super_itemOf(i);
                 int p = Integer.parseInt(si);
                 log("#%s : %s => p = %s, nx = %s", i, si, p, nx);
                 if (p % nx == 0) {

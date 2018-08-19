@@ -16,7 +16,7 @@ public abstract class RVSelectAdapter<T,
          return false;
     }
 
-    public T itemOfSuper(int index) {
+    public T super_itemOf(int index) {
         return super.itemOf(index);
     }
 
