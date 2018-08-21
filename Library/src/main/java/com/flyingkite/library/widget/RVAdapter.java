@@ -89,10 +89,11 @@ public abstract class RVAdapter<T,
                     scroller.smoothScrollToCenter(pos);
                 }
 
-                onClickItem(item, holder);
+                onWillClickItem(item, holder);
                 if (onItem != null) {
                     onItem.onClick(item, holder, pos);
                 }
+                onDidClickItem(item, holder);
             }
         });
     }
@@ -120,8 +121,17 @@ public abstract class RVAdapter<T,
 
     /**
      * Called when {@link RecyclerView.ViewHolder#itemView itemView} is clicked.
+     * Before notify listener
      */
-    protected void onClickItem(T item, VH holder) {
+    protected void onWillClickItem(T item, VH holder) {
+
+    }
+
+    /**
+     * Called when {@link RecyclerView.ViewHolder#itemView itemView} is clicked.
+     * After notify listener
+     */
+    protected void onDidClickItem(T item, VH holder) {
 
     }
 

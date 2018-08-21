@@ -1,6 +1,8 @@
 package flyingkite.math;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class DiscreteSample {
@@ -44,12 +46,32 @@ public class DiscreteSample {
         }
     }
 
+    public void normCdf() {
+        double d = cdf[size() - 1];
+        if (d == 0) return;
+
+        for (int i = 0; i < size() - 1; i++) {
+            cdf[i] /= d;
+        }
+        cdf[size() - 1] = 1;
+    }
+
     public void drawSample(int n) {
         Random r = new Random();
         for (int i = 0; i < n; i++) {
             double d = r.nextDouble();
             observe[getBin(d)]++;
         }
+    }
+
+    public List<Integer> randomSample(int n) {
+        List<Integer> s = new ArrayList<>();
+        Random r = new Random();
+        for (int i = 0; i < n; i++) {
+            double d = r.nextDouble();
+            s.add(getBin(d));
+        }
+        return s;
     }
 
     public void evalObservePdf() {
