@@ -48,4 +48,12 @@ dependencies {
     // This requires supportLibVersion = 26.1.0
 //    implementation "android.arch.persistence.room:runtime:1.0.0"
 //    annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
+
+
+    def lifecycle_version = "1.1.1"
+    // ViewModel and LiveData
+    api "android.arch.lifecycle:extensions:$lifecycle_version"
+    // alternately - if using Java8, use the following instead of compiler
+    api "android.arch.lifecycle:common-java8:$lifecycle_version"
+    implementation "com.android.support:support-core-utils:$supportLibVersion" // 27.1.1
 }

@@ -27,6 +27,8 @@
         <activity android:name=".MainActivity"/>
 
         <activity android:name=".RecyclerActivity"/>
+
+        <activity android:name=".ModelViewActivity"/>
     </application>
 
 </manifest>

@@ -12,6 +12,7 @@ public class SplashActivity extends Activity {
         Class clazz;
         clazz = MainActivity.class;
         clazz = RecyclerActivity.class;
+        clazz = ModelViewActivity.class;
 
         startActivity(new Intent(this, clazz));
         finish();
