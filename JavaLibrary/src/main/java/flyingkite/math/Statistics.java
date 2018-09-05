@@ -51,6 +51,30 @@ public class Statistics {
     }
 
     /**
+     * Skewness of sample
+     * https://en.wikipedia.org/wiki/Skewness
+     *           m_3     1 / n * Sum_i=1:n {(x_i - μ)^3}
+     * gamma1 = ----- = ------------------------------------------------------
+     *           s^3     sqrt(1 / (n - 1) * ( Sum_i=1:n {(x_i - μ)^2} ) ) ^ 3
+     *
+     */
+    public static <T extends Number> double skewness(List<T> data) {
+        double mean = mean(data);
+        double std = deviation(data);
+        double s3 = std * std * std;
+
+        double m3 = 0, dx;
+        for (T d : data) {
+            // Sum up (x_i - μ)^3
+            dx = d.doubleValue() - mean;
+            m3 += dx * dx * dx;
+        }
+        m3 /= data.size();
+
+        return m3 / s3;
+    }
+
+    /**
      * variance of Sample
      * https://en.wikipedia.org/wiki/Variance#Sample_variance
      */

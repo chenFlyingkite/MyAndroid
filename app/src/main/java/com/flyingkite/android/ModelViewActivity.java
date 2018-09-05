@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import flyingkite.tool.ProjectionUtil;
+
 public class ModelViewActivity extends FragmentActivity implements Loggable {
 
     private Library<TextAdapter> textLib1;
@@ -78,6 +80,9 @@ public class ModelViewActivity extends FragmentActivity implements Loggable {
                 logE("m1 = %s", strings);
                 TextView t = findViewById(R.id.modvText);
                 t.setText(_fmt("m1 = %s", strings));
+
+                List<Integer> li = ProjectionUtil.select(strs, String::length, source -> true);
+                logE("li = %s", li);
             }
         });
         m1.line.setValue(strs);
