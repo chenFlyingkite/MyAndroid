@@ -24,7 +24,7 @@ allprojects {
     }
 
     ext {
-        supportLibVersion = "27.1.1"
+        supportLibVersion = "28.0.0"
         googlePlayVersion = "9.8.0"
     }
 

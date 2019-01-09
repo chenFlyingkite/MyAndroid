@@ -1,23 +1,7 @@
 package com.flyingkite.android;
 
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProviders;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
-import android.widget.TextView;
-
-import com.flyingkite.library.log.Loggable;
-import com.flyingkite.library.widget.Library;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import flyingkite.tool.ProjectionUtil;
-
+public class ModelViewActivity {}
+/*
 public class ModelViewActivity extends FragmentActivity implements Loggable {
 
     private Library<TextAdapter> textLib1;
@@ -96,3 +80,4 @@ class MVM extends ViewModel {
         line.setValue(Arrays.asList("M1", "M2"));
     }
 }
+*/

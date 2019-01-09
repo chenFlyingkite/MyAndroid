@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'android-maven'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    compileSdkVersion 28
+    buildToolsVersion "28.0.2"
     defaultConfig {
         applicationId "com.flyingkite.android"
         minSdkVersion 16
-        targetSdkVersion 27
+        targetSdkVersion 28
         multiDexEnabled true
         versionCode 1
         versionName "1.0"
@@ -30,7 +30,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
         }
     }
@@ -49,11 +49,12 @@ dependencies {
 //    implementation "android.arch.persistence.room:runtime:1.0.0"
 //    annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
 
-
+    /*
     def lifecycle_version = "1.1.1"
     // ViewModel and LiveData
     api "android.arch.lifecycle:extensions:$lifecycle_version"
     // alternately - if using Java8, use the following instead of compiler
     api "android.arch.lifecycle:common-java8:$lifecycle_version"
     implementation "com.android.support:support-core-utils:$supportLibVersion" // 27.1.1
+    */
 }
