@@ -7,7 +7,17 @@ public interface Loggable extends flyingkite.log.Loggable {
      * @return Tag for Logcat's TAG
      */
     default String LTag() {
-        return getClass().getSimpleName();
+        Class<? extends Loggable> c = getClass();
+        if (c.isAnonymousClass()) {
+            String s = c.getName();
+            int dot = s.lastIndexOf(".");
+            if (dot > 0) {
+                return s.substring(dot + 1);
+            }
+            return s; // c.getName();
+        } else {
+            return c.getSimpleName();
+        }
     }
 
     /**
