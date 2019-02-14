@@ -26,7 +26,6 @@ public interface Loggable extends flyingkite.log.Loggable {
      */
     default void log(String message) {
         Log.v(LTag(), message);
-
     }
 
     /**
