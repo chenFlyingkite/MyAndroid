@@ -1,5 +1,6 @@
 package com.flyingkite.library.log;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 public interface Loggable extends flyingkite.log.Loggable {
@@ -8,15 +9,24 @@ public interface Loggable extends flyingkite.log.Loggable {
      */
     default String LTag() {
         Class<? extends Loggable> c = getClass();
+        String t = "";
         if (c.isAnonymousClass()) {
             String s = c.getName();
             int dot = s.lastIndexOf(".");
             if (dot > 0) {
-                return s.substring(dot + 1);
+                t = s.substring(dot + 1);
+            } else {
+                t = s; // c.getName();
             }
-            return s; // c.getName();
         } else {
-            return c.getSimpleName();
+            t = c.getSimpleName();
+        }
+
+        // Use nonempty tag
+        if (TextUtils.isEmpty(t)) {
+            return "Loggable";
+        } else {
+            return t;
         }
     }
 

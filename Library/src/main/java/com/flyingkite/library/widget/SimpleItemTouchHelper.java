@@ -1,28 +1,30 @@
 package com.flyingkite.library.widget;
 
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
-
 import java.util.Collections;
 import java.util.List;
 
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 /**
- * Simple class to wrap {@link ItemTouchHelper} for {@link android.support.v7.widget.LinearLayoutManager} as handy one.
- * Not proper animation for {@link android.support.v7.widget.GridLayoutManager}.
+ * Simple class to wrap {@link ItemTouchHelper} for {@link LinearLayoutManager} as handy one.
+ * Not proper animation for {@link GridLayoutManager}.
  * <p>
  * 1. When <b>Move</b> comes by receiving
- * {@link android.support.v7.widget.helper.ItemTouchHelper.SimpleCallback#onMove(RecyclerView, RecyclerView.ViewHolder, RecyclerView.ViewHolder)}
+ * {@link androidx.recyclerview.widget.ItemTouchHelper.SimpleCallback#onMove(RecyclerView, RecyclerView.ViewHolder, RecyclerView.ViewHolder)}
  * <br>, we manipulate the list by
  * {@link Collections#swap(List, int, int)}
- * and notify item moved by {@link android.support.v7.widget.RecyclerView.Adapter#notifyItemMoved(int, int)}
+ * and notify item moved by {@link RecyclerView.Adapter#notifyItemMoved(int, int)}
  * </p>
  * <p>
  * 2. When <b>Swipe</b> comes by receiving
- * {@link android.support.v7.widget.helper.ItemTouchHelper.SimpleCallback#onSwiped(RecyclerView.ViewHolder, int)}
+ * {@link androidx.recyclerview.widget.ItemTouchHelper.SimpleCallback#onSwiped(RecyclerView.ViewHolder, int)}
  * <br>, we manipulate the list by
  * {@link List#remove(int)}
  * and notify item removed by
- * {@link android.support.v7.widget.RecyclerView.Adapter#notifyItemRemoved(int)}
+ * {@link RecyclerView.Adapter#notifyItemRemoved(int)}
  * </p>
  *
  * See <a href=
@@ -91,8 +93,8 @@ public abstract class SimpleItemTouchHelper {
         }
 
         /** Used for children who overwrites {@link #getMovementFlags(RecyclerView, RecyclerView.ViewHolder)}
-         * @see android.support.v7.widget.helper.ItemTouchHelper.SimpleCallback#getMovementFlags(RecyclerView, RecyclerView.ViewHolder)
-         * @return android.support.v7.widget.helper.ItemTouchHelper.SimpleCallback#getMovementFlags(RecyclerView, RecyclerView.ViewHolder)
+         * @see androidx.recyclerview.widget.ItemTouchHelper.SimpleCallback#getMovementFlags(RecyclerView, RecyclerView.ViewHolder)
+         * @return androidx.recyclerview.widget.ItemTouchHelper.SimpleCallback#getMovementFlags(RecyclerView, RecyclerView.ViewHolder)
          */
         protected final int super_getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
             return super.getMovementFlags(recyclerView, viewHolder);
@@ -130,7 +132,7 @@ public abstract class SimpleItemTouchHelper {
         @Override
         public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
             super.onSelectedChanged(viewHolder, actionState);
-            // TODO : use android.support.v4.widget.ViewDragHelper ?
+            // TODO use : androidx.customview.widget.ViewDragHelper ?
             switch (actionState) {
                 case ItemTouchHelper.ACTION_STATE_DRAG:
                     viewHolder.itemView.setAlpha(0.6f);

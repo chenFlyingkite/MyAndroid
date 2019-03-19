@@ -1,7 +1,7 @@
 package com.flyingkite.android.tos;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.View;
 
 import com.flyingkite.android.R;

@@ -22,7 +22,7 @@ public class ChiSquareTable {
     private static final Map<Integer, Double[]> table = new HashMap<>();
 
     /**
-     * Returns χ2-alpha in table, -1 if not found
+     * Returns &chi;2-alpha in table, -1 if not found
      */
     public static double getChiTailArea(int free, int alpha) {
         Double[] row = getChiTableRow(free);
@@ -35,7 +35,7 @@ public class ChiSquareTable {
     }
 
     /**
-     * Returns the χ2-alpha
+     * Returns the &chi;2-alpha
      * Free = degree of freedom
      * https://en.wikipedia.org/wiki/Degrees_of_freedom_(statistics)
      */

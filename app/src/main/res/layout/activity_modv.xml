@@ -15,13 +15,13 @@
             android:layout_height="@dimen/t150dp"
             android:background="#00a"/>
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"
             android:layout_width="match_parent"
             android:layout_height="@dimen/t70dp"
             android:background="#fff"/>
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler2"
             android:layout_width="match_parent"
             android:layout_height="@dimen/t40dp"

@@ -1,9 +1,9 @@
 package com.flyingkite.library.widget;
 
-import android.support.v7.widget.RecyclerView;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 public abstract class RVSelectAdapter<T,
         VH extends RecyclerView.ViewHolder,

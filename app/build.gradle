@@ -3,7 +3,7 @@ apply plugin: 'android-maven'
 
 android {
     compileSdkVersion 28
-    buildToolsVersion "28.0.2"
+    buildToolsVersion "28.0.3"
     defaultConfig {
         applicationId "com.flyingkite.android"
         minSdkVersion 16
@@ -34,18 +34,24 @@ android {
             signingConfig signingConfigs.config
         }
     }
+
+    // Fix for
+    // More than one file was found with OS independent path 'META-INF/JavaLibrary.kotlin_module'
+    packagingOptions {
+        exclude 'META-INF/*'
+    }
 }
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
     api project(path: ':Library')
+    api "androidx.multidex:multidex:2.0.0"
     //implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    api "com.android.support:recyclerview-v7:$supportLibVersion"
+    api "androidx.recyclerview:recyclerview:1.0.0"
 
     // https://developer.android.com/topic/libraries/architecture/adding-components?hl=zh-tw
     // https://developer.android.com/training/data-storage/room/?hl=zh-tw
     // Room (use 1.1.0-beta3 for latest beta)
-    // This requires supportLibVersion = 26.1.0
 //    implementation "android.arch.persistence.room:runtime:1.0.0"
 //    annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
 

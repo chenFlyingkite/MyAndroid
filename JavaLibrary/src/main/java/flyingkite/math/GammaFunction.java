@@ -4,19 +4,19 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 /**
- * Γ function
- * Γ γ gamma
+ * &Gamma; function
+ * &Gamma; &gamma; gamma
  * https://en.wikipedia.org/wiki/Gamma_function
  *
  * The gamma function along part of the real axis
- * In mathematics, the gamma function (represented by Γ, the capital Greek alphabet letter gamma) is an extension of the factorial function, with its argument shifted down by 1, to real and complex numbers. If n is a positive integer,
+ * In mathematics, the gamma function (represented by &Gamma;, the capital Greek alphabet letter gamma) is an extension of the factorial function, with its argument shifted down by 1, to real and complex numbers. If n is a positive integer,
  * {\displaystyle \Gamma (n)=(n-1)!} \Gamma (n)=(n-1)!
  */
 public class GammaFunction {
 
 
     /**
-     * Returns Γ(n), for integer n
+     * Returns &Gamma;(n), for integer n
      * G(21) will overflows
      * G(-3) = 0
      * G(-2) = 0
@@ -74,10 +74,10 @@ public class GammaFunction {
     }
 
     /**
-     * Return Γ(n/2), n is integer
-     * Γ(1/2) = sqrt(π)
-     * Γ( 1/2 + k ) = kΓ(1/2 + k-1)
-     * return Γ(n) {@link #gammaN(int)} if n even
+     * Return &Gamma;(n/2), n is integer
+     * &Gamma;(1/2) = sqrt(&pi;)
+     * &Gamma;( 1/2 + k ) = k&Gamma;(1/2 + k-1)
+     * return &Gamma;(n) {@link #gammaN(int)} if n even
      * G(340 / 2) = 7.257415615307994E306
      * G(341 / 2) = 1.2863434254974502E307
      * G(342 / 2) = Infinity
