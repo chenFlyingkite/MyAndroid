@@ -1,11 +1,6 @@
 package com.flyingkite.android;
 
-import android.app.Activity;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -19,12 +14,16 @@ import com.flyingkite.library.widget.RVSelectAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import flyingkite.log.L;
 import flyingkite.math.ChiSquarePearson;
 import flyingkite.math.ChiSquareTable;
 import flyingkite.math.DiscreteSample;
 
-public class RecyclerActivity extends Activity {
+public class RecyclerActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +66,7 @@ public class RecyclerActivity extends Activity {
                 scroller.smoothScrollToCenter(position);
                 Say.Log("item = %s, #%s", item, position);
                 rva.setX(position + 1);
+                adapter.notifyDataSetChanged();
             }
         });
         recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
