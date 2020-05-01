@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'android-maven'
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion "28.0.3"
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "com.flyingkite.android"
         minSdkVersion 16
-        targetSdkVersion 28
+        targetSdkVersion 29
         multiDexEnabled true
         versionCode 1
         versionName "1.0"
@@ -45,9 +45,9 @@ android {
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
     api project(path: ':Library')
-    api "androidx.multidex:multidex:2.0.0"
+    api "androidx.multidex:multidex:2.0.1"
     //implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    api "androidx.recyclerview:recyclerview:1.0.0"
+    api "androidx.recyclerview:recyclerview:1.1.0"
 
     // https://developer.android.com/topic/libraries/architecture/adding-components?hl=zh-tw
     // https://developer.android.com/training/data-storage/room/?hl=zh-tw

@@ -8,6 +8,8 @@ public interface Loggable extends flyingkite.log.Loggable {
      * @return Tag for Logcat's TAG
      */
     default String LTag() {
+        // Since anonymous class returns "" in getClass().getSimpleName(),
+        // so we use name getClass().getName().last
         Class<? extends Loggable> c = getClass();
         String t = "";
         if (c.isAnonymousClass()) {
