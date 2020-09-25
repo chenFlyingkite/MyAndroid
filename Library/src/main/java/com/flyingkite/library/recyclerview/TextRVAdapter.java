@@ -1,4 +1,4 @@
-package com.flyingkite.library.widget;
+package com.flyingkite.library.recyclerview;
 
 import android.view.View;
 import android.view.ViewGroup;

@@ -1,4 +1,4 @@
-package com.flyingkite.library.widget;
+package com.flyingkite.library.recyclerview;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,8 @@ public abstract class RVSelectAdapter<T,
         TListener extends RVAdapter.ItemListener<T, VH>>
         extends RVAdapter<T, VH ,TListener> {
 
+    // Sub indices on original dataset
+    // E.g. select = [1,3,5,8,9] for all = [A, B, C, D, E, F, G, H, I] => [A, C, E, H, I]
     protected List<Integer> selectedIndices = new ArrayList<>();
 
     public boolean hasSelection() {

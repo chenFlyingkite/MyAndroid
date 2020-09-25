@@ -49,6 +49,12 @@ dependencies {
     //implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     api "androidx.recyclerview:recyclerview:1.1.0"
 
+    // https://developer.android.com/jetpack/androidx/releases/activity#declaring_dependencies
+    // Java language implementation
+    //api "androidx.activity:activity:1.2.0"
+    // Kotlin
+    //api "androidx.activity:activity-ktx:1.2.0"
+
     // https://developer.android.com/topic/libraries/architecture/adding-components?hl=zh-tw
     // https://developer.android.com/training/data-storage/room/?hl=zh-tw
     // Room (use 1.1.0-beta3 for latest beta)

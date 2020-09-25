@@ -5,21 +5,21 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import androidx.annotation.IdRes;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.flyingkite.android.R;
-import com.flyingkite.library.Say;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
+import androidx.annotation.IdRes;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class BaseTosDialog extends DialogFragment implements
         DialogInterface.OnKeyListener,
@@ -147,7 +147,6 @@ public class BaseTosDialog extends DialogFragment implements
     }
 
     public void show(Activity activity) {
-        Say.Log("show %s", sig());
         show(activity.getFragmentManager(), sig());
     }
 

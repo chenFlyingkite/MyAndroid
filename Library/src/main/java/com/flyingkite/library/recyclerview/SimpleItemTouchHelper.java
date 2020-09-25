@@ -1,8 +1,9 @@
-package com.flyingkite.library.widget;
+package com.flyingkite.library.recyclerview;
 
 import java.util.Collections;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -46,7 +47,7 @@ public abstract class SimpleItemTouchHelper {
 
     private ItemTouchHelper mHelper;
     private ItemTouchHelper.SimpleCallback mCallback;
-    protected RecyclerView.Adapter mAdapter;
+    protected RecyclerView.Adapter<?> mAdapter;
 
     public interface OrderableItemAdapter {
         ItemTouchHelper getItemTouchHelper();
@@ -55,7 +56,7 @@ public abstract class SimpleItemTouchHelper {
     /**
      * Returns <b>MODIFIABLE</b> list of the item currently we are display to user.
      */
-    public abstract List getList();
+    public abstract List<?> getList();
 
     public ItemTouchHelper getHelper() {
         return mHelper;
@@ -65,7 +66,7 @@ public abstract class SimpleItemTouchHelper {
         return mCallback;
     }
 
-    public SimpleItemTouchHelper(RecyclerView.Adapter adapter, int dragDirs, int swipeDirs) {
+    public SimpleItemTouchHelper(RecyclerView.Adapter<?> adapter, int dragDirs, int swipeDirs) {
         mAdapter = adapter;
         mCallback = initCallback(dragDirs, swipeDirs);
         mHelper = new ItemTouchHelper(mCallback);
@@ -82,7 +83,7 @@ public abstract class SimpleItemTouchHelper {
         }
 
         @Override
-        public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+        public int getMovementFlags(@NonNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
             boolean isLast = viewHolder.getAdapterPosition() >= getList().size();
 
             if (isLast) {
@@ -101,7 +102,7 @@ public abstract class SimpleItemTouchHelper {
         }
 
         @Override
-        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+        public boolean onMove(@NonNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
             int fromPosition = viewHolder.getAdapterPosition();
             int toPosition = target.getAdapterPosition();
             int last = getList().size();
@@ -145,7 +146,7 @@ public abstract class SimpleItemTouchHelper {
         }
 
         @Override
-        public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+        public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
             super.clearView(recyclerView, viewHolder);
             viewHolder.itemView.setAlpha(1.0f);
         }

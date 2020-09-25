@@ -1,12 +1,13 @@
-package com.flyingkite.library.widget;
+package com.flyingkite.library.recyclerview;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class Library<T extends RecyclerView.Adapter> {
+public class Library<T extends RecyclerView.Adapter<?>> {
     public RecyclerView recyclerView;
     public T adapter;
 
@@ -24,6 +25,7 @@ public class Library<T extends RecyclerView.Adapter> {
      *
      * @see LinearLayoutManager#LinearLayoutManager(Context, int, boolean)
      */
+    @SuppressLint("WrongConstant")
     public Library(RecyclerView view, boolean vertical) {
         recyclerView = view;
         int orient = vertical ? LinearLayoutManager.VERTICAL : LinearLayoutManager.HORIZONTAL;
@@ -38,6 +40,7 @@ public class Library<T extends RecyclerView.Adapter> {
      *    -rowSpan, with {@link LinearLayoutManager#HORIZONTAL}<br/>
      * @see GridLayoutManager#GridLayoutManager(Context, int, int, boolean)
      */
+    @SuppressLint("WrongConstant")
     public Library(RecyclerView view, int rowSpan) {
         recyclerView = view;
         int orient = rowSpan >= 0 ? LinearLayoutManager.VERTICAL : LinearLayoutManager.HORIZONTAL;

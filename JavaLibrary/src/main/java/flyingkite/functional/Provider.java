@@ -1,4 +1,4 @@
-package flyingkite.math;
+package flyingkite.functional;
 
 @FunctionalInterface
 public interface Provider<T> {

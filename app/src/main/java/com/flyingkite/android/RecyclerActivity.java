@@ -1,27 +1,22 @@
 package com.flyingkite.android;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.flyingkite.library.Say;
 import com.flyingkite.library.log.Loggable;
-import com.flyingkite.library.widget.CenterScroller;
-import com.flyingkite.library.widget.Library;
-import com.flyingkite.library.widget.RVSelectAdapter;
+import com.flyingkite.library.mediastore.MediaStoreTester;
+import com.flyingkite.library.recyclerview.Library;
+import com.flyingkite.library.recyclerview.RVSelectAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import flyingkite.log.L;
-import flyingkite.math.ChiSquarePearson;
-import flyingkite.math.ChiSquareTable;
-import flyingkite.math.DiscreteSample;
 
 public class RecyclerActivity extends BaseActivity {
     @Override
@@ -31,46 +26,40 @@ public class RecyclerActivity extends BaseActivity {
 
         initRecycler();
         initRecycler2();
+
+        init();
     }
 
-    private void chiTest() {
-        int draws = 20;
-        DiscreteSample s = new DiscreteSample(8);
-        double[] pdf = new double[]{0.025, 0.1, 0.1, 0.155, 0.155, 0.155, 0.155, 0.155};
-        s.setPdf(pdf);
-        for (int i = 0; i < 20; i++) {
-            s.clearSample();
-            s.drawSample(draws);
-            s.evalObservePdf();
-            boolean acc = ChiSquarePearson.acceptH0(s, ChiSquareTable.getChiTailArea(7, ChiSquareTable._100));
-            L.log("#%s ->\n%s\n => Chi %s\n-----\n", i, s, acc ? "accept" : "reject");
-        }
+    @Override
+    protected String[] neededPermissions() {
+        return new String[] {
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        };
+    }
+
+    private void init() {
+        findViewById(R.id.test).setOnClickListener((v) -> {
+            new MediaStoreTester(getApplicationContext()).test();
+        });
     }
 
     private void initRecycler() {
-        RecyclerView recycler = findViewById(R.id.recycler);
+        Library<TextAdapter> textLib = new Library<>(findViewById(R.id.recycler));
         List<String> list = new ArrayList<>();
         for (int i = 0; i < 30; i++) {
             list.add("#" + i);
         }
-        CenterScroller scroller = new CenterScroller() {
-            @Override
-            public RecyclerView getRecyclerView() {
-                return recycler;
-            }
-        };
         TextAdapter adapter = new TextAdapter();
         adapter.setDataList(list).setItemListener(new TextAdapter.ItemListener() {
             @Override
             public void onClick(String item, TextAdapter.TextVH holder, int position) {
-                scroller.smoothScrollToCenter(position);
-                Say.Log("item = %s, #%s", item, position);
+                textLib.adapter.scroller.scrollToCenter(position);
+                logE("item = %s, #%s", item, position);
                 rva.setX(position + 1);
                 adapter.notifyDataSetChanged();
             }
         });
-        recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        recycler.setAdapter(adapter);
+        textLib.setViewAdapter(adapter);
     }
 
     private void initRecycler2() {

@@ -1,7 +1,7 @@
 package flyingkite.collection;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class ListUtil {
@@ -15,7 +15,11 @@ public class ListUtil {
     }
 
     public static <T> List<T> nonNull(T[] array) {
-        return array == null ? new ArrayList<>() : Arrays.asList(array);
+        List<T> a = new ArrayList<>();
+        if (array != null) {
+            Collections.addAll(a, array);
+        }
+        return a;
     }
 
     public static <T> T itemOf(List<T> list, int index) {

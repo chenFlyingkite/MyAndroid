@@ -1,5 +1,12 @@
+// Beginners Tutorial
+// http://grails.asia/groovy-map-tutorial
+// http://grails.asia/groovy-each-examples
+
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 group = 'com.github.chenFlyingkite'
 
@@ -26,6 +33,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    //--
+//
+//    // https://kotlinlang.org/docs/reference/using-gradle.html
+//    kotlinOptions {
+//        jvmTarget = "1.8"
+//    }
 }
 
 dependencies {
@@ -34,7 +48,7 @@ dependencies {
     //implementation 'com.android.support:appcompat-v7:26.+'
     api 'com.squareup.okhttp3:okhttp:4.6.0'
     api 'com.google.code.gson:gson:2.8.6'
-    api "androidx.appcompat:appcompat:1.1.0"
+    api "androidx.appcompat:appcompat:1.2.0"
     api 'androidx.recyclerview:recyclerview:1.1.0'
     api 'androidx.percentlayout:percentlayout:1.0.0'
 }

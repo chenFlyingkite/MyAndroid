@@ -19,8 +19,9 @@ import android.view.SurfaceView;
 import android.view.View;
 
 import com.flyingkite.android.tos.AppIconDialog;
+import com.flyingkite.library.log.Loggable;
+import com.flyingkite.library.mediastore.MediaStoreTester;
 import com.flyingkite.library.util.IOUtil;
-import com.flyingkite.library.Say;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -29,7 +30,7 @@ import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements Loggable {
 
     private MediaProjectionManager mpm;
     private MediaProjection mpj;
@@ -47,7 +48,7 @@ public class MainActivity extends Activity {
         mpm = (MediaProjectionManager) getSystemService(MEDIA_PROJECTION_SERVICE);
 
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        Say.Log("metrics = %s", metrics);
+        logE("metrics = %s", metrics);
         surfView = findViewById(R.id.screenSurface);
 
         findViewById(R.id.screen).setOnClickListener(new View.OnClickListener() {
@@ -60,7 +61,7 @@ public class MainActivity extends Activity {
                 if (mpm == null) return;
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    Say.Log("Screen");
+                    logE("Screen");
                     startActivityForResult(mpm.createScreenCaptureIntent(), REQ_SCREENSHOT);
                 }
             }
@@ -75,7 +76,7 @@ public class MainActivity extends Activity {
                 code = KeyEvent.KEYCODE_VOLUME_UP;
                 //code = KeyEvent.KEYCODE_APP_SWITCH;
                 String cmd = String.format("input keyevent %s", code);
-                Say.Log("Screen %s", cmd);
+                logE("Screen %s", cmd);
                 try {
                     Process process = Runtime.getRuntime().exec(cmd);
                 } catch (IOException e) {
@@ -94,13 +95,13 @@ public class MainActivity extends Activity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                Say.Log("%s", cmd);
+                logE("%s", cmd);
             }
         });
         findViewById(R.id.screenSave).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Say.Log("Save");
+                logE("Save");
                 saveImage(surfView);
             }
         });
@@ -108,21 +109,22 @@ public class MainActivity extends Activity {
 
     private void setTos() {
         findViewById(R.id.tosApp).setOnClickListener((v) -> {
-            new AppIconDialog().show(MainActivity.this);
+            //new AppIconDialog().show(MainActivity.this);
+            new MediaStoreTester(getApplicationContext()).test();
         });
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Say.Log("onBackPressed");
+        logE("onBackPressed");
     }
 
     private ImageReader reader;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Say.Log("onActivityResult(%s, %s, %s)", requestCode, resultCode, data);
+        logE("onActivityResult(%s, %s, %s)", requestCode, resultCode, data);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             // setUpMediaProjection
             mpj = mpm.getMediaProjection(resultCode, data);
@@ -138,22 +140,22 @@ public class MainActivity extends Activity {
                         @Override
                         public void onPaused() {
                             super.onPaused();
-                            Say.Log("VD : onPaused");
+                            logE("VD : onPaused");
                         }
 
                         @Override
                         public void onResumed() {
                             super.onResumed();
-                            Say.Log("VD : onResumed");
+                            logE("VD : onResumed");
                         }
 
                         @Override
                         public void onStopped() {
                             super.onStopped();
-                            Say.Log("VD : onStopped");
+                            logE("VD : onStopped");
                         }
                     }, null);
-            Say.Log("+ : display = %s", display);
+            logE("+ : display = %s", display);
         }
     }
 
@@ -210,7 +212,7 @@ public class MainActivity extends Activity {
         if (f.exists()) {
             f.delete();
         }
-        Say.Log("save as %s, bmp = %s x %s, %s dpi", f, bmp.getWidth(), bmp.getHeight(), bmp.getDensity());
+        logE("save as %s, bmp = %s x %s, %s dpi", f, bmp.getWidth(), bmp.getHeight(), bmp.getDensity());
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(f);

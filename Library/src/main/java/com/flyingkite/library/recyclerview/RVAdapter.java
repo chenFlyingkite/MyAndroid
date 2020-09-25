@@ -1,4 +1,4 @@
-package com.flyingkite.library.widget;
+package com.flyingkite.library.recyclerview;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,9 +45,8 @@ public abstract class RVAdapter<T,
     protected TListener onItem;
 
     // Center Scroller
-    protected WeakReference<RecyclerView> recycler;
-    protected boolean autoScroll;
-    protected CenterScroller scroller = new CenterScroller() {
+    private WeakReference<RecyclerView> recycler;
+    public CenterScroller scroller = new CenterScroller() {
         @Override
         public RecyclerView getRecyclerView() {
             return recycler == null ? null : recycler.get();
@@ -63,10 +62,6 @@ public abstract class RVAdapter<T,
     public RVAdapter<T, VH, TListener> setItemListener(TListener listener) {
         onItem = listener;
         return this;
-    }
-
-    public void setAutoScroll(boolean toCenter) {
-        autoScroll = toCenter;
     }
 
     //endregion
@@ -86,9 +81,6 @@ public abstract class RVAdapter<T,
             @Override
             public void onClick(View v) {
                 int pos = holder.getAdapterPosition();
-                if (autoScroll) {
-                    scroller.smoothScrollToCenter(pos);
-                }
 
                 onWillClickItem(item, holder);
                 if (onItem != null) {

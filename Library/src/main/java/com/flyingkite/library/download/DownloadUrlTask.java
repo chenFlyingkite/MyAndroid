@@ -1,7 +1,6 @@
 package com.flyingkite.library.download;
 
-import android.util.Log;
-
+import com.flyingkite.library.log.Loggable;
 import com.flyingkite.library.util.FileUtil;
 import com.flyingkite.library.util.IOUtil;
 
@@ -21,12 +20,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-/**
- * Hide it
- * @hide
- */
-public class DownloadUrlTask implements Runnable {
-    private static final String TAG = "DownloadUrlTask";
+public class DownloadUrlTask implements Runnable, Loggable {
     private static final int BUFFER_SIZE = 65536; // 64KB = Max TCP packet size
 
     public interface Listener<T> {
@@ -55,32 +49,37 @@ public class DownloadUrlTask implements Runnable {
 
     /**
      * As DownloadUrlTask#DownloadUrlTask(String, File, null, Listener)
-     * @see DownloadUrlTask#DownloadUrlTask(String, File, String, Listener)
+     * @see DownloadUrlTask#DownloadUrlTask(String, File, String)
      */
-    public DownloadUrlTask(String sourceUrl, File folder, Listener<File> listener) {
-        this(sourceUrl, folder, null, listener);
+    public DownloadUrlTask(String sourceUrl, File folder) {
+        this(sourceUrl, folder, null);
     }
 
     /**
      * As DownloadUrlTask#DownloadUrlTask(String, File, name, Listener)
-     * @see DownloadUrlTask#DownloadUrlTask(String, File, String, Listener)
+     * @see DownloadUrlTask#DownloadUrlTask(String, File, String)
      */
-    public DownloadUrlTask(String sourceUrl, String folder, String name, Listener<File> listener) {
-        this(sourceUrl, new File(folder), name, listener);
+    public DownloadUrlTask(String sourceUrl, String folder, String name) {
+        this(sourceUrl, new File(folder), name);
     }
 
     /**
-     * Download the sourceUrl into folder and file named as name with reporting listener
+     * Download the sourceUrl into folder and file named as name
      *
      * @param sourceUrl Url to download
      * @param folder The target folder to put downloaded file
      * @param name The downloaded file name. Null to use the name in sourceUrl's name after last '/'
-     * @param listener The listener to be notified download status
      */
-    public DownloadUrlTask(String sourceUrl, File folder, String name, Listener<File> listener) {
+    public DownloadUrlTask(String sourceUrl, File folder, String name) {
         mURL = sourceUrl;
         mFolder = folder;
         mFilename = name;
+    }
+
+    /**
+     * @param listener The listener to be notified download status
+     */
+    public void setListener(Listener<File> listener) {
         mListener = listener == null ? silent : listener;
     }
 
@@ -93,6 +92,7 @@ public class DownloadUrlTask implements Runnable {
         InputStream is = null;
         FileOutputStream fos = null;
         HttpURLConnection con = null;
+        File tmp = null;
 
         try {
             con = (HttpURLConnection) new URL(mURL).openConnection();
@@ -101,7 +101,7 @@ public class DownloadUrlTask implements Runnable {
 
             int code = con.getResponseCode();
             if (code != HttpURLConnection.HTTP_OK) {
-                Log.i(TAG, "No file to download. Server replied HTTP code: " + code);
+                logI("No file to download. Server replied HTTP code: %s", code);
             } else {
                 mFolder.mkdirs();
                 // Null -> extracts file name from URL
@@ -109,11 +109,12 @@ public class DownloadUrlTask implements Runnable {
                     mFilename = mURL.substring(mURL.lastIndexOf("/") + 1);
                 }
                 mFile = new File(mFolder, mFilename);
+                tmp = new File(mFolder, mFilename + ".download." + _fmt("yyyyMMdd_hhmmss_SSS", System.currentTimeMillis()));
                 if (checkCancel()) return;
 
                 // Prepare I/O streams
                 is = new BufferedInputStream(con.getInputStream());
-                fos = new FileOutputStream(mFile);
+                fos = new FileOutputStream(tmp);
                 final long length = con.getContentLength();
 
                 // Read stream and write to file
@@ -129,17 +130,24 @@ public class DownloadUrlTask implements Runnable {
                     mListener.onProgress(write, length);
                 }
                 fos.flush();
-                IOUtil.closeIt(is, fos);
+                tmp.renameTo(mFile);
+
                 mListener.onComplete(mFile);
             }
         } catch (Exception e) {
             e.printStackTrace();
+            FileUtil.ensureDelete(tmp);
             FileUtil.ensureDelete(mFile);
             mListener.onError(e);
         } finally {
             IOUtil.closeIt(is, fos);
+            FileUtil.ensureDelete(tmp);
             if (con != null) {
                 con.disconnect();
+            }
+            // if task be cancelled, delete file.
+            if (mIsCancelled.get()) {
+                FileUtil.ensureDelete(mFile);
             }
         }
 

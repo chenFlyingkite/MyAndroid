@@ -16,7 +16,6 @@ import java.util.zip.ZipInputStream;
 
 public final class Zipper {
     private static final String TAG = "Zipper";
-    private Zipper() {}
 
     private static boolean showLog = true;
 
