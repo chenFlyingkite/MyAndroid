@@ -91,7 +91,11 @@ public class EasyPreference implements Loggable {
         }
 
         public boolean get() {
-            return getBoolean(key, def);
+            return get(def);
+        }
+
+        public boolean get(boolean b) {
+            return getBoolean(key, b);
         }
 
         public void set(boolean b) {
@@ -118,7 +122,11 @@ public class EasyPreference implements Loggable {
         }
 
         public int get() {
-            return getInt(key, def);
+            return get(def);
+        }
+
+        public int get(int b) {
+            return getInt(key, b);
         }
 
         public void set(int b) {
@@ -150,7 +158,11 @@ public class EasyPreference implements Loggable {
         }
 
         public long get() {
-            return getLong(key, def);
+            return get(def);
+        }
+
+        public long get(long v) {
+            return getLong(key, v);
         }
 
         public void set(long v) {
@@ -182,7 +194,11 @@ public class EasyPreference implements Loggable {
         }
 
         public String get() {
-            return getString(key, def);
+            return get(def);
+        }
+
+        public String get(String s) {
+            return getString(key, s);
         }
 
         public void set(String s) {
