@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 
+apply plugin: 'maven-publish' //?
 // If : Android Gradle plugin requires Java 11 to run. You are currently using Java 1.8.
 // https://stackoverflow.com/a/67002271
 
