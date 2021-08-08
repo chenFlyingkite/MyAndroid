@@ -3,9 +3,10 @@
 // http://grails.asia/groovy-each-examples
 
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+//apply plugin: 'com.github.dcendents.android-maven'
+//apply plugin: 'android-maven'
 
 // https://jitpack.io/docs/BUILDING/
 //apply plugin: 'maven' //?
@@ -25,8 +26,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility "1.8"
-        targetCompatibility "1.8"
+        sourceCompatibility "11"
+        targetCompatibility "11"
     }
 
     buildTypes {
