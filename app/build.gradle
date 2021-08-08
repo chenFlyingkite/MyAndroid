@@ -25,6 +25,7 @@ android {
         }
     }
 
+    // TODO : compile with Java 11 & create as new build
     compileOptions {
         sourceCompatibility "11"
         targetCompatibility "11"
