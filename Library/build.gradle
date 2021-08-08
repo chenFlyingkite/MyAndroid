@@ -8,6 +8,9 @@ apply plugin: 'kotlin-android'
 //apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
+// https://jitpack.io/docs/BUILDING/
+//apply plugin: 'maven' //?
+
 group = 'com.github.chenFlyingkite'
 
 android {
