@@ -9,7 +9,7 @@ apply plugin: 'kotlin-kapt'
 //apply plugin: 'android-maven'
 
 // https://jitpack.io/docs/BUILDING/
-//apply plugin: 'maven' //?
+apply plugin: 'maven' //?
 
 group = 'com.github.chenFlyingkite'
 
