@@ -22,6 +22,7 @@ import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.EditText;
 
 import com.flyingkite.android.tos.AppIconDialog;
 import com.flyingkite.library.log.Loggable;
@@ -29,6 +30,7 @@ import com.flyingkite.library.mediastore.MediaStoreKit;
 import com.flyingkite.library.mediastore.MediaStoreTester;
 import com.flyingkite.library.mediastore.listener.DataListener;
 import com.flyingkite.library.mediastore.request.MediaRequest;
+import com.flyingkite.library.recyclerview.Library;
 import com.flyingkite.library.util.IOUtil;
 import com.flyingkite.library.util.ListUtil;
 import com.flyingkite.library.widget.ViewDisplayer;
@@ -38,10 +40,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -64,6 +68,9 @@ public class MainActivity extends Activity implements Loggable {
     private ViewDisplayer screenVD;
     private ViewDisplayer fadeVD;
     private int now = 0;
+
+    private Library<TextAdapter> randomsRecycler;
+    private TextAdapter textAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +141,28 @@ public class MainActivity extends Activity implements Loggable {
         findViewById(R.id.readSMS).setOnClickListener((v) -> {
             readSMS();
         });
+        EditText rmax = findViewById(R.id.randomMax);
+        findViewById(R.id.doRandom).setOnClickListener((v) -> {
+            List<String> ans = new ArrayList<>();
+            Random r = new Random();
+            int max = 1;
+            try {
+                int dx = Integer.parseInt(rmax.getText().toString());
+                max = Math.max(max, dx);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+            for (int i = 0; i < 100; i++) {
+                int x = r.nextInt(max);
+                String s = String.format("#%s: %s", i, x);
+                ans.add(s);
+            }
+            textAdapter.setDataList(ans);
+            textAdapter.notifyDataSetChanged();
+        });
+        randomsRecycler = new Library<>(findViewById(R.id.randoms), true);
+        textAdapter = new TextAdapter();
+        randomsRecycler.setViewAdapter(textAdapter);
     }
 
     private boolean askSMS() {

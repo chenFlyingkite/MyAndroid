@@ -55,7 +55,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_alignParentRight="true">
+        android:layout_alignParentRight="true"
+        android:background="#888">
         <TextView
             android:id="@+id/askSMS"
             android:layout_width="wrap_content"
@@ -73,6 +74,26 @@
             android:text="Read SMS"
             android:padding="@dimen/t15dp"
             android:textColor="#0f0" />
+        <TextView
+            android:id="@+id/doRandom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_rect_blue"
+            android:text="Random"
+            android:padding="@dimen/t15dp"
+            android:textColor="#0dd"/>
+        <EditText
+            android:id="@+id/randomMax"
+            android:layout_width="@dimen/t100dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:text="100"
+            android:textColor="#0dd"
+            android:hint="nextInt(n)"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/randoms"
+            android:layout_width="@dimen/t100dp"
+            android:layout_height="@dimen/t300dp"/>
 
     </LinearLayout>
 
