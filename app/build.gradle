@@ -5,12 +5,12 @@ apply plugin: 'maven-publish' //?
 // https://stackoverflow.com/a/67002271
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 32
     buildToolsVersion "30.0.2"
     defaultConfig {
         applicationId "com.flyingkite.android"
         minSdkVersion 16
-        targetSdkVersion 30
+        targetSdkVersion 32
         multiDexEnabled true
         versionCode 1
         versionName "1.0"
@@ -50,7 +50,6 @@ dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
     api project(path: ':Library')
     api "androidx.multidex:multidex:2.0.1"
-    //implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     api "androidx.recyclerview:recyclerview:1.2.1"
 
     // https://developer.android.com/jetpack/androidx/releases/activity#declaring_dependencies

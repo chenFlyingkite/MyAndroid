@@ -43,11 +43,11 @@ open class MediaStoreKit : Loggable, StringParseUtil {
             val rowN = c.count
 
             r.listener?.onQueried(rowN, c)
+            val all = arrayListOf<Map<String, String>>()
             if (c.moveToFirst()) {
                 // Each row has colN fields
                 val colN = c.columnCount
                 var now = 0
-                val all = arrayListOf<Map<String, String>>()
                 // Create each record as Map & add to all
                 do {
                     val data = HashMap<String, String>()
@@ -69,9 +69,9 @@ open class MediaStoreKit : Loggable, StringParseUtil {
                     all.add(data)
                     //logE("now = #%4d : %s", now, data);
                 } while (c.moveToNext())
-                // Fetch complete
-                r.listener?.onComplete(all)
             }
+            // Fetch complete
+            r.listener?.onComplete(all)
         } catch (e : Exception) {
             e.printStackTrace()
             r.listener?.onError(e)

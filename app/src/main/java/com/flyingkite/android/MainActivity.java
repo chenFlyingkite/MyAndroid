@@ -1,7 +1,11 @@
 package com.flyingkite.android;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
@@ -13,6 +17,7 @@ import android.media.projection.MediaProjection;
 import android.media.projection.MediaProjectionManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Telephony;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.SurfaceView;
@@ -20,15 +25,27 @@ import android.view.View;
 
 import com.flyingkite.android.tos.AppIconDialog;
 import com.flyingkite.library.log.Loggable;
+import com.flyingkite.library.mediastore.MediaStoreKit;
 import com.flyingkite.library.mediastore.MediaStoreTester;
+import com.flyingkite.library.mediastore.listener.DataListener;
+import com.flyingkite.library.mediastore.request.MediaRequest;
 import com.flyingkite.library.util.IOUtil;
+import com.flyingkite.library.util.ListUtil;
+import com.flyingkite.library.widget.ViewDisplayer;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 public class MainActivity extends Activity implements Loggable {
 
@@ -39,64 +56,32 @@ public class MainActivity extends Activity implements Loggable {
     private VirtualDisplay display;
     private static final int REQ_SCREENSHOT = 123;
 
+    // Views
+    private View screen;
+    private View testFade;
+    private final int SMSREQ = 12034;
+
+    private ViewDisplayer screenVD;
+    private ViewDisplayer fadeVD;
+    private int now = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setTos();
 
-        mpm = (MediaProjectionManager) getSystemService(MEDIA_PROJECTION_SERVICE);
-
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         logE("metrics = %s", metrics);
         surfView = findViewById(R.id.screenSurface);
+        screen = findViewById(R.id.screen);
 
-        findViewById(R.id.screen).setOnClickListener(new View.OnClickListener() {
+        screen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendKeyEvent();
             }
 
-            private void screenShot() {
-                if (mpm == null) return;
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    logE("Screen");
-                    startActivityForResult(mpm.createScreenCaptureIntent(), REQ_SCREENSHOT);
-                }
-            }
-
-            private void sendKeyEvent() {
-                // https://android.googlesource.com/platform/frameworks/base/+/HEAD/cmds/input/src/com/android/commands/input/Input.java
-                int code;
-                //code = KeyEvent.KEYCODE_BACK;
-                //code = KeyEvent.KEYCODE_HOME;
-                //code = KeyEvent.KEYCODE_CAMERA;
-                //code = KeyEvent.KEYCODE_POWER;
-                code = KeyEvent.KEYCODE_VOLUME_UP;
-                //code = KeyEvent.KEYCODE_APP_SWITCH;
-                String cmd = String.format("input keyevent %s", code);
-                logE("Screen %s", cmd);
-                try {
-                    Process process = Runtime.getRuntime().exec(cmd);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                View v = findViewById(R.id.screenSave);
-                int[] xy = new int[2];
-                v.getLocationOnScreen(xy);
-                cmd = String.format("input tap %s %s", xy[0] + v.getWidth() / 2, xy[1] + v.getHeight() / 2);
-                //cmd = "input swipe 100 500 200 1450 500";
-                //90 + 180 * k
-                cmd = "input swipe 90 900 90 1700 500";
-                try {
-                    //Say.sleep(5000);
-                    Process process = Runtime.getRuntime().exec(cmd);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                logE("%s", cmd);
-            }
         });
         findViewById(R.id.screenSave).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,6 +90,107 @@ public class MainActivity extends Activity implements Loggable {
                 saveImage(surfView);
             }
         });
+
+        screenVD = new ViewDisplayer(screen);
+        testFade = findViewById(R.id.testFade);
+        View screen2 = findViewById(R.id.screen2);
+        fadeVD = new ViewDisplayer(screen2) {
+            final int dx = 200;
+            final int dy = 100;
+            @Override
+            public void onShow(View v) {
+                //super.onShow(v);
+                if (v != null) {
+                    v.clearAnimation();
+                    v.animate().xBy(+dx).yBy(+dy).setListener(onShow).start();
+                }
+            }
+
+            @Override
+            public void onHide(View v) {
+                //super.onHide(v);
+                if (v != null) {
+                    v.clearAnimation();
+                    v.animate().xBy(-dx).yBy(-dy).setListener(onHide).start();
+                }
+            }
+        };
+        testFade.setOnClickListener((v) -> {
+            logE("now = %s", now);
+            screenVD.performAction(now);
+            fadeVD.performAction(now);
+            final int max = ViewDisplayer.ACTION_SHOW_THEN_HIDE_WHEN_IDLE + 1;
+            now = (now + 1) % max;
+        });
+        screen2.setOnClickListener((v) -> {
+            if (askSMS()) {
+                readSMS();
+            }
+        });
+
+        findViewById(R.id.askSMS).setOnClickListener((v) -> {
+            askSMS();
+        });
+        findViewById(R.id.readSMS).setOnClickListener((v) -> {
+            readSMS();
+        });
+    }
+
+    private boolean askSMS() {
+        final String sms = Manifest.permission.READ_SMS;
+        if (ContextCompat.checkSelfPermission(this, sms) == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{sms}, SMSREQ);
+        }
+        return false;
+    }
+
+    private void readSMS() {
+        logE("Read SMS");
+        MediaStoreKit kit = new MediaStoreKit(this);
+        MediaRequest sms = new MediaRequest();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            sms.uri = Telephony.Sms.CONTENT_URI;
+        }
+        sms.listener = new DataListener<Map<String, String>>() {
+            @Override
+            public void onPreExecute() {
+                logE("preExe");
+            }
+
+            @Override
+            public void onQueried(int count, Cursor cursor) {
+                logE("found %s in %s", count, cursor);
+            }
+
+            @Override
+            public void onProgress(int position, int count, Map<String, String> data) {
+                logE("#%s/%s : %s", position, count, data);
+            }
+
+            @Override
+            public void onComplete(List<Map<String, String>> all) {
+                logE("onComplete %s", all.size());
+            }
+
+            @Override
+            public void onError(Exception error) {
+                logE("onError %s", error);
+            }
+        };
+        kit.queryRequest(sms);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        logE("onRequestPermissionsResult %s, %s, %s", requestCode, Arrays.toString(permissions), Arrays.toString(grantResults));
+        if (requestCode == SMSREQ) {
+            if (grantResults.length > 0 & grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                readSMS();
+            }
+        }
     }
 
     private void setTos() {
@@ -120,12 +206,60 @@ public class MainActivity extends Activity implements Loggable {
         logE("onBackPressed");
     }
 
+    private boolean isAtLeastLollipop() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+    }
+
+    private void screenShot() {
+        if (!isAtLeastLollipop()) return;
+
+        if (mpm == null) {
+            mpm = (MediaProjectionManager) getSystemService(MEDIA_PROJECTION_SERVICE);
+        }
+        if (mpm == null) return;
+
+        logE("Screen");
+        startActivityForResult(mpm.createScreenCaptureIntent(), REQ_SCREENSHOT);
+    }
+
+    private void sendKeyEvent() {
+        // https://android.googlesource.com/platform/frameworks/base/+/HEAD/cmds/input/src/com/android/commands/input/Input.java
+        int code;
+        //code = KeyEvent.KEYCODE_BACK;
+        //code = KeyEvent.KEYCODE_HOME;
+        //code = KeyEvent.KEYCODE_CAMERA;
+        //code = KeyEvent.KEYCODE_POWER;
+        code = KeyEvent.KEYCODE_VOLUME_UP;
+        //code = KeyEvent.KEYCODE_APP_SWITCH;
+        String cmd = String.format("input keyevent %s", code);
+        logE("Screen %s", cmd);
+        try {
+            Process process = Runtime.getRuntime().exec(cmd);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        View v = findViewById(R.id.screenSave);
+        int[] xy = new int[2];
+        v.getLocationOnScreen(xy);
+        cmd = String.format("input tap %s %s", xy[0] + v.getWidth() / 2, xy[1] + v.getHeight() / 2);
+        //cmd = "input swipe 100 500 200 1450 500";
+        //90 + 180 * k
+        cmd = "input swipe 90 900 90 1700 500";
+        try {
+            //Say.sleep(5000);
+            Process process = Runtime.getRuntime().exec(cmd);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        logE("%s", cmd);
+    }
+
     private ImageReader reader;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         logE("onActivityResult(%s, %s, %s)", requestCode, resultCode, data);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (isAtLeastLollipop() && mpm != null) {
             // setUpMediaProjection
             mpj = mpm.getMediaProjection(resultCode, data);
             // setUpVirtualDisplay
