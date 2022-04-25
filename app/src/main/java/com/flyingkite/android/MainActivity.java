@@ -2,8 +2,10 @@ package com.flyingkite.android;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -23,6 +25,7 @@ import android.view.KeyEvent;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.flyingkite.android.tos.AppIconDialog;
 import com.flyingkite.library.log.Loggable;
@@ -64,6 +67,7 @@ public class MainActivity extends Activity implements Loggable {
     private View screen;
     private View testFade;
     private final int SMSREQ = 12034;
+    private TextView textInfo;
 
     private ViewDisplayer screenVD;
     private ViewDisplayer fadeVD;
@@ -99,48 +103,12 @@ public class MainActivity extends Activity implements Loggable {
         });
 
         screenVD = new ViewDisplayer(screen);
-        testFade = findViewById(R.id.testFade);
-        View screen2 = findViewById(R.id.screen2);
-        fadeVD = new ViewDisplayer(screen2) {
-            final int dx = 200;
-            final int dy = 100;
-            @Override
-            public void onShow(View v) {
-                //super.onShow(v);
-                if (v != null) {
-                    v.clearAnimation();
-                    v.animate().xBy(+dx).yBy(+dy).setListener(onShow).start();
-                }
-            }
+        initSMS();
+        initRandom();
+        initAnimation();
+    }
 
-            @Override
-            public void onHide(View v) {
-                //super.onHide(v);
-                if (v != null) {
-                    v.clearAnimation();
-                    v.animate().xBy(-dx).yBy(-dy).setListener(onHide).start();
-                }
-            }
-        };
-        testFade.setOnClickListener((v) -> {
-            logE("now = %s", now);
-            screenVD.performAction(now);
-            fadeVD.performAction(now);
-            final int max = ViewDisplayer.ACTION_SHOW_THEN_HIDE_WHEN_IDLE + 1;
-            now = (now + 1) % max;
-        });
-        screen2.setOnClickListener((v) -> {
-            if (askSMS()) {
-                readSMS();
-            }
-        });
-
-        findViewById(R.id.askSMS).setOnClickListener((v) -> {
-            askSMS();
-        });
-        findViewById(R.id.readSMS).setOnClickListener((v) -> {
-            readSMS();
-        });
+    private void initRandom() {
         EditText rmax = findViewById(R.id.randomMax);
         findViewById(R.id.doRandom).setOnClickListener((v) -> {
             List<String> ans = new ArrayList<>();
@@ -163,6 +131,63 @@ public class MainActivity extends Activity implements Loggable {
         randomsRecycler = new Library<>(findViewById(R.id.randoms), true);
         textAdapter = new TextAdapter();
         randomsRecycler.setViewAdapter(textAdapter);
+    }
+
+    private void initSMS() {
+        View screen2 = findViewById(R.id.screen2);
+        fadeVD = new ViewDisplayer(screen2) {
+            final int dx = 200;
+            final int dy = 100;
+            @Override
+            public void onShow(View v) {
+                //super.onShow(v);
+                if (v != null) {
+                    v.clearAnimation();
+                    v.animate().xBy(+dx).yBy(+dy).setListener(onShow).start();
+                }
+            }
+
+            @Override
+            public void onHide(View v) {
+                //super.onHide(v);
+                if (v != null) {
+                    v.clearAnimation();
+                    v.animate().xBy(-dx).yBy(-dy).setListener(onHide).start();
+                }
+            }
+        };
+
+        screen2.setOnClickListener((v) -> {
+            if (askSMS()) {
+                readSMS();
+            }
+        });
+
+        findViewById(R.id.askSMS).setOnClickListener((v) -> {
+            askSMS();
+        });
+        findViewById(R.id.readSMS).setOnClickListener((v) -> {
+            readSMS();
+        });
+        findViewById(R.id.smsGet).setOnClickListener((v) -> {
+            BroadcastReceiver sms = new SMSRCV();
+            IntentFilter filter = new IntentFilter(Telephony.Sms.Intents.SMS_RECEIVED_ACTION);
+            Intent ret = registerReceiver(sms, filter);
+            logE("ret = %s", ret);
+            SMSRCV.sendNot(this, "hello", new Date().toString());
+        });
+        textInfo = findViewById(R.id.textInfo);
+    }
+
+    private void initAnimation() {
+        testFade = findViewById(R.id.testFade);
+        testFade.setOnClickListener((v) -> {
+            logE("now = %s", now);
+            screenVD.performAction(now);
+            fadeVD.performAction(now);
+            final int max = ViewDisplayer.ACTION_SHOW_THEN_HIDE_WHEN_IDLE + 1;
+            now = (now + 1) % max;
+        });
     }
 
     private boolean askSMS() {

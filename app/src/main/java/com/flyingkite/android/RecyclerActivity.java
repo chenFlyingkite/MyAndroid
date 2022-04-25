@@ -2,15 +2,19 @@ package com.flyingkite.android;
 
 import android.Manifest;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.flyingkite.library.TicTac2;
 import com.flyingkite.library.log.Loggable;
 import com.flyingkite.library.mediastore.MediaStoreTester;
 import com.flyingkite.library.recyclerview.Library;
+import com.flyingkite.library.recyclerview.RVAdapter;
 import com.flyingkite.library.recyclerview.RVSelectAdapter;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +23,15 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class RecyclerActivity extends BaseActivity {
+
+    private TextView parentFolder;
+
+    private RVA rva = new RVA();
+    private Library<TRA> diskLib;
+    private TicTac2 clock = new TicTac2();
+    private File parent;
+    private String state;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +41,8 @@ public class RecyclerActivity extends BaseActivity {
         initRecycler2();
 
         init();
+
+        initDisk();
     }
 
     @Override
@@ -41,6 +56,45 @@ public class RecyclerActivity extends BaseActivity {
         findViewById(R.id.test).setOnClickListener((v) -> {
             new MediaStoreTester(getApplicationContext()).test();
         });
+        findViewById(R.id.disk).setOnClickListener((v) -> {
+            File root = Environment.getExternalStorageDirectory();
+            logE("root = %s", root);
+            fileList(root);
+        });
+        parentFolder = findViewById(R.id.parentFolder);
+    }
+
+    private void fileList(File f) {
+        logE("fileList = %s", f);
+        parent = f;
+        updateFile();
+
+        List<File> all = new ArrayList<>();
+        long ms = -1;
+        int n = -1;
+        if (f != null) {
+            clock.tic();
+            String[] a = f.list();
+            ms = clock.tac("File listed %s", f);
+            n = a == null ? -1 : a.length;
+            if (a != null) {
+                logE("%s items", a.length);
+                for (int i = 0; i < a.length; i++) {
+                    File fi = new File(f, a[i]);
+                    String k = fi.getAbsolutePath();
+                    logE("#%s : %s", i, fi);
+                    all.add(fi);
+                }
+            }
+        }
+        state = String.format("%sms %s items for %s", ms, n, f);
+        diskLib.adapter.setDataList(all);
+        diskLib.adapter.notifyDataSetChanged();
+        updateFile();
+    }
+
+    private void updateFile() {
+        parentFolder.setText(state);
     }
 
     private void initRecycler() {
@@ -72,7 +126,62 @@ public class RecyclerActivity extends BaseActivity {
         rva.setDataList(ss);
         lib.setViewAdapter(rva);
     }
-    private RVA rva = new RVA();
+
+    private void initDisk() {
+        diskLib = new Library<>(findViewById(R.id.recyclerDisk), true);
+        List<File> ans = new ArrayList<>();
+        TRA ta = new TRA();
+        ta.setItemListener(new TRA.ItemListener() {
+            @Override
+            public void onClick(File item, TRA.VH holder, int position) {
+                logE("Disk #%s, %s", position, item);
+                fileList(item);
+            }
+        });
+        ta.setDataList(ans);
+        diskLib.setViewAdapter(ta);
+    }
+
+    @Override
+    public void onBackPressed() {
+        File root = Environment.getExternalStorageDirectory();
+        boolean isRoot = root.getAbsolutePath().equals(parent.getAbsolutePath());
+        isRoot = false;
+        if (!isRoot) {
+            fileList(parent.getParentFile());
+            return;
+        }
+        super.onBackPressed();
+    }
+
+    private static class TRA extends RVAdapter<File, TRA.VH, TRA.ItemListener> implements Loggable {
+
+        private interface ItemListener extends RVAdapter.ItemListener<File, TRA.VH> {
+
+        }
+
+        @NonNull
+        @Override
+        public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            return new VH(inflateView(parent, R.layout.view_text2));
+        }
+
+        @Override
+        public void onBindViewHolder(VH vh, int position) {
+            super.onBindViewHolder(vh, position);
+            File f = itemOf(position);
+            String s = String.format("%s : %s", position, f.getName());
+            vh.msg.setText(s);
+        }
+
+        private static class VH extends RecyclerView.ViewHolder {
+            private TextView msg;
+            public VH(@NonNull View v) {
+                super(v);
+                msg = v.findViewById(R.id.textMsg);
+            }
+        }
+    }
 
     private static class RVA
             extends RVSelectAdapter<String, RVA.RVAH, RVA.ItemListener>

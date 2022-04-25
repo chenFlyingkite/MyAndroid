@@ -52,6 +52,7 @@
         android:background="@color/yellow"/>
 
     <LinearLayout
+        android:id="@+id/toolKit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -75,6 +76,14 @@
             android:padding="@dimen/t15dp"
             android:textColor="#0f0" />
         <TextView
+            android:id="@+id/smsGet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_rect_blue"
+            android:text="SMS Get"
+            android:padding="@dimen/t15dp"
+            android:textColor="#0f0"/>
+        <TextView
             android:id="@+id/doRandom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -97,4 +106,15 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/textInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/toolKit"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/screen"
+        android:background="@drawable/bg_rect_blue"
+        tools:text="Hello App"
+        android:textColor="@color/yellow"
+        />
 </RelativeLayout>
