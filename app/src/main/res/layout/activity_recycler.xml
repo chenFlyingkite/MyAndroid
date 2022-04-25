@@ -26,11 +26,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="lib"/>
-        <Button
-            android:id="@+id/disk"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Disk space"/>
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/disk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Disk space"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:padding="@dimen/t5dp"
+                android:text="Folder"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#00f"
+                android:padding="@dimen/t5dp"
+                android:text="File"/>
+        </LinearLayout>
         <TextView
             android:id="@+id/parentFolder"
             android:layout_width="wrap_content"
@@ -40,6 +57,8 @@
             android:id="@+id/recyclerDisk"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:scrollbars="horizontal|vertical"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
             android:background="#fff"/>
     </LinearLayout>
 

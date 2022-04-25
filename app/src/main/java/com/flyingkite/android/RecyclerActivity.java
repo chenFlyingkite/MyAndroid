@@ -1,6 +1,7 @@
 package com.flyingkite.android;
 
 import android.Manifest;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -71,23 +72,31 @@ public class RecyclerActivity extends BaseActivity {
 
         List<File> all = new ArrayList<>();
         long ms = -1;
+        int dn = -1;
+        int fn = -1;
         int n = -1;
         if (f != null) {
             clock.tic();
             String[] a = f.list();
             ms = clock.tac("File listed %s", f);
-            n = a == null ? -1 : a.length;
             if (a != null) {
+                fn = dn = 0;
+                n = a.length;
                 logE("%s items", a.length);
                 for (int i = 0; i < a.length; i++) {
                     File fi = new File(f, a[i]);
                     String k = fi.getAbsolutePath();
                     logE("#%s : %s", i, fi);
                     all.add(fi);
+                    if (fi.isFile()) {
+                        fn++;
+                    } else {
+                        dn++;
+                    }
                 }
             }
         }
-        state = String.format("%sms %s items for %s", ms, n, f);
+        state = String.format("%sms %s items = %s D + %s F for %s", ms, n, dn, fn, f);
         diskLib.adapter.setDataList(all);
         diskLib.adapter.notifyDataSetChanged();
         updateFile();
@@ -171,7 +180,12 @@ public class RecyclerActivity extends BaseActivity {
             super.onBindViewHolder(vh, position);
             File f = itemOf(position);
             String s = String.format("%s : %s", position, f.getName());
+            int tc = Color.BLACK;
+            if (f.isFile()) {
+                tc = Color.BLUE;
+            }
             vh.msg.setText(s);
+            vh.msg.setTextColor(tc);
         }
 
         private static class VH extends RecyclerView.ViewHolder {
