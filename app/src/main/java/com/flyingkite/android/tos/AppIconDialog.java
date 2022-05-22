@@ -1,10 +1,11 @@
 package com.flyingkite.android.tos;
 
 import android.os.Bundle;
-import androidx.annotation.Nullable;
 import android.view.View;
 
 import com.flyingkite.android.R;
+
+import androidx.annotation.Nullable;
 
 public class AppIconDialog extends BaseTosDialog {
     @Override
@@ -19,14 +20,14 @@ public class AppIconDialog extends BaseTosDialog {
 
     private void adjust1() {
         findViewById(R.id.aicIcon1).setOnClickListener((v) -> {
-            int s = 512;
-            String name = ShareHelper.cacheName(getActivity(), s + ".png");
-            ShareHelper.shareImage(getActivity(), v, name, s, s);
+            final int w = 512;
+            String name = ShareHelper.cacheName(getActivity(), "w" + w + ".png");
+            ShareHelper.shareImage(getActivity(), v, name, w, w);
         });
 
         findViewById(R.id.aicPlay1).setOnClickListener((v) -> {
             String name = ShareHelper.cacheName(getActivity(), "play.png");
-            ShareHelper.shareImage(getActivity(), v, name, 1024, 512);
+            ShareHelper.shareImage(getActivity(), v, name, 1024, 500);
         });
     }
 }

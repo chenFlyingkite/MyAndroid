@@ -17,7 +17,10 @@ import com.flyingkite.library.recyclerview.RVSelectAdapter;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -65,6 +68,14 @@ public class RecyclerActivity extends BaseActivity {
         parentFolder = findViewById(R.id.parentFolder);
     }
 
+    private void sort(String[] a) {
+        if (a == null) return;
+
+        Arrays.sort(a, (x, y) -> {
+            return x.compareTo(y);
+        });
+    }
+
     private void fileList(File f) {
         logE("fileList = %s", f);
         parent = f;
@@ -78,6 +89,7 @@ public class RecyclerActivity extends BaseActivity {
         if (f != null) {
             clock.tic();
             String[] a = f.list();
+            sort(a);
             ms = clock.tac("File listed %s", f);
             if (a != null) {
                 fn = dn = 0;
@@ -169,21 +181,50 @@ public class RecyclerActivity extends BaseActivity {
 
         }
 
+        private TicTac2 tt = new TicTac2();
+
         @NonNull
         @Override
         public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             return new VH(inflateView(parent, R.layout.view_text2));
         }
 
+        private Set<Long> free = new HashSet<>();
+        private Set<Long> total = new HashSet<>();
+        private Set<Long> used = new HashSet<>();
+
         @Override
         public void onBindViewHolder(VH vh, int position) {
             super.onBindViewHolder(vh, position);
+            tt.tic();
             File f = itemOf(position);
-            String s = String.format("%s : %s", position, f.getName());
+            long fr = f.getFreeSpace();
+            free.add(fr);
+            long to = f.getTotalSpace();
+            total.add(to);
+            long us = f.getUsableSpace();
+            used.add(us);
+            // hint, not guarantee
+            logE("free = %s, total = %s, used = %s", free, total, used);
+            String sp = String.format("F %s\nT %s\nU %s", fr, to, us);
+            String s = sp + "\n";
+            s = "";
+            long len = f.length();
+            if (f.isDirectory()) {
+                int sub = -1;
+                String[] fl = f.list();
+                if (fl != null) {
+                    sub = fl.length;
+                }
+                s += String.format("%s : %s (%s items) %s", position, f.getName(), sub, len);
+            } else {
+                s += String.format("%s : %s %s", position, f.getName(), len);
+            }
             int tc = Color.BLACK;
             if (f.isFile()) {
                 tc = Color.BLUE;
             }
+            tt.tac("#onBind %s : %s", position, f);
             vh.msg.setText(s);
             vh.msg.setTextColor(tc);
         }

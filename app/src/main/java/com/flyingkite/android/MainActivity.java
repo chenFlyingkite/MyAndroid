@@ -3,7 +3,6 @@ package com.flyingkite.android;
 import android.Manifest;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -30,12 +29,10 @@ import android.widget.TextView;
 import com.flyingkite.android.tos.AppIconDialog;
 import com.flyingkite.library.log.Loggable;
 import com.flyingkite.library.mediastore.MediaStoreKit;
-import com.flyingkite.library.mediastore.MediaStoreTester;
 import com.flyingkite.library.mediastore.listener.DataListener;
 import com.flyingkite.library.mediastore.request.MediaRequest;
 import com.flyingkite.library.recyclerview.Library;
 import com.flyingkite.library.util.IOUtil;
-import com.flyingkite.library.util.ListUtil;
 import com.flyingkite.library.widget.ViewDisplayer;
 
 import java.io.File;
@@ -215,7 +212,7 @@ public class MainActivity extends Activity implements Loggable {
 
             @Override
             public void onQueried(int count, Cursor cursor) {
-                logE("found %s in %s", count, cursor);
+                logE("found %s SMS in %s", count, cursor);
             }
 
             @Override
@@ -249,8 +246,8 @@ public class MainActivity extends Activity implements Loggable {
 
     private void setTos() {
         findViewById(R.id.tosApp).setOnClickListener((v) -> {
-            //new AppIconDialog().show(MainActivity.this);
-            new MediaStoreTester(getApplicationContext()).test();
+            new AppIconDialog().show(MainActivity.this);
+            //new MediaStoreTester(getApplicationContext()).test();
         });
     }
 

@@ -26,10 +26,10 @@
                 <ImageView
                     android:layout_width="@dimen/t70dp"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
                     android:adjustViewBounds="true"
-                    android:layout_alignParentBottom="true"
-                    android:src="@drawable/freemove"/>
+                    android:src="@drawable/freemove" />
 
                 <ImageView
                     android:layout_width="@dimen/t60dp"
@@ -50,24 +50,27 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/skyBlue"
-                    android:layout_marginLeft="-60dp"
-                    android:layout_marginTop="-80dp"
-                    android:textSize="320dp"
-                    android:text=" \u222B "/>
+                    android:layout_marginLeft="0px"
+                    android:layout_marginTop="-130px"
+                    android:padding="0dp"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="900px"
+                    android:text="\u222B"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/skyBlue"
                     android:layout_gravity="center_vertical|right"
-                    android:textSize="90dp"
+                    android:textSize="240px"
                     android:text="dt"/>
 
                 <ImageView
-                    android:layout_width="530px"
-                    android:layout_height="530px"
+                    android:layout_width="620px"
+                    android:layout_height="620px"
+                    android:layout_marginLeft="-10dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/article_1003"/>
+                    android:src="@drawable/v202205"/>
             </FrameLayout>
         </LinearLayout>
     </HorizontalScrollView>
