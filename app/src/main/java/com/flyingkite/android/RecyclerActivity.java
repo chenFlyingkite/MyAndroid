@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import androidx.annotation.NonNull;
@@ -76,6 +77,10 @@ public class RecyclerActivity extends BaseActivity {
         });
     }
 
+    // Android 11 cannot list file in emulated/storage/0 ?
+    // Mis-list the file of emulated/storage/0/a.txt
+    // Access : Allowed to manage all files,
+    // allowed to access media only, not allowed
     private void fileList(File f) {
         logE("fileList = %s", f);
         parent = f;
@@ -209,7 +214,8 @@ public class RecyclerActivity extends BaseActivity {
             String sp = String.format("F %s\nT %s\nU %s", fr, to, us);
             String s = sp + "\n";
             s = "";
-            long len = f.length();
+            long leng = f.length();
+            String len = fileSize(leng);
             if (f.isDirectory()) {
                 int sub = -1;
                 String[] fl = f.list();
@@ -227,6 +233,25 @@ public class RecyclerActivity extends BaseActivity {
             tt.tac("#onBind %s : %s", position, f);
             vh.msg.setText(s);
             vh.msg.setTextColor(tc);
+        }
+
+        private static String fileSize(long z) {
+            long b = z % 1024;
+            long kb = z / 1024;
+            long mb = kb / 1024;
+            long gb = mb / 1024;
+            if (gb > 0) {
+                double val = gb + mb / 1024.0;
+                return String.format(Locale.US, "%.2f GB", val);
+            } else if (mb > 0) {
+                double val = mb + kb / 1024.0;
+                return String.format(Locale.US, "%.2f MB", val);
+            } else if (kb > 0) {
+                double val = kb + b / 1024.0;
+                return String.format(Locale.US, "%.2f KB", val);
+            } else {
+                return String.format(Locale.US, "%3d Bytes", b);
+            }
         }
 
         private static class VH extends RecyclerView.ViewHolder {
