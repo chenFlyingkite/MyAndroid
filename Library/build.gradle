@@ -4,9 +4,9 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
-    id 'maven-publish'
-
     id 'kotlin-kapt'
+
+    //id 'maven-publish'
 }
 
 // JitPack is a novel package repository for JVM and Android projects.
