@@ -1,2 +1,10 @@
+# https://www.w3schools.io/file/yaml-rmarkdown-currentdate/
+
 jdk:
   - openjdk11
+before_install:
+   - echo "Running before_install `R Sys.Date()`"
+   #- ./custom_setup.sh
+install:
+   - echo "Running install `R Sys.Date()`"
+   #- ./gradlew clean install -xtest

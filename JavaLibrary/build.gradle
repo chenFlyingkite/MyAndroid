@@ -1,16 +1,16 @@
 plugins {
     id "org.jetbrains.kotlin.jvm"// version "1.4.0"
+    id "java-library"
 }
-apply plugin: 'java-library'
+//apply plugin: 'java-library'
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
     api 'com.google.code.gson:gson:2.8.7'
-
 }
 
-sourceCompatibility = "11" // = 1.8
-targetCompatibility = "11" // = 1.8
+//sourceCompatibility = "11" // = 1.8
+//targetCompatibility = "11" // = 1.8
 repositories {
     mavenCentral()
 }
@@ -19,18 +19,17 @@ compileKotlin {
         jvmTarget = "11"
     }
 }
-compileTestKotlin {
-    kotlinOptions {
-        jvmTarget = "11"
-    }
-}
+//compileTestKotlin {
+//    kotlinOptions {
+//        jvmTarget = "11"
+//    }
+//}
 
 String[] clients = ["Library"]
 
 jar.doLast {
     def jarPath = jar.archivePath
     println "Jar at $jarPath"
-    // $project.name
 
     println "Copy jar to /libs of $clients"
     for (int i = 0; i < clients.length; i++) {
@@ -43,4 +42,9 @@ jar.doLast {
             rename '(.*)', "${project.name}.jar"
         }
     }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
