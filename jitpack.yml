@@ -3,8 +3,6 @@
 jdk:
   - openjdk11
 before_install:
-   - echo "Running before_install"# `R Sys.Date()`"
-   #- ./custom_setup.sh
+   - echo "Running before_install"
 install:
-   - echo "Running install"# `R Sys.Date()`"
-   #- ./gradlew clean install -xtest
+   - echo "Running install"
