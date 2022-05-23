@@ -1,0 +1,41 @@
+plugins {
+    id "org.jetbrains.kotlin.jvm"// version "1.4.0"
+    id "java-library"
+}
+
+dependencies {
+    api fileTree(include: ['*.jar'], dir: 'libs')
+    api 'com.google.code.gson:gson:2.8.7'
+}
+
+repositories {
+    mavenCentral()
+}
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "11"
+    }
+}
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+String[] clients = ["Library"]
+
+jar.doLast {
+    def jarPath = jar.archivePath
+    println "Jar at $jarPath"
+
+    println "Copy jar to /libs of $clients"
+    for (int i = 0; i < clients.length; i++) {
+        def dst = "${rootDir}/${clients[i]}/libs"
+        println " -> $dst"
+
+        copy {
+            from "$jarPath"
+            into "$dst"
+            rename '(.*)', "${project.name}.jar"
+        }
+    }
+}

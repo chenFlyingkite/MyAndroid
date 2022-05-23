@@ -10,7 +10,7 @@ android {
     compileSdkVersion 32
     buildToolsVersion "32.0.0"
     defaultConfig {
-        applicationId "com.flyingkite.android"
+        applicationId "com.com.flyingkite.android"
         minSdkVersion 16
         targetSdkVersion 32
         multiDexEnabled true
@@ -56,8 +56,7 @@ android {
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
-    api project(path: ':Library')
-    //api project(":Core")
+    api project(path: ':CoreAndroidX')
     api "androidx.multidex:multidex:2.0.1"
     api "androidx.recyclerview:recyclerview:1.2.1"
 

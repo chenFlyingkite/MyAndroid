@@ -1,0 +1,94 @@
+// Beginners Tutorial
+// http://grails.asia/groovy-map-tutorial
+// http://grails.asia/groovy-each-examples
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+
+    // -- Strange begin
+    // not same as doc says... ?
+    // https://docs.jitpack.io/building/#gradle-projects
+    //id 'maven'
+    // -- Strange end
+}
+
+// JitPack is a novel package repository for JVM and Android projects.
+// It builds Git projects on demand and provides you with ready-to-use artifacts (jar, aar).
+// https://docs.jitpack.io/intro/
+// https://jitpack.io/docs/BUILDING/
+
+group = 'com.github.chenFlyingkite'
+
+android {
+    compileSdkVersion 32
+    buildToolsVersion "32.0.0"
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 32
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    //--
+//    // https://kotlinlang.org/docs/reference/using-gradle.html
+//    kotlinOptions {
+//        jvmTarget = "1.8"
+//    }
+}
+
+dependencies {
+    // comment include jar by use project for this build error
+    // Type flyingkite.library.java.collection.ListUtil is defined multiple times: D:\Github\MyAndroid\JavaLibrary\build\.transforms\5d0eac9b67b670e9c8fd72ce36b8680b\transformed\jetified-JavaLibrary\classes.dex, D:\Github\MyAndroid\app\build\intermediates\external_file_lib_dex_archives\debug\0_jetified-JavaLibrary.jar:classes.dex
+    //api fileTree(dir: 'libs', include: ['*.jar'])
+    //api project(':CoreJava')
+    api project(':CoreAndroid')
+
+    api 'com.squareup.okhttp3:okhttp:4.9.1'
+    api 'com.google.code.gson:gson:2.8.7'
+    api "androidx.appcompat:appcompat:1.4.1"
+    api 'androidx.recyclerview:recyclerview:1.2.1'
+    api 'androidx.percentlayout:percentlayout:1.0.0'
+}
+
+/*
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'maven-publish'
+
+    sourceCompatibility = 1.8 // java 8
+    targetCompatibility = 1.8
+
+    java {
+        withSourcesJar()
+        withJavadocJar()
+    }
+
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                groupId project.group
+                artifactId project.name
+                version project.version
+                from components.java
+            }
+        }
+    }
+}
+
+*/

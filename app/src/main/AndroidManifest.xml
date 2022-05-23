@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.flyingkite.android">
+    package="com.flyingkite.playground">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".SplashActivity"
+            android:name="com.flyingkite.playground.flyingkite.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -29,11 +29,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".MainActivity"/>
+        <activity android:name="com.flyingkite.playground.flyingkite.MainActivity"/>
 
-        <activity android:name=".RecyclerActivity"/>
+        <activity android:name="com.flyingkite.playground.flyingkite.RecyclerActivity"/>
 
-        <receiver android:name=".SMSRCV" android:exported="true">
+        <receiver android:name="com.flyingkite.playground.flyingkite.SMSRCV" android:exported="true">
         </receiver>
 
     </application>
