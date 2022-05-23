@@ -2,7 +2,7 @@ package com.flyingkite.library;
 
 import android.util.Log;
 
-import com.flyingkite.library.log.Loggable;
+import flyingkite.log.Loggable;
 
 /**
  * The class performing the same intention with {@link TicTac}.
@@ -45,6 +45,8 @@ import com.flyingkite.library.log.Loggable;
  *     }
  * }
  * </pre>
+ *
+ * Default implementation of log is {@link Log#e(String, String)}
  * @see flyingkite.tool.TicTac2
  */
 public class TicTac2 extends flyingkite.tool.TicTac2 implements Loggable {
@@ -81,7 +83,7 @@ public class TicTac2 extends flyingkite.tool.TicTac2 implements Loggable {
     }
 
     /**
-     * Tictac2 apply Log with {@link Log#v(String, String)}
+     * {@link TicTac2} apply Log with {@link Log#v(String, String)}
      */
     public static class v extends TicTac2 {
         @Override
@@ -91,12 +93,32 @@ public class TicTac2 extends flyingkite.tool.TicTac2 implements Loggable {
     }
 
     /**
-     * Tictac2 apply Log with {@link Log#i(String, String)}
+     * {@link TicTac2} apply Log with {@link Log#d(String, String)}
+     */
+    public static class d extends TicTac2 {
+        @Override
+        public void log(String message) {
+            Log.d(TAG, message);
+        }
+    }
+
+    /**
+     * {@link TicTac2} apply Log with {@link Log#i(String, String)}
      */
     public static class i extends TicTac2 {
         @Override
         public void log(String message) {
             Log.i(TAG, message);
+        }
+    }
+
+    /**
+     * {@link TicTac2} apply Log with {@link Log#w(String, String)}
+     */
+    public static class w extends TicTac2 {
+        @Override
+        public void log(String message) {
+            Log.w(TAG, message);
         }
     }
 }

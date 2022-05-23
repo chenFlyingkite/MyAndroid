@@ -1,4 +1,4 @@
-package com.flyingkite.library.log;
+package com.flyingkite.core.log;
 
 import android.util.Log;
 

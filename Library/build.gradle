@@ -6,7 +6,11 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
 
-    //id 'maven' // not same as doc says... ?
+    // -- Strange begin
+    // not same as doc says... ?
+    // https://docs.jitpack.io/building/#gradle-projects
+    //id 'maven'
+    // -- Strange end
 }
 
 // JitPack is a novel package repository for JVM and Android projects.
@@ -52,6 +56,7 @@ dependencies {
     // Type flyingkite.collection.ListUtil is defined multiple times: D:\Github\MyAndroid\JavaLibrary\build\.transforms\5d0eac9b67b670e9c8fd72ce36b8680b\transformed\jetified-JavaLibrary\classes.dex, D:\Github\MyAndroid\app\build\intermediates\external_file_lib_dex_archives\debug\0_jetified-JavaLibrary.jar:classes.dex
     //api fileTree(dir: 'libs', include: ['*.jar'])
     api project(':JavaLibrary')
+    api project(":Core")
 
     api 'com.squareup.okhttp3:okhttp:4.9.1'
     api 'com.google.code.gson:gson:2.8.7'

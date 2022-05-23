@@ -9,7 +9,7 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 
-import com.flyingkite.library.log.Loggable;
+import com.flyingkite.core.log.Loggable;
 
 import java.util.ArrayList;
 import java.util.Arrays;

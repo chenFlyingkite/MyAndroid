@@ -1,4 +1,4 @@
-package com.flyingkite.library.util;
+package com.flyingkite.core.util;
 
 import android.app.Activity;
 import android.os.Build;

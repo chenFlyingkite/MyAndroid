@@ -13,7 +13,7 @@ public class Cases {
             , Color.argb(0xB0, 0x00, 0x00, 0x80) // B
             , Color.argb(0xB0, 0x00, 0x80, 0x80) // C
             , Color.argb(0xB0, 0x80, 0x80, 0x00) // Y
-            , Color.argb(0xB0, 0x80, 0x00, 0x80) // Magneta
+            , Color.argb(0xB0, 0x80, 0x00, 0x80) // Magenta
             , Color.argb(0xB0, 0x80, 0x80, 0x80)}; // W
 
     public static int getColor(int index) {
@@ -25,10 +25,11 @@ public class Cases {
     }
 
     public static void next() {
-        if (x + 1 > MAX) {
+        int next = x + 1;
+        if (next > MAX) {
             x = 1;
         } else {
-            x = x + 1;
+            x = next;
         }
     }
 

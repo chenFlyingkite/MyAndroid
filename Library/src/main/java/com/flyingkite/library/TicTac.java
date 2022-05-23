@@ -47,11 +47,7 @@ package com.flyingkite.library;
 public class TicTac {
     private static final String TAG = "TicTac";
 
-    private static TicTac2 tictac = new TicTac2();
-
-    static {
-        setTag(TAG);
-    }
+    private static final TicTac2 tictac = new TicTac2();
 
     public static void reset() {
         tictac.reset();
@@ -73,12 +69,16 @@ public class TicTac {
         return tictac.tac(format, param);
     }
 
-    public static void showLog(boolean show) {
+    public static void setLog(boolean show) {
         tictac.setLog(show);
     }
 
     public static void setTag(String tag) {
         tictac.setTag(tag);
+    }
+
+    static {
+        setTag(TAG);
     }
 
     @Override

@@ -9,19 +9,20 @@ import android.graphics.Canvas;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
-import androidx.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 
-import com.flyingkite.library.util.FileUtil;
-import com.flyingkite.library.util.IOUtil;
-import com.flyingkite.library.util.ThreadUtil;
+import com.flyingkite.core.util.IOUtil;
+import com.flyingkite.core.util.ThreadUtil;
 import com.flyingkite.library.TicTac2;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.lang.ref.WeakReference;
+
+import androidx.annotation.NonNull;
+import flyingkite.files.FileUtil;
 
 /**
  * <a href="https://developer.android.com/training/sharing/send">

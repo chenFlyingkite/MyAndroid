@@ -3,8 +3,7 @@ package com.flyingkite.library.widget;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.flyingkite.library.util.ListUtil;
-import com.flyingkite.library.util.ViewCreatorUtil;
+import com.flyingkite.core.util.ViewCreatorUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +11,7 @@ import java.util.List;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
+import flyingkite.collection.ListUtil;
 
 public class PGAdapter<T> extends PagerAdapter implements ViewCreatorUtil {
 

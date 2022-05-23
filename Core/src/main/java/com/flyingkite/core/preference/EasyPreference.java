@@ -1,16 +1,16 @@
-package com.flyingkite.library.preference;
+package com.flyingkite.core.preference;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.flyingkite.library.log.Loggable;
+import com.flyingkite.core.log.Loggable;
 
 import java.util.Map;
 
 import androidx.annotation.NonNull;
 
 public class EasyPreference implements Loggable {
-    protected final SharedPreferences preference;
+    public final SharedPreferences preference;
 
     public EasyPreference(Context context, String name) {
         preference = context.getSharedPreferences(name, Context.MODE_PRIVATE);

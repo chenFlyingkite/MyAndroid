@@ -1,4 +1,4 @@
-package com.flyingkite.library.util;
+package com.flyingkite.core.util;
 
 import android.view.LayoutInflater;
 import android.view.View;

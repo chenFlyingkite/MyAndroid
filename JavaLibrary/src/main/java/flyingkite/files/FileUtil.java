@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import flyingkite.tool.IOUtil;
 
@@ -138,6 +139,7 @@ public class FileUtil {
         }
         return contents;
     }
+
     public static boolean createFile(File f) {
         if (f == null) return false;
 
@@ -149,5 +151,25 @@ public class FileUtil {
             e.printStackTrace();
         }
         return b;
+    }
+
+    public static String toGbMbKbB(long size) {
+        long b = size % 1024;
+        long kb = size / 1024;
+        long mb = kb / 1024;
+        long gb = mb / 1024;
+
+        if (gb > 0) {
+            double val = gb + mb / 1024.0;
+            return String.format(Locale.US, "%.2f GB", val);
+        } else if (mb > 0) {
+            double val = mb + kb / 1024.0;
+            return String.format(Locale.US, "%.2f MB", val);
+        } else if (kb > 0) {
+            double val = kb + b / 1024.0;
+            return String.format(Locale.US, "%.2f KB", val);
+        } else {
+            return String.format(Locale.US, "%3d Bytes", b);
+        }
     }
 }

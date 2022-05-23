@@ -2,10 +2,9 @@ package com.flyingkite.library.mediastore;
 
 import android.content.Context
 import android.database.Cursor
-import com.flyingkite.library.log.Loggable
+import com.flyingkite.core.log.Loggable
 import com.flyingkite.library.mediastore.request.MediaGroupRequest
 import com.flyingkite.library.mediastore.request.MediaRequest
-import com.flyingkite.library.util.IOUtil
 import flyingkite.functional.Projector
 import flyingkite.util.StringParseUtil
 
@@ -76,7 +75,7 @@ open class MediaStoreKit : Loggable, StringParseUtil {
             e.printStackTrace()
             r.listener?.onError(e)
         } finally {
-            IOUtil.closeIt(c)
+            com.flyingkite.core.util.IOUtil.closeIt(c)
         }
     }
 
@@ -161,7 +160,7 @@ open class MediaStoreKit : Loggable, StringParseUtil {
             e.printStackTrace()
             r.listener?.onError(e)
         } finally {
-            IOUtil.closeIt(c)
+            com.flyingkite.core.util.IOUtil.closeIt(c)
         }
     }
 }

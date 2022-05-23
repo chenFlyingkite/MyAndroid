@@ -9,7 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 
-import com.flyingkite.library.log.Loggable;
+import com.flyingkite.core.log.Loggable;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;

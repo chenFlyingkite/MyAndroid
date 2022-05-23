@@ -2,8 +2,6 @@ package com.flyingkite.library;
 
 import android.util.Log;
 
-import com.flyingkite.library.util.FileUtil;
-
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,6 +11,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+
+import flyingkite.files.FileUtil;
 
 public final class Zipper {
     private static final String TAG = "Zipper";

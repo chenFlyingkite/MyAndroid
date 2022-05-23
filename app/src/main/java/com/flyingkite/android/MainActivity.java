@@ -27,12 +27,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.flyingkite.android.tos.AppIconDialog;
-import com.flyingkite.library.log.Loggable;
+import com.flyingkite.core.log.Loggable;
+import com.flyingkite.core.util.IOUtil;
 import com.flyingkite.library.mediastore.MediaStoreKit;
 import com.flyingkite.library.mediastore.listener.DataListener;
 import com.flyingkite.library.mediastore.request.MediaRequest;
 import com.flyingkite.library.recyclerview.Library;
-import com.flyingkite.library.util.IOUtil;
 import com.flyingkite.library.widget.ViewDisplayer;
 
 import java.io.File;

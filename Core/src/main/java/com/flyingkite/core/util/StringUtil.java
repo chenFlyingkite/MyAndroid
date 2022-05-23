@@ -1,4 +1,4 @@
-package com.flyingkite.library.util;
+package com.flyingkite.core.util;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 
+@Deprecated
 public class StringUtil {
     private static final String TAG = "StringUtil";
     private static final boolean DEBUG = true;

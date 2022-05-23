@@ -1,8 +1,7 @@
 package com.flyingkite.library.download;
 
-import com.flyingkite.library.log.Loggable;
-import com.flyingkite.library.util.FileUtil;
-import com.flyingkite.library.util.IOUtil;
+import com.flyingkite.core.log.Loggable;
+import com.flyingkite.core.util.IOUtil;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -13,6 +12,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import flyingkite.files.FileUtil;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

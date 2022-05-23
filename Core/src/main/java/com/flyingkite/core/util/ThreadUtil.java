@@ -1,4 +1,4 @@
-package com.flyingkite.library.util;
+package com.flyingkite.core.util;
 
 import android.os.Handler;
 import android.os.Looper;

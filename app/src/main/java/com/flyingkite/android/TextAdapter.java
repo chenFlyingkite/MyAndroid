@@ -4,7 +4,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.flyingkite.library.log.Loggable;
+import com.flyingkite.core.log.Loggable;
 import com.flyingkite.library.recyclerview.RVAdapter;
 
 import androidx.recyclerview.widget.RecyclerView;

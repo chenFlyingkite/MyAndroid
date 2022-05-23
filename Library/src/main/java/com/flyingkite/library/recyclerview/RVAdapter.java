@@ -3,14 +3,14 @@ package com.flyingkite.library.recyclerview;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.flyingkite.library.util.ListUtil;
-import com.flyingkite.library.util.ViewCreatorUtil;
+import com.flyingkite.core.util.ViewCreatorUtil;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
+import flyingkite.collection.ListUtil;
 
 /**
  * Simple {@link RecyclerView RecyclerView} Adapter using the List as data set to show content.

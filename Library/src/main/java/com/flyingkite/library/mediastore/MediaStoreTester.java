@@ -11,8 +11,9 @@ import android.os.Build;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 
+import com.flyingkite.core.log.Loggable;
+import com.flyingkite.core.util.IOUtil;
 import com.flyingkite.library.TicTac2;
-import com.flyingkite.library.log.Loggable;
 import com.flyingkite.library.mediastore.listener.DataListener;
 import com.flyingkite.library.mediastore.listener.RequestListener;
 import com.flyingkite.library.mediastore.request.MediaGroupRequest;
@@ -22,7 +23,6 @@ import com.flyingkite.library.mediastore.store.StoreDownloads;
 import com.flyingkite.library.mediastore.store.StoreFiles;
 import com.flyingkite.library.mediastore.store.StoreImages;
 import com.flyingkite.library.mediastore.store.StoreVideo;
-import com.flyingkite.library.util.IOUtil;
 
 import java.io.File;
 import java.io.FileNotFoundException;

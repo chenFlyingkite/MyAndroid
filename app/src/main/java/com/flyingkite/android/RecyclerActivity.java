@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.flyingkite.core.log.Loggable;
 import com.flyingkite.library.TicTac2;
-import com.flyingkite.library.log.Loggable;
 import com.flyingkite.library.mediastore.MediaStoreTester;
 import com.flyingkite.library.recyclerview.Library;
 import com.flyingkite.library.recyclerview.RVAdapter;
@@ -235,6 +235,7 @@ public class RecyclerActivity extends BaseActivity {
             vh.msg.setTextColor(tc);
         }
 
+        @Deprecated
         private static String fileSize(long z) {
             long b = z % 1024;
             long kb = z / 1024;

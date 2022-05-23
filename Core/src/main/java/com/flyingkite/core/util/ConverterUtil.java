@@ -1,4 +1,4 @@
-package com.flyingkite.library.util;
+package com.flyingkite.core.util;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
@@ -22,11 +22,6 @@ public interface ConverterUtil {
         return dp;
     }
 
-    /**
-     * 120dpi = 0.75
-     * 160dpi = 1 (default)
-     * 240dpi = 1.5
-     */
     default float getDensity(Context context) {
         DisplayMetrics m = context.getResources().getDisplayMetrics();
         return m.density;
