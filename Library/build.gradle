@@ -7,18 +7,10 @@ plugins {
     id 'maven-publish'
 
     id 'kotlin-kapt'
-
-    //id 'maven'
 }
 
-//apply plugin: 'com.android.library'
-//apply plugin: 'kotlin-android'
-//apply plugin: 'kotlin-kapt'
-//apply plugin: 'maven' //?
-
-//apply plugin: 'com.github.dcendents.android-maven'
-//apply plugin: 'android-maven' // x
-
+// JitPack is a novel package repository for JVM and Android projects.
+// It builds Git projects on demand and provides you with ready-to-use artifacts (jar, aar).
 // https://docs.jitpack.io/intro/
 // https://jitpack.io/docs/BUILDING/
 

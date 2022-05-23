@@ -2,15 +2,12 @@ plugins {
     id "org.jetbrains.kotlin.jvm"// version "1.4.0"
     id "java-library"
 }
-//apply plugin: 'java-library'
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
     api 'com.google.code.gson:gson:2.8.7'
 }
 
-//sourceCompatibility = "11" // = 1.8
-//targetCompatibility = "11" // = 1.8
 repositories {
     mavenCentral()
 }
@@ -19,11 +16,6 @@ compileKotlin {
         jvmTarget = "11"
     }
 }
-//compileTestKotlin {
-//    kotlinOptions {
-//        jvmTarget = "11"
-//    }
-//}
 
 String[] clients = ["Library"]
 
