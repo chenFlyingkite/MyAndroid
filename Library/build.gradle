@@ -7,6 +7,8 @@ plugins {
     id 'maven-publish'
 
     id 'kotlin-kapt'
+
+    //id 'maven'
 }
 
 //apply plugin: 'com.android.library'
@@ -15,7 +17,7 @@ plugins {
 //apply plugin: 'maven' //?
 
 //apply plugin: 'com.github.dcendents.android-maven'
-//apply plugin: 'android-maven'
+//apply plugin: 'android-maven' // x
 
 // https://docs.jitpack.io/intro/
 // https://jitpack.io/docs/BUILDING/

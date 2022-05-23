@@ -2,7 +2,9 @@
 
 jdk:
   - openjdk11
-before_install:
-   - echo "Running before_install"
-install:
-   - echo "Running install"
+#before_install:
+   #- echo "Running before_install"
+   #- ./custom_setup.sh
+#install:
+   #- echo "Running install"
+   #- ./gradlew clean install -xtest
