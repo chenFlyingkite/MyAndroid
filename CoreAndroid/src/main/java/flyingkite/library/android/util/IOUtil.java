@@ -5,7 +5,7 @@ import android.content.res.AssetManager;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class IOUtil extends flyingkite.library.java.tool.IOUtil {
+public class IOUtil extends flyingkite.library.java.util.IOUtil {
 
     public static InputStreamReader getReader(String assetFile, AssetManager am) {
         try {

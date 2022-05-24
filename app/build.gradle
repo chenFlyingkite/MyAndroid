@@ -18,10 +18,6 @@ android {
         versionName "1.0"
     }
 
-    lintOptions {
-        showAll true
-    }
-
     signingConfigs {
         config {
             keyAlias 'MyAndroidKey'
@@ -31,10 +27,9 @@ android {
         }
     }
 
-    // TODO : compile with Java 11 & create as new build
     compileOptions {
-        sourceCompatibility "11"
-        targetCompatibility "11"
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 
     buildTypes {
@@ -56,7 +51,7 @@ android {
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
-    api project(path: ':CoreAndroidX')
+    api project(':CoreAndroidX')
     api "androidx.multidex:multidex:2.0.1"
     api "androidx.recyclerview:recyclerview:1.2.1"
 

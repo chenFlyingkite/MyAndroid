@@ -4,14 +4,6 @@ import java.math.BigInteger;
 
 public class Math2 {
 
-    public static int sum(int[] ints) {
-        int sum = 0;
-        for (int i : ints) {
-            sum += i;
-        }
-        return sum;
-    }
-
     public static BigInteger factorial(int n) {
         if (n < 0) return BigInteger.ZERO;
 

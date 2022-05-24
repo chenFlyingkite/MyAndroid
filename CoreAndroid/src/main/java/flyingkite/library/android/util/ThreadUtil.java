@@ -4,7 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
-public class ThreadUtil extends flyingkite.library.java.tool.ThreadUtil {
+public class ThreadUtil extends flyingkite.library.java.util.ThreadUtil {
 
     //-------------------------------------------------------------------------
     //-------------------------------------------------------------------------

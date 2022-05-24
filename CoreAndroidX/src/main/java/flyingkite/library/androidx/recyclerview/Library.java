@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class Library<T extends RecyclerView.Adapter<?>> {
+public class Library<T extends RecyclerView.Adapter<? extends RecyclerView.ViewHolder>> {
     public RecyclerView recyclerView;
     public T adapter;
 
@@ -40,10 +40,9 @@ public class Library<T extends RecyclerView.Adapter<?>> {
      *    -rowSpan, with {@link LinearLayoutManager#HORIZONTAL}<br/>
      * @see GridLayoutManager#GridLayoutManager(Context, int, int, boolean)
      */
-    @SuppressLint("WrongConstant")
     public Library(RecyclerView view, int rowSpan) {
         recyclerView = view;
-        int orient = rowSpan >= 0 ? LinearLayoutManager.VERTICAL : LinearLayoutManager.HORIZONTAL;
+        int orient = rowSpan >= 0 ? RecyclerView.VERTICAL : RecyclerView.HORIZONTAL;
         recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), Math.abs(rowSpan), orient, false));
     }
 

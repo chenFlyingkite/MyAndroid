@@ -10,8 +10,9 @@ import java.util.Scanner;
 
 import flyingkite.library.java.log.L;
 import flyingkite.library.java.log.LF;
-import flyingkite.library.java.tool.IOUtil;
+import flyingkite.library.java.util.IOUtil;
 import flyingkite.library.java.tool.TicTacLF;
+import flyingkite.library.java.util.FileUtil;
 
 public class CSVTable {
     public static final String COMMA = ",";

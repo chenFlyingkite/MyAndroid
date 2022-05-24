@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface Selector<T> extends DataList<T> {
-    default boolean meet(T t) {
+    default boolean shouldSelect(T t) {
         return true;
     }
 
@@ -14,7 +14,7 @@ public interface Selector<T> extends DataList<T> {
 
         if (data != null) {
             for (T t : data) {
-                if (meet(t)) {
+                if (shouldSelect(t)) {
                     ans.add(t);
                 }
             }

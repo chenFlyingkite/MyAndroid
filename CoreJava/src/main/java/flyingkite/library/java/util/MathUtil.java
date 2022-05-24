@@ -1,4 +1,4 @@
-package flyingkite.library.java.math;
+package flyingkite.library.java.util;
 
 public class MathUtil {
     /**
@@ -106,4 +106,21 @@ public class MathUtil {
         }
         return max;
     }
+
+    public static int sum(int[] v) {
+        int sum = 0;
+        for (int i : v) {
+            sum += i;
+        }
+        return sum;
+    }
+
+    public static long sum(long[] v) {
+        long sum = 0;
+        for (long i : v) {
+            sum += i;
+        }
+        return sum;
+    }
+
 }

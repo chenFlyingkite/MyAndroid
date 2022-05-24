@@ -1,6 +1,6 @@
 package flyingkite.library.java.log;
 
-import flyingkite.library.java.tool.IOUtil;
+import flyingkite.library.java.util.IOUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;

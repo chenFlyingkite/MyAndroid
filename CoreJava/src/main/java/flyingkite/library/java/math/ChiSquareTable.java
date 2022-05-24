@@ -3,6 +3,8 @@ package flyingkite.library.java.math;
 import java.util.HashMap;
 import java.util.Map;
 
+import flyingkite.library.java.util.MathUtil;
+
 /**
  * http://kisi.deu.edu.tr/joshua.cowley/Chi-square-table.pdf
  */

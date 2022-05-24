@@ -12,7 +12,7 @@ import java.io.InputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import flyingkite.library.java.files.FileUtil;
+import flyingkite.library.java.util.FileUtil;
 
 public final class Zipper {
     private static final String TAG = "Zipper";

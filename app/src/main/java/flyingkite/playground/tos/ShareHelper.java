@@ -14,7 +14,7 @@ import android.view.View;
 
 import flyingkite.library.android.util.IOUtil;
 import flyingkite.library.android.util.ThreadUtil;
-import flyingkite.library.java.files.FileUtil;
+import flyingkite.library.java.util.FileUtil;
 import flyingkite.library.androidx.TicTac2;
 
 import java.io.File;

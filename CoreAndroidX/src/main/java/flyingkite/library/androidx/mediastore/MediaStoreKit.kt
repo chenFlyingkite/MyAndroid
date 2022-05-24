@@ -5,7 +5,7 @@ import android.database.Cursor
 import flyingkite.library.android.log.Loggable
 import flyingkite.library.androidx.mediastore.request.MediaGroupRequest
 import flyingkite.library.androidx.mediastore.request.MediaRequest
-import flyingkite.library.java.functional.Projector
+import flyingkite.library.java.functional.FX
 import flyingkite.library.java.util.StringParseUtil
 
 open class MediaStoreKit : Loggable, StringParseUtil {
@@ -45,12 +45,11 @@ open class MediaStoreKit : Loggable, StringParseUtil {
             val all = arrayListOf<Map<String, String>>()
             if (c.moveToFirst()) {
                 // Each row has colN fields
-                val colN = c.columnCount
                 var now = 0
                 // Create each record as Map & add to all
                 do {
                     val data = HashMap<String, String>()
-                    for (i in 0 until colN) {
+                    for (i in 0 until c.columnCount) {
                         val t = c.getType(i)
                         val pass = t == Cursor.FIELD_TYPE_NULL || t == Cursor.FIELD_TYPE_BLOB
                         if (pass) continue
@@ -66,7 +65,6 @@ open class MediaStoreKit : Loggable, StringParseUtil {
                     r.listener?.onProgress(now, rowN, data)
                     now++
                     all.add(data)
-                    //logE("now = #%4d : %s", now, data);
                 } while (c.moveToNext())
             }
             // Fetch complete
@@ -84,10 +82,10 @@ open class MediaStoreKit : Loggable, StringParseUtil {
      * GetterS takes key from column named <groupBy>, use <nullKey> if column is null
      */
     fun queryRequest(request : MediaGroupRequest, groupBy : String, nullKey : String) {
-        val projector = Projector<Cursor, String> { c: Cursor? ->
+        val projector = FX<String, Cursor> { c: Cursor? ->
             val ki = c?.getColumnIndex(groupBy) ?: -1
             val k = c?.getString(ki) ?: nullKey
-            return@Projector k
+            return@FX k
         }
         queryRequest(request, projector)
     }
@@ -95,12 +93,11 @@ open class MediaStoreKit : Loggable, StringParseUtil {
     /**
      * Core method for querying contents resolver for media with grouped by generic key provider, projector.
      */
-    fun queryRequest(request : MediaGroupRequest, projector: Projector<Cursor, String>) {
+    fun queryRequest(request : MediaGroupRequest, projector: FX<String, Cursor>) {
         if (context == null) {
             return
         }
 
-        //logE("queryRequest & proj $request")
         val r = request
         var c : Cursor? = null
         try {
@@ -112,22 +109,28 @@ open class MediaStoreKit : Loggable, StringParseUtil {
                 return
             }
 
+            // rowN records fetched
+            val rowN = c.count
+
+            r.listener?.onQueried(rowN, c)
+            val all = HashMap<String, MutableList<Map<String, String>>>()
             if (c.moveToFirst()) {
-                // Each row has colN fields
-                val colN = c.columnCount
-                val all = HashMap<String, MutableList<Map<String, String>>>()
+                var now = 0
                 // <all> = { ( <group> : {(<data>)*} )* }
                 do {
                     // Peeking group key
-                    val key = projector.get(c)
-                    if (key == null) {
-                        val e = NullPointerException("projector.get(cursor) = null")
-                        r.listener?.onError(e)
-                        return
-                    }
+                    val groupKey = projector.get(c)
+                    val noKey = groupKey == null
+                    if (noKey) continue
 
+                    // project cursor to data
                     val data = HashMap<String, String>()
-                    for (i in 0 until colN) {
+                    // Each row has colN fields
+                    for (i in 0 until c.columnCount) {
+                        val t = c.getType(i)
+                        val omit = t == Cursor.FIELD_TYPE_NULL || t == Cursor.FIELD_TYPE_BLOB
+                        if (omit) continue
+
                         val k = c.getColumnName(i)
                         val v = c.getString(i) ?: "null"
                         if (data[k] != null) {
@@ -136,26 +139,19 @@ open class MediaStoreKit : Loggable, StringParseUtil {
                         }
                         data[k] = v
                     }
-
-                    // Add data to key and use _null if key = null
-                    val groupKey = projector.get(c)//c.getString(groupIndex) ?: nullKey
+                    // insert data
                     val list = all[groupKey] ?: arrayListOf()
                     list.add(data)
                     all[groupKey] = list
-                    //logE("#%4d : %s", list.size, data);
+
+                    // Report progress
+                    r.listener?.onInfo(now, rowN, groupKey)
+                    r.listener?.onProgress(now, rowN, list)
+                    now++
                 } while (c.moveToNext())
-
-                // Report progress
-                val rowN = all.size
-                val allList = all.values.toList()
-                r.listener?.onQueried(rowN, c)
-                for ((i, list) in allList.withIndex()) {
-                    r.listener?.onProgress(i, rowN, list)
-                }
-
-                // Fetch complete
-                r.listener?.onComplete(allList)
             }
+            // Fetch complete
+            r.listener?.onComplete(all.values.toList())
         } catch (e : Exception) {
             e.printStackTrace()
             r.listener?.onError(e)

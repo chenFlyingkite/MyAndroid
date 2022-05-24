@@ -1,13 +1,13 @@
-package flyingkite.library.java.tool;
-
-import flyingkite.library.java.log.L;
-import flyingkite.library.java.log.Loggable;
+package flyingkite.library.java.util;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
+import flyingkite.library.java.log.L;
+import flyingkite.library.java.log.Loggable;
 
 public class ThreadUtil {
 

@@ -1,4 +1,4 @@
-package flyingkite.library.java.collection;
+package flyingkite.library.java.util;
 
 import java.util.ArrayList;
 import java.util.Collections;

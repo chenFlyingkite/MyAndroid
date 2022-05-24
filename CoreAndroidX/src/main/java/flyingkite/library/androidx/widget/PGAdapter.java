@@ -10,7 +10,7 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 import flyingkite.library.android.util.ViewCreatorUtil;
-import flyingkite.library.java.collection.ListUtil;
+import flyingkite.library.java.util.ListUtil;
 
 public class PGAdapter<T> extends PagerAdapter implements ViewCreatorUtil {
 

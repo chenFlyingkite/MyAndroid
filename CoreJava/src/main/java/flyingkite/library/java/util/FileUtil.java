@@ -1,4 +1,4 @@
-package flyingkite.library.java.files;
+package flyingkite.library.java.util;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-
-import flyingkite.library.java.tool.IOUtil;
 
 public class FileUtil {
 

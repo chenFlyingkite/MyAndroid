@@ -1,4 +1,4 @@
-package flyingkite.library.java.tool;
+package flyingkite.library.java.util;
 
 import java.io.Closeable;
 import java.io.File;

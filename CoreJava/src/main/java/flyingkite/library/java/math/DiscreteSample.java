@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import flyingkite.library.java.util.MathUtil;
+
 public class DiscreteSample {
     public double[] pdf;
     public double[] cdf;
@@ -75,7 +77,7 @@ public class DiscreteSample {
     }
 
     public void evalObservePdf() {
-        int n = Math2.sum(observe);
+        int n = MathUtil.sum(observe);
         for (int i = 0; i < size(); i++) {
             observePdf[i] = 1F * observe[i] / n;
         }
@@ -101,7 +103,7 @@ public class DiscreteSample {
     @Override
     public String toString() {
         int n = size();
-        int sn = Math2.sum(observe);
+        int sn = MathUtil.sum(observe);
         StringBuilder sb = new StringBuilder()
                 .append(n).append(" types, ").append(sn).append(" draws :")
                 .append("\npdf = ").append(Arrays.toString(pdf))

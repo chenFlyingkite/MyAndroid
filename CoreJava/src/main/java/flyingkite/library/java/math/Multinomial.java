@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 import flyingkite.library.java.log.L;
 import flyingkite.library.java.log.Loggable;
+import flyingkite.library.java.util.MathUtil;
 
 /**
  *
@@ -42,7 +43,7 @@ public class Multinomial {
      */
     public static BigInteger nCx(int[] xi) {
         int k = xi.length;
-        int n = Math2.sum(xi);
+        int n = MathUtil.sum(xi);
         BigDecimal ans = BigDecimal.ONE;
         // List values we will multiply
         int[] nf = new int[n]; // = [1:n]

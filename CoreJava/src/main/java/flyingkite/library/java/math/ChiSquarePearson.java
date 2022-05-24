@@ -1,5 +1,7 @@
 package flyingkite.library.java.math;
 
+import flyingkite.library.java.util.MathUtil;
+
 public class ChiSquarePearson {
 
     public static boolean acceptH0(DiscreteSample sample, int alphaOfTable) {
@@ -19,7 +21,7 @@ public class ChiSquarePearson {
         int m = sample.size(); // m category
         double[] expect = new double[m];
 
-        int N = Math2.sum(sample.observe); // N observation
+        int N = MathUtil.sum(sample.observe); // N observation
 
         // Evaluate Oij
         for (int i = 0; i < m; i++) {

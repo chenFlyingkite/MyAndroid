@@ -1,10 +1,10 @@
-package flyingkite.library.java.tool;
+package flyingkite.library.java.util;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import flyingkite.library.java.functional.MeetSS;
+import flyingkite.library.java.functional.FXY;
 
 public class StringUtil {
 
@@ -30,8 +30,8 @@ public class StringUtil {
         return null;
     }
 
-    private static final MeetSS<String, Boolean> contains = String::contains;
-    private static final MeetSS<String, Boolean> equals = String::equals;
+    public static final FXY<Boolean, String, String> contains = String::contains;
+    public static final FXY<Boolean, String, String> equals = String::equals;
 
     /**
      * Convert milliseconds to mm:ss.SSS format

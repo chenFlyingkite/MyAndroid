@@ -20,7 +20,7 @@ public interface StringParseUtil {
         return parseLong(s, 0);
     }
 
-    default long parseLong(String s, int error) {
+    default long parseLong(String s, long error) {
         long n = error;
         try {
             n = Long.parseLong(s);

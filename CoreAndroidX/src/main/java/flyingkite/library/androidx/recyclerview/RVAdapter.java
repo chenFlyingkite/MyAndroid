@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
-import flyingkite.library.java.collection.ListUtil;
+import flyingkite.library.java.util.ListUtil;
 
 /**
  * Simple {@link RecyclerView RecyclerView} Adapter using the List as data set to show content.

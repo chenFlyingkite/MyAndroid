@@ -1,6 +1,6 @@
 plugins {
-    id "org.jetbrains.kotlin.jvm"// version "1.4.0"
     id "java-library"
+    id "org.jetbrains.kotlin.jvm"
 }
 
 dependencies {
@@ -17,8 +17,8 @@ compileKotlin {
     }
 }
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility JavaVersion.VERSION_11
+    targetCompatibility JavaVersion.VERSION_11
 }
 
 String[] clients = ["Library"]

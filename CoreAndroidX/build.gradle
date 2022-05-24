@@ -53,9 +53,8 @@ android {
 
 dependencies {
     // comment include jar by use project for this build error
-    // Type flyingkite.library.java.collection.ListUtil is defined multiple times: D:\Github\MyAndroid\JavaLibrary\build\.transforms\5d0eac9b67b670e9c8fd72ce36b8680b\transformed\jetified-JavaLibrary\classes.dex, D:\Github\MyAndroid\app\build\intermediates\external_file_lib_dex_archives\debug\0_jetified-JavaLibrary.jar:classes.dex
+    // Type flyingkite.library.java.util.ListUtil is defined multiple times: D:\Github\MyAndroid\JavaLibrary\build\.transforms\5d0eac9b67b670e9c8fd72ce36b8680b\transformed\jetified-JavaLibrary\classes.dex, D:\Github\MyAndroid\app\build\intermediates\external_file_lib_dex_archives\debug\0_jetified-JavaLibrary.jar:classes.dex
     //api fileTree(dir: 'libs', include: ['*.jar'])
-    //api project(':CoreJava')
     api project(':CoreAndroid')
 
     api 'com.squareup.okhttp3:okhttp:4.9.1'

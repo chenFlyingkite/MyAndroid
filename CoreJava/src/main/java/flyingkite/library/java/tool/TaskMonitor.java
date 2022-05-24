@@ -7,6 +7,7 @@ import java.util.concurrent.ExecutorService;
 
 import flyingkite.library.java.log.L;
 import flyingkite.library.java.log.Loggable;
+import flyingkite.library.java.util.ThreadUtil;
 
 public class TaskMonitor implements Loggable {
     /**
@@ -100,6 +101,10 @@ public class TaskMonitor implements Loggable {
         //Log.i(LTag(), message);
     }
 
+    public static TaskMonitor join(List<Runnable> preRun, Runnable ended) {
+        return join(preRun, ended, L.getImpl());
+    }
+
     /**
      * When all the tasks of preRun finished, execute the ended one.
      * Just like WinJS.Promise.join does. <br/>
@@ -108,7 +113,7 @@ public class TaskMonitor implements Loggable {
      * @param preRun tasks to be fullfill
      * @param ended tasks to run after all the preRun end
      */
-    public static void join(List<Runnable> preRun, Runnable ended) {
+    public static TaskMonitor join(List<Runnable> preRun, Runnable ended, Loggable g) {
         // Flags records all task if is done
         final boolean[] done = new boolean[preRun.size()];
         // Create TaskOwner
@@ -133,12 +138,16 @@ public class TaskMonitor implements Loggable {
         TaskMonitor.OnTaskState state =  new TaskMonitor.OnTaskState() {
             @Override
             public void onTaskDone(int index, String tag) {
-                L.log("Task OK #%s %s", index, tag);
+                if (g != null) {
+                    g.log("Task OK #%s %s", index, tag);
+                }
             }
 
             @Override
             public void onAllTaskDone() {
-                L.log("Task All OK");
+                if (g != null) {
+                    g.log("Task All OK");
+                }
                 ended.run();
             }
         };
@@ -156,5 +165,6 @@ public class TaskMonitor implements Loggable {
             });
         }
         monitor.registerClient(state);
+        return monitor;
     }
 }
