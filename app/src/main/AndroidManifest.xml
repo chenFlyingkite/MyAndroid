@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.flyingkite.playground">
+    package="flyingkite.playground">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -14,13 +14,14 @@
      android:roundIcon="@mipmap/ic_launcher_round"
     -->
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.flyingkite.playground.flyingkite.SplashActivity"
+            android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -29,11 +30,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.flyingkite.playground.flyingkite.MainActivity"/>
+        <activity android:name=".MainActivity"/>
 
-        <activity android:name="com.flyingkite.playground.flyingkite.RecyclerActivity"/>
+        <activity android:name=".RecyclerActivity"/>
 
-        <receiver android:name="com.flyingkite.playground.flyingkite.SMSRCV" android:exported="true">
+        <receiver android:name=".SMSRCV" android:exported="true">
         </receiver>
 
     </application>

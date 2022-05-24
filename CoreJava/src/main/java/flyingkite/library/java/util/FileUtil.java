@@ -151,19 +151,27 @@ public class FileUtil {
         return b;
     }
 
+    public static String toMbKbB(long size) {
+        return toGbMbKbB(size, new boolean[]{false, true, true});
+    }
+
     public static String toGbMbKbB(long size) {
+        return toGbMbKbB(size, new boolean[]{true, true, true});
+    }
+
+    public static String toGbMbKbB(long size, boolean[] gbMbKb) {
         long b = size % 1024;
         long kb = size / 1024;
         long mb = kb / 1024;
         long gb = mb / 1024;
 
-        if (gb > 0) {
+        if (gb > 0 && gbMbKb[0]) {
             double val = gb + mb / 1024.0;
             return String.format(Locale.US, "%.2f GB", val);
-        } else if (mb > 0) {
+        } else if (mb > 0 && gbMbKb[1]) {
             double val = mb + kb / 1024.0;
             return String.format(Locale.US, "%.2f MB", val);
-        } else if (kb > 0) {
+        } else if (kb > 0 && gbMbKb[2]) {
             double val = kb + b / 1024.0;
             return String.format(Locale.US, "%.2f KB", val);
         } else {

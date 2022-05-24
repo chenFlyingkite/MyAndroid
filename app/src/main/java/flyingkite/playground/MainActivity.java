@@ -25,16 +25,9 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import flyingkite.playground.tos.AppIconDialog;
-import flyingkite.library.android.log.Loggable;
-import flyingkite.library.android.util.IOUtil;
-import flyingkite.library.androidx.mediastore.MediaStoreKit;
-import flyingkite.library.androidx.mediastore.listener.DataListener;
-import flyingkite.library.androidx.mediastore.request.MediaRequest;
-import flyingkite.library.androidx.recyclerview.Library;
-import flyingkite.library.androidx.widget.ViewDisplayer;
-import com.flyingkite.playground.R;
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -48,9 +41,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import flyingkite.library.android.log.Loggable;
+import flyingkite.library.android.util.IOUtil;
+import flyingkite.library.androidx.mediastore.MediaStoreKit;
+import flyingkite.library.androidx.mediastore.listener.DataListener;
+import flyingkite.library.androidx.mediastore.request.MediaRequest;
+import flyingkite.library.androidx.recyclerview.Library;
+import flyingkite.library.androidx.widget.ViewDisplayer;
+import flyingkite.playground.tos.AppIconDialog;
 
 public class MainActivity extends Activity implements Loggable {
 

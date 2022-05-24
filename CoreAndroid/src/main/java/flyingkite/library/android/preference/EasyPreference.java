@@ -2,12 +2,11 @@ package flyingkite.library.android.preference;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-
-import flyingkite.library.android.log.Loggable;
+import androidx.annotation.NonNull;
 
 import java.util.Map;
 
-import androidx.annotation.NonNull;
+import flyingkite.library.android.log.Loggable;
 
 public class EasyPreference implements Loggable {
     public final SharedPreferences preference;
@@ -209,6 +208,33 @@ public class EasyPreference implements Loggable {
         public void add(String b) {
             set(get() + b);
         }
+
+        @NonNull
+        @Override
+        public String toString() {
+            return key + " -> " + get();
+        }
+    }
+
+    public abstract class TypePref<T> {
+        public final String key;
+        private T def;
+        public TypePref(String _key) {
+            this(_key, null);
+        }
+
+        public TypePref(String _key, T defValue) {
+            key = _key;
+            def = defValue;
+        }
+
+        public T get() {
+            return get(def);
+        }
+
+        public abstract T get(T s);
+
+        public abstract void set(T s);
 
         @NonNull
         @Override

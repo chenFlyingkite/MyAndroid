@@ -3,12 +3,10 @@ package flyingkite.playground;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import flyingkite.library.android.log.Loggable;
 import flyingkite.library.androidx.recyclerview.RVAdapter;
-import com.flyingkite.playground.R;
-
-import androidx.recyclerview.widget.RecyclerView;
 
 public class TextAdapter extends RVAdapter<String, TextAdapter.TextVH, TextAdapter.ItemListener> implements Loggable {
     public interface ItemListener extends RVAdapter.ItemListener<String, TextVH> {

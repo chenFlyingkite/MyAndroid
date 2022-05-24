@@ -3,14 +3,13 @@ package flyingkite.library.androidx.mediastore.store;
 import android.content.Context;
 import android.net.Uri;
 import android.provider.MediaStore;
+import androidx.annotation.NonNull;
+
+import java.io.File;
 
 import flyingkite.library.androidx.mediastore.MediaStoreKit;
 import flyingkite.library.androidx.mediastore.request.MediaGroupRequest;
 import flyingkite.library.androidx.mediastore.request.MediaRequest;
-
-import java.io.File;
-
-import androidx.annotation.NonNull;
 
 public class StoreAudio extends MediaStoreKit implements StoreUnit {
     public StoreAudio(@NonNull Context c) {
@@ -38,7 +37,7 @@ public class StoreAudio extends MediaStoreKit implements StoreUnit {
     public void queryAllFolder(MediaGroupRequest request) {
         MediaGroupRequest r = request;
         r.projection = addData(r.projection);
-        queryRequest(r, source -> {
+        queryRequest(r, (source) -> {
             final String key = MediaStore.MediaColumns.DATA;
             int ki = source.getColumnIndex(key);
             // k = File full path

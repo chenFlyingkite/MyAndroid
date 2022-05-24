@@ -10,7 +10,7 @@ public interface Selector<T> extends DataList<T> {
 
     default List<T> select() {
         List<T> ans = new ArrayList<>();
-        List<T> data = getData();
+        List<T> data = get();
 
         if (data != null) {
             for (T t : data) {

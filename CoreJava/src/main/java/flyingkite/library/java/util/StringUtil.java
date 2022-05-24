@@ -2,6 +2,7 @@ package flyingkite.library.java.util;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import flyingkite.library.java.functional.FXY;
@@ -32,6 +33,20 @@ public class StringUtil {
 
     public static final FXY<Boolean, String, String> contains = String::contains;
     public static final FXY<Boolean, String, String> equals = String::equals;
+
+    public static String join(CharSequence delimiter, Iterable tokens) {
+        final Iterator<?> it = tokens.iterator();
+        if (!it.hasNext()) {
+            return "";
+        }
+        final StringBuilder sb = new StringBuilder();
+        sb.append(it.next());
+        while (it.hasNext()) {
+            sb.append(delimiter);
+            sb.append(it.next());
+        }
+        return sb.toString();
+    }
 
     /**
      * Convert milliseconds to mm:ss.SSS format

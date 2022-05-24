@@ -1,6 +1,7 @@
 package flyingkite.library.java.util;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,11 +23,11 @@ public class GsonUtil {
         }
     }
 
-    public static <T> T loadFile(File file, Class<T> clazz) {
-        return load(IOUtil.getReader(file), clazz);
+    public static <T> T fromFile(File file, Class<T> clazz) {
+        return from(IOUtil.getReader(file), clazz);
     }
 
-    public static <T> T load(Reader reader, Class<T> clazz) {
+    public static <T> T from(Reader reader, Class<T> clazz) {
         if (reader == null) return null;
 
         Gson gson = new Gson();
@@ -35,5 +36,16 @@ public class GsonUtil {
         } finally {
             IOUtil.closeIt(reader);
         }
+    }
+
+    public static <T> T from(String src, Class<T> clazz) {
+        Gson g = new Gson();
+        T ans = null;
+        try {
+            ans = g.fromJson(src, clazz);
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+        return ans;
     }
 }

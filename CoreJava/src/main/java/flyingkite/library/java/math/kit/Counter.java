@@ -11,7 +11,7 @@ public interface Counter<T> extends DataList<T> {
     }
 
     default Map<String, Integer> count() {
-        List<T> data = getData();
+        List<T> data = get();
         Map<String, Integer> ans = new HashMap<>();
 
         if (data != null) {

@@ -9,17 +9,16 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.flyingkite.playground.R;
+import androidx.annotation.IdRes;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import androidx.annotation.IdRes;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
+import flyingkite.playground.R;
 
 public class BaseTosDialog extends DialogFragment implements
         DialogInterface.OnKeyListener,

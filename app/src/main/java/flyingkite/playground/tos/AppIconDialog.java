@@ -2,10 +2,9 @@ package flyingkite.playground.tos;
 
 import android.os.Bundle;
 import android.view.View;
-
-import com.flyingkite.playground.R;
-
 import androidx.annotation.Nullable;
+
+import flyingkite.playground.R;
 
 public class AppIconDialog extends BaseTosDialog {
     @Override

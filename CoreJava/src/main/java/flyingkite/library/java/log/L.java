@@ -8,6 +8,10 @@ import flyingkite.library.java.files.CSVTable;
 public class L {
     private static final Impl impl = new Impl();
 
+    public static String ox(boolean b) {
+        return b ? "o" : "x";
+    }
+
     public static void log(String msg) {
         impl.log(msg);
     }

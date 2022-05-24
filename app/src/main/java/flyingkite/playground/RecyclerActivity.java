@@ -7,14 +7,9 @@ import android.os.Environment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import flyingkite.library.android.log.Loggable;
-import flyingkite.library.androidx.TicTac2;
-import flyingkite.library.androidx.mediastore.MediaStoreTester;
-import flyingkite.library.androidx.recyclerview.Library;
-import flyingkite.library.androidx.recyclerview.RVAdapter;
-import flyingkite.library.androidx.recyclerview.RVSelectAdapter;
-import com.flyingkite.playground.R;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -24,9 +19,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
+import flyingkite.library.android.log.Loggable;
+import flyingkite.library.androidx.TicTac2;
+import flyingkite.library.androidx.mediastore.MediaStoreTester;
+import flyingkite.library.androidx.recyclerview.Library;
+import flyingkite.library.androidx.recyclerview.RVAdapter;
+import flyingkite.library.androidx.recyclerview.RVSelectAdapter;
 
 public class RecyclerActivity extends BaseActivity {
 

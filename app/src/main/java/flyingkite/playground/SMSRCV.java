@@ -8,12 +8,10 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
-
-import flyingkite.library.android.log.Loggable;
-import com.flyingkite.playground.R;
-
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+
+import flyingkite.library.android.log.Loggable;
 
 // untested
 @Deprecated

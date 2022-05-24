@@ -10,8 +10,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.flyingkite.playground.R;
-
+import flyingkite.playground.R;
 
 public class WaitingDialog extends AlertDialog {
     protected WaitingDialog(Context context) {
