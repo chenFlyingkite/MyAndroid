@@ -3,11 +3,14 @@ package flyingkite.library.androidx.recyclerview;
 import android.graphics.Rect;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-// CenterScroller to move view to be at recyclerView's horizontal center
+// CenterScroller to move view to be at recyclerView's horizontal / vertical center
+// For simplifying our terminology, we define
+// Left = left in horizontal, top in vertical
+// Right = right in horizontal, bottom in vertical
+// Center = center in horizontal and vertical
 public abstract class CenterScroller {
 
     public abstract RecyclerView getRecyclerView();
@@ -38,8 +41,14 @@ public abstract class CenterScroller {
         scrollToPercent(position, 0, 0, smooth);
     }
 
+    // Core method, alignment by percent line
     public void scrollToPercent(int position, int parentPercent, int childPercent, boolean smooth) {
-        int[] xy = evalOffset(position, parentPercent, childPercent);
+        scrollToPercent(position, parentPercent, childPercent, parentPercent, childPercent, smooth);
+    }
+
+    // Core method
+    public void scrollToPercent(int position, int parentPercentX, int childPercentX, int parentPercentY, int childPercentY, boolean smooth) {
+        int[] xy = evalOffset(position, parentPercentX, childPercentX, parentPercentY, childPercentY);
         if (xy == null) return;
         RecyclerView parent = getRecyclerView();
         if (parent == null) return;
@@ -51,53 +60,72 @@ public abstract class CenterScroller {
         }
     }
 
-    private int anchorAt(View v, int percent) {
+    private int anchorAtLR(View v, int percent) {
         if (v == null) return 0;
-        int l = v.getLeft();
-        int r = v.getRight();
-        return l + (r - l) * percent / 100;
+        return interpolate(v.getLeft(), v.getRight(), percent);
+    }
+
+    private int anchorAtTB(View v, int percent) {
+        if (v == null) return 0;
+        return interpolate(v.getTop(), v.getBottom(), percent);
+    }
+
+    private int interpolate(int l, int r, int p) {
+        return l + (r - l) * p / 100;
     }
 
     // position = 0 ~ n,
     // parentPercent = anchor of recycler
     // childPercent = anchor of view holder
     // evaluate the offsets to make parent's anchor and child's anchor
-    private int[] evalOffset(int position, int parentPercent, int childPercent) {
+    private int[] evalOffset(int position, int parentPercentX, int childPercentX, int parentPercentY, int childPercentY) {
         RecyclerView parent = getRecyclerView();
         if (parent == null) return null;
 
         // Peek the parent's current item positions to check the position item is visible or not
         // head = first partly visible, tail = last partly visible
         int n = parent.getChildCount();
-        ChildInfo head = new ChildInfo(parent, 0);
-        ChildInfo tail = new ChildInfo(parent, n - 1);
+        CenterScroller.ChildInfo head = new ChildInfo(parent, 0);
+        CenterScroller.ChildInfo tail = new ChildInfo(parent, n - 1);
+        if (head.isEmpty() || tail.isEmpty()) return null;
 
-        int anchor = anchorAt(parent, parentPercent);
+        int anchorX = anchorAtLR(parent, parentPercentX);
+        int anchorY = anchorAtTB(parent, parentPercentY);
 
         // Determine the view is located at which position
-        int viewAt;
+        int viewAtX, viewAtY;
         if (head.adapterPos <= position && position <= tail.adapterPos) {
             // Case : Target is (partly or completely) visible within recycler
             View target = parent.getChildAt(position - head.adapterPos);
             if (target == null) return null;
-            viewAt = anchorAt(target, childPercent);
+            viewAtX = anchorAtLR(target, childPercentX);
+            viewAtY = anchorAtTB(target, childPercentY);
         } else {
             // Case : Target is at left outside or right outside of recycler
             boolean targetAtLeft = position < head.adapterPos;
-            ChildInfo info = targetAtLeft ? head : tail;
+            CenterScroller.ChildInfo info = targetAtLeft ? head : tail;
             View ref = info.view;
-            int distance = onPredictScrollOffset(targetAtLeft, info, position);
+            int distanceX = onPredictScrollOffsetX(targetAtLeft, info, position);
+            int distanceY = onPredictScrollOffsetY(targetAtLeft, info, position);
 
-            viewAt = anchorAt(ref, childPercent) + distance;
+            viewAtX = anchorAtLR(ref, childPercentX) + distanceX;
+            viewAtY = anchorAtTB(ref, childPercentY) + distanceY;
         }
 
-        int offset = viewAt - anchor + parent.getLeft();
-        return new int[]{offset, 0};
+        int offsetX = viewAtX - anchorX + parent.getLeft();
+        int offsetY = viewAtY - anchorY + parent.getTop();
+        return new int[]{offsetX, offsetY};
     }
 
-    protected int onPredictScrollOffset(boolean targetAtLeft, @NonNull ChildInfo info, int position) {
+    protected int onPredictScrollOffsetX(boolean targetAtLeft, @NonNull CenterScroller.ChildInfo info, int position) {
         // Simplest case, all the item view has same width
-        ScrollInfo s = new ScrollInfo(info.view);
+        CenterScroller.ScrollInfo s = new CenterScroller.ScrollInfo(info.view);
+        return s.widthAddMargins * (position - info.adapterPos);
+    }
+
+    protected int onPredictScrollOffsetY(boolean targetAtTop, @NonNull CenterScroller.ChildInfo info, int position) {
+        // Simplest case, all the item view has same width
+        CenterScroller.ScrollInfo s = new CenterScroller.ScrollInfo(info.view);
         return s.widthAddMargins * (position - info.adapterPos);
     }
 
@@ -126,15 +154,23 @@ public abstract class CenterScroller {
         }
     }
 
-    public final class ChildInfo {
-        public final View view;
-        public final RecyclerView.ViewHolder viewHolder;
-        public final int adapterPos;
+    public static final class ChildInfo {
+        public View view;
+        public RecyclerView.ViewHolder viewHolder;
+        public int adapterPos = RecyclerView.NO_POSITION;
 
         public ChildInfo(RecyclerView parent, int childIndex) {
             view = parent.getChildAt(childIndex);
-            viewHolder = parent.getChildViewHolder(view);
-            adapterPos = viewHolder.getAdapterPosition();
+            if (view != null) {
+                viewHolder = parent.getChildViewHolder(view);
+            }
+            if (viewHolder != null) {
+                adapterPos = viewHolder.getAdapterPosition();
+            }
+        }
+
+        public boolean isEmpty() {
+            return view == null || viewHolder == null;
         }
 
         @Override

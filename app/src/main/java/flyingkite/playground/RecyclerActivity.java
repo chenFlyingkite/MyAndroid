@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,6 +37,8 @@ public class RecyclerActivity extends BaseActivity {
     private File parent;
     private String state;
 
+    private Library<TileAdapter> tiles;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +50,7 @@ public class RecyclerActivity extends BaseActivity {
         init();
 
         initDisk();
+        initColorTile();
     }
 
     @Override
@@ -177,6 +181,95 @@ public class RecyclerActivity extends BaseActivity {
             return;
         }
         super.onBackPressed();
+    }
+
+    private void initColorTile() {
+        tiles = new Library<>(findViewById(R.id.recyclerScroll), false); // vertical or horizontal
+        List<String> li = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            li.add("" + i);
+        }
+        TileAdapter a = new TileAdapter();
+        a.setDataList(li);
+        tiles.setViewAdapter(a);
+
+        seekbars[0] = new SeekbarKit(findViewById(R.id.scrollParentX)) {
+            @Override
+            public String getTextDisplay(SeekbarKit me) {
+                return _fmt("PX = %02d", me.seekBar.getProgress());
+            }
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                super.onProgressChanged(seekBar, progress, fromUser);
+                scrollPXYCXY(5);
+            }
+        };
+        seekbars[1] = new SeekbarKit(findViewById(R.id.scrollParentY)) {
+            @Override
+            public String getTextDisplay(SeekbarKit me) {
+                return _fmt("PY = %02d", me.seekBar.getProgress());
+            }
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                super.onProgressChanged(seekBar, progress, fromUser);
+                scrollPXYCXY(5);
+            }
+        };
+        seekbars[2] = new SeekbarKit(findViewById(R.id.scrollChildX)) {
+            @Override
+            public String getTextDisplay(SeekbarKit me) {
+                return _fmt("CX = %02d", me.seekBar.getProgress());
+            }
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                super.onProgressChanged(seekBar, progress, fromUser);
+                scrollPXYCXY(5);
+            }
+        };
+        seekbars[3] = new SeekbarKit(findViewById(R.id.scrollChildY)) {
+            @Override
+            public String getTextDisplay(SeekbarKit me) {
+                return _fmt("CY = %02d", me.seekBar.getProgress());
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                super.onProgressChanged(seekBar, progress, fromUser);
+                scrollPXYCXY(5);
+            }
+        };
+    }
+    private void scrollPXYCXY(int pos) {
+        int px = seekbars[0].seekBar.getProgress();
+        int py = seekbars[1].seekBar.getProgress();
+        int cx = seekbars[2].seekBar.getProgress();
+        int cy = seekbars[3].seekBar.getProgress();
+        logE("tilesCenter.scrollToPercent(%s, %s, %s, %s, %s, true)", pos, px, cx, py, cy);
+        tilesCenter.scrollToPercent(pos, px, cx, py, cy, true);
+    }
+    private SeekbarKit[] seekbars = new SeekbarKit[4];
+    // tested and OK
+    private CenterScroller tilesCenter = new CenterScroller() {
+        @Override
+        public RecyclerView getRecyclerView() {
+            return tiles.recyclerView;
+        }
+    };
+
+    private class TileAdapter extends TextAdapter {
+        @Override
+        public TextVH onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new TextVH(inflateView(parent, R.layout.view_tile));
+        }
+
+        private int[] colors = {0x44888888, 0x44cc0000, 0x4400cc00, 0x440000cc,
+                0x44cccc00, 0x4400cccc, 0x44cc00cc, 0x44dddddd};
+
+        @Override
+        public void onBindViewHolder(TextVH vh, int position) {
+            super.onBindViewHolder(vh, position);
+            vh.itemView.setBackgroundColor(colors[position % colors.length]);
+        }
     }
 
     private static class TRA extends RVAdapter<File, TRA.VH, TRA.ItemListener> implements Loggable {

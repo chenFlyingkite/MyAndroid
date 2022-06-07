@@ -4,6 +4,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import flyingkite.library.java.util.StringUtil;
+
 public class ThreadUtil extends flyingkite.library.java.util.ThreadUtil {
 
     //-------------------------------------------------------------------------
@@ -15,7 +17,7 @@ public class ThreadUtil extends flyingkite.library.java.util.ThreadUtil {
     }
 
     public static void logUIThread(String s) {
-        Log.e("Hi", "isUIThread = " + (isUIThread() ? "o" : "x") + ", " + s);
+        Log.e("Hi", "isUIThread = " + StringUtil.ox(isUIThread()) + ", " + s);
     }
 
     public static void runOnUiThread(Runnable action) {

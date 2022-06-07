@@ -141,7 +141,10 @@ public class FileUtil {
     public static boolean createFile(File f) {
         if (f == null) return false;
 
-        f.getParentFile().mkdirs();
+        File g = f.getParentFile();
+        if (g != null) {
+            g.mkdirs();
+        }
         boolean b = false;
         try {
             b = f.createNewFile();
@@ -159,11 +162,23 @@ public class FileUtil {
         return toGbMbKbB(size, new boolean[]{true, true, true});
     }
 
+    public static long[] toGbMbKbBUnit(long size) {
+        //      GB, MB, KB, B
+        long[] mod = {0, 0, 0, 0};
+        long now = size;
+        for (int i = mod.length - 1; i >= 0; i--) {
+            mod[i] = now % 1024;
+            now /= 1024;
+        }
+        return mod;
+    }
+
     public static String toGbMbKbB(long size, boolean[] gbMbKb) {
-        long b = size % 1024;
-        long kb = size / 1024;
-        long mb = kb / 1024;
-        long gb = mb / 1024;
+        long[] mod = toGbMbKbBUnit(size);
+        long b = mod[3];
+        long kb = mod[2];
+        long mb = mod[1];
+        long gb = mod[0];
 
         if (gb > 0 && gbMbKb[0]) {
             double val = gb + mb / 1024.0;

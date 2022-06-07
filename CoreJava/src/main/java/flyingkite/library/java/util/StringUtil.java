@@ -9,6 +9,10 @@ import flyingkite.library.java.functional.FXY;
 
 public class StringUtil {
 
+    public static char ox(boolean o) {
+        return o ? 'o' : 'x';
+    }
+
     public static int containsAt(String key, String[] data) {
         return containsAt(key, Arrays.asList(data));
     }
