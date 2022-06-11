@@ -23,6 +23,7 @@ import java.util.Set;
 import flyingkite.library.android.log.Loggable;
 import flyingkite.library.androidx.TicTac2;
 import flyingkite.library.androidx.mediastore.MediaStoreTester;
+import flyingkite.library.androidx.recyclerview.CenterScroller;
 import flyingkite.library.androidx.recyclerview.Library;
 import flyingkite.library.androidx.recyclerview.RVAdapter;
 import flyingkite.library.androidx.recyclerview.RVSelectAdapter;

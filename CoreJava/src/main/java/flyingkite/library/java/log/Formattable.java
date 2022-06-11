@@ -1,6 +1,5 @@
 package flyingkite.library.java.log;
 
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;

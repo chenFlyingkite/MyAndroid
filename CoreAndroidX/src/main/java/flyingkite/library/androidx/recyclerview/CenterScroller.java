@@ -124,9 +124,9 @@ public abstract class CenterScroller {
     }
 
     protected int onPredictScrollOffsetY(boolean targetAtTop, @NonNull CenterScroller.ChildInfo info, int position) {
-        // Simplest case, all the item view has same width
+        // Simplest case, all the item view has same height
         CenterScroller.ScrollInfo s = new CenterScroller.ScrollInfo(info.view);
-        return s.widthAddMargins * (position - info.adapterPos);
+        return s.heightAddMargins * (position - info.adapterPos);
     }
 
     private Rect getMargins(View v) {
@@ -142,15 +142,17 @@ public abstract class CenterScroller {
     public final class ScrollInfo {
         public final Rect margins;
         public final int widthAddMargins;
+        public final int heightAddMargins;
 
         public ScrollInfo(View v) {
             margins = getMargins(v);
             widthAddMargins = margins.left + v.getWidth() + margins.right;
+            heightAddMargins = margins.top + v.getHeight() + margins.bottom;
         }
 
         @Override
         public String toString() {
-            return "widthAddMargins = " + widthAddMargins + ", Margins = " + margins;
+            return String.format("Margins = %s, +width = %s, +height = %s", margins, widthAddMargins, heightAddMargins);
         }
     }
 

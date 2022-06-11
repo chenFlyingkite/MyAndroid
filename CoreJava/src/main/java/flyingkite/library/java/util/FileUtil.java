@@ -154,6 +154,25 @@ public class FileUtil {
         return b;
     }
 
+    public static String getExtension(String path) {
+        // Fail for file : /storage/emulated/0/DCIM/Screenshots/Screenshot_20220312-215519_One UI Home.jpg
+        // for the space...
+//        if (false) {
+//            // android.webkit.MimeTypeMap
+//            return MimeTypeMap.getFileExtensionFromUrl(path);
+//        }
+
+        if (path == null) {
+            return null;
+        }
+        int dot = path.lastIndexOf('.');
+        if (dot >= 0) {
+            return path.substring(dot + 1);
+        } else {
+            return "";
+        }
+    }
+
     public static String toMbKbB(long size) {
         return toGbMbKbB(size, new boolean[]{false, true, true});
     }

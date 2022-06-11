@@ -52,8 +52,8 @@ android {
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
     api project(':CoreAndroidX')
-    api "androidx.multidex:multidex:2.0.1"
-    api "androidx.recyclerview:recyclerview:1.2.1"
+    implementation "androidx.multidex:multidex:2.0.1"
+    implementation "androidx.recyclerview:recyclerview:1.2.1"
 
     // https://developer.android.com/jetpack/androidx/releases/activity#declaring_dependencies
     // Java language implementation
