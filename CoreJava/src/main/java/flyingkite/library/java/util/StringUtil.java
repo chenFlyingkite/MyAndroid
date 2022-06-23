@@ -2,7 +2,6 @@ package flyingkite.library.java.util;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import flyingkite.library.java.functional.FXY;
@@ -38,17 +37,19 @@ public class StringUtil {
     public static final FXY<Boolean, String, String> contains = String::contains;
     public static final FXY<Boolean, String, String> equals = String::equals;
 
-    public static String join(CharSequence delimiter, Iterable tokens) {
-        final Iterator<?> it = tokens.iterator();
-        if (!it.hasNext()) {
-            return "";
+    public static String join(List<? extends CharSequence> list, CharSequence prefix, CharSequence delim, CharSequence suffix) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(prefix);
+        if (list != null) {
+            for (int i = 0; i < list.size(); i++) {
+                CharSequence s = list.get(i);
+                if (i > 0) {
+                    sb.append(delim);
+                }
+                sb.append(s);
+            }
         }
-        final StringBuilder sb = new StringBuilder();
-        sb.append(it.next());
-        while (it.hasNext()) {
-            sb.append(delimiter);
-            sb.append(it.next());
-        }
+        sb.append(suffix);
         return sb.toString();
     }
 
@@ -67,5 +68,47 @@ public class StringUtil {
         final long sec = s % 60;
         final long min = s / 60;
         return String.format(java.util.Locale.US, "%02d:%02d.%03d", min, sec, f);
+    }
+
+    public static long parseLong(String s) {
+        return parseLong(s, 0);
+    }
+
+    public static long parseLong(String s, long exceptionValue) {
+        long ans = exceptionValue;
+        try {
+            ans = Long.parseLong(s);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        return ans;
+    }
+
+    public static int parseInt(String s) {
+        return parseInt(s, 0);
+    }
+
+    public static int parseInt(String s, int exceptionValue) {
+        int ans = exceptionValue;
+        try {
+            ans = Integer.parseInt(s);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        return ans;
+    }
+
+    public static float parseFloat(String s) {
+        return parseFloat(s, 0);
+    }
+
+    public static float parseFloat(String s, float exceptionValue) {
+        float ans = exceptionValue;
+        try {
+            ans = Float.parseFloat(s);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        return ans;
     }
 }

@@ -9,8 +9,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class FileUtil {
 
@@ -76,19 +78,27 @@ public class FileUtil {
         return r;
     }
 
-    public static void createNewFile(File f) {
-        if (f == null) return;
+    /**
+     * @return true if the named file does not exist and was successfully created; false if the named file already exists
+     */
+    public static boolean createNewFile(File f) {
+        if (f == null) return false;
         if (f.exists() && f.isDirectory()) {
             ensureDelete(f);
         }
 
+        File g = f.getParentFile();
+        if (g != null) {
+            g.mkdirs();
+        }
         if (!f.exists()) {
             try {
-                f.createNewFile();
+                return f.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+        return false;
     }
 
     public static void copy(InputStream is, OutputStream fos) {
@@ -138,22 +148,6 @@ public class FileUtil {
         return contents;
     }
 
-    public static boolean createFile(File f) {
-        if (f == null) return false;
-
-        File g = f.getParentFile();
-        if (g != null) {
-            g.mkdirs();
-        }
-        boolean b = false;
-        try {
-            b = f.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return b;
-    }
-
     public static String getExtension(String path) {
         // Fail for file : /storage/emulated/0/DCIM/Screenshots/Screenshot_20220312-215519_One UI Home.jpg
         // for the space...
@@ -181,8 +175,12 @@ public class FileUtil {
         return toGbMbKbB(size, new boolean[]{true, true, true});
     }
 
+    /**
+     * Return a[0:3] so that size = a[0] GB + a[1] MB + a[2] KB + a[3] Bytes
+     * @return a[0:3] so that size = a[0] GB + a[1] MB + a[2] KB + a[3] Bytes
+     */
     public static long[] toGbMbKbBUnit(long size) {
-        //      GB, MB, KB, B
+        //       GB, MB, KB, B
         long[] mod = {0, 0, 0, 0};
         long now = size;
         for (int i = mod.length - 1; i >= 0; i--) {
@@ -211,5 +209,82 @@ public class FileUtil {
         } else {
             return String.format(Locale.US, "%3d Bytes", b);
         }
+    }
+
+    public interface OnDFSFile {
+        default void onStart(File f) { }
+        // sub = root.listFiles()
+        default File[] onFileListed(File root, File[] sub) { return sub; }
+        // complete counting size under file
+        default void onFileSize(File f, long size) { }
+    }
+
+    public static long getFileSize(File root, OnDFSFile listener) {
+        long ans = 0;
+        if (root == null) {
+            return ans;
+        }
+
+        // report
+        if (listener != null) {
+            listener.onStart(root);
+        }
+
+        if (root.isDirectory()) {
+            File[] sub = root.listFiles();
+            // report
+            if (listener != null) {
+                sub = listener.onFileListed(root, sub);
+            }
+            // core
+            if (sub != null) {
+                for (int i = 0; i < sub.length; i++) {
+                    File g = sub[i];
+                    long it = getFileSize(g, listener);
+                    ans += it;
+                }
+            }
+        } else {
+            // listener
+            if (listener != null) {
+                listener.onFileListed(root, null);
+            }
+            // core
+            ans = root.length();
+        }
+        // report
+        if (listener != null) {
+            listener.onFileSize(root, ans);
+        }
+        return ans;
+    }
+
+    public static Map<File, Long> getFileSizeMap(File root, OnDFSFile listener) {
+        Map<File, Long> map = new HashMap<>();
+        getFileSize(root, new OnDFSFile() {
+            @Override
+            public void onStart(File f) {
+                if (listener != null) {
+                    listener.onStart(f);
+                }
+            }
+
+            @Override
+            public File[] onFileListed(File root, File[] sub) {
+                if (listener != null) {
+                    return listener.onFileListed(root, sub);
+                }
+                return sub;
+            }
+
+            @Override
+            public void onFileSize(File f, long size) {
+                map.put(f, size);
+                if (listener != null) {
+                    listener.onFileSize(f, size);
+                }
+            }
+        });
+        return map;
     }
 }

@@ -65,6 +65,10 @@ public class RecyclerActivity extends BaseActivity {
         findViewById(R.id.test).setOnClickListener((v) -> {
             new MediaStoreTester(getApplicationContext()).test();
         });
+
+        findViewById(R.id.test2).setOnClickListener((v) -> {
+
+        });
         findViewById(R.id.disk).setOnClickListener((v) -> {
             File root = Environment.getExternalStorageDirectory();
             logE("root = %s", root);

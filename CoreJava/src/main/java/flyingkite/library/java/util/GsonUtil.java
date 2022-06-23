@@ -11,6 +11,7 @@ import java.io.Reader;
 public class GsonUtil {
 
     public static void writeFile(File file, String msg) {
+        FileUtil.createNewFile(file);
         PrintWriter fos = null;
         try {
             fos = new PrintWriter(file);
