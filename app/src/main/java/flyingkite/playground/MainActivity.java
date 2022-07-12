@@ -248,6 +248,7 @@ public class MainActivity extends Activity implements Loggable {
             new AppIconDialog().show(MainActivity.this);
             //new MediaStoreTester(getApplicationContext()).test();
         });
+
     }
 
     @Override
@@ -272,6 +273,7 @@ public class MainActivity extends Activity implements Loggable {
         startActivityForResult(mpm.createScreenCaptureIntent(), REQ_SCREENSHOT);
     }
 
+    // github / NodeJS-Sample /
     private void sendKeyEvent() {
         // https://android.googlesource.com/platform/frameworks/base/+/HEAD/cmds/input/src/com/android/commands/input/Input.java
         int code;

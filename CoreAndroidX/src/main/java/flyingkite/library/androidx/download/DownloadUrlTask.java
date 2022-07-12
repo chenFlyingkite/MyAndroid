@@ -1,8 +1,5 @@
 package flyingkite.library.androidx.download;
 
-import flyingkite.library.android.log.Loggable;
-import flyingkite.library.android.util.IOUtil;
-
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -12,6 +9,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import flyingkite.library.android.log.Loggable;
+import flyingkite.library.android.util.IOUtil;
 import flyingkite.library.java.util.FileUtil;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -163,7 +162,7 @@ public class DownloadUrlTask implements Runnable, Loggable {
     }
 
     public static String postOkJson(String url, String json) throws IOException {
-        RequestBody body = RequestBody.create(JSON, json);
+        RequestBody body = RequestBody.create(json, JSON);
         Request request = new Request.Builder().url(url).post(body).build();
         Response response = CLIENT.newCall(request).execute();
         ResponseBody resBody = response.body();

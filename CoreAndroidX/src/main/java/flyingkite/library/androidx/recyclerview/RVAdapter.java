@@ -2,14 +2,13 @@ package flyingkite.library.androidx.recyclerview;
 
 import android.view.View;
 import android.view.ViewGroup;
-
-import flyingkite.library.android.util.ViewCreatorUtil;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.recyclerview.widget.RecyclerView;
+import flyingkite.library.android.util.ViewCreatorUtil;
 import flyingkite.library.java.util.ListUtil;
 
 /**
@@ -80,7 +79,7 @@ public abstract class RVAdapter<T,
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int pos = holder.getAdapterPosition();
+                int pos = holder.getBindingAdapterPosition();
 
                 onWillClickItem(item, holder);
                 if (onItem != null) {

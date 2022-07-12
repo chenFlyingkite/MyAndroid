@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import flyingkite.library.java.data.FileInfo;
+
 public class FileUtil {
 
     public static boolean isGone(File f) {
@@ -211,19 +213,19 @@ public class FileUtil {
         }
     }
 
-    public interface OnDFSFile {
+    public interface OnDFSFile<T> {
         default void onStart(File f) { }
         // sub = root.listFiles()
         default File[] onFileListed(File root, File[] sub) { return sub; }
         // complete counting size under file
-        default void onFileSize(File f, long size) { }
+        default void onFileInfo(File f, T info) { }
     }
 
-    public static long getFileSize(File root, OnDFSFile listener) {
-        long ans = 0;
+    public static FileInfo getFileInfo(File root, OnDFSFile<FileInfo> listener) {
         if (root == null) {
-            return ans;
+            return null;
         }
+        FileInfo ans = new FileInfo();
 
         // report
         if (listener != null) {
@@ -240,8 +242,11 @@ public class FileUtil {
             if (sub != null) {
                 for (int i = 0; i < sub.length; i++) {
                     File g = sub[i];
-                    long it = getFileSize(g, listener);
-                    ans += it;
+                    FileInfo it = getFileInfo(g, listener);
+                    if (it != null) {
+                        ans.fileSize += it.fileSize;
+                        ans.fileCount += it.fileCount;
+                    }
                 }
             }
         } else {
@@ -250,18 +255,59 @@ public class FileUtil {
                 listener.onFileListed(root, null);
             }
             // core
-            ans = root.length();
+            ans.fileSize = root.length();
+            ans.fileCount = 1;
         }
         // report
         if (listener != null) {
-            listener.onFileSize(root, ans);
+            listener.onFileInfo(root, ans);
         }
         return ans;
     }
 
-    public static Map<File, Long> getFileSizeMap(File root, OnDFSFile listener) {
-        Map<File, Long> map = new HashMap<>();
-        getFileSize(root, new OnDFSFile() {
+//    public static long getFileSize(File root, OnDFSFile<Long> listener) {
+//        long ans = 0;
+//        if (root == null) {
+//            return ans;
+//        }
+//
+//        // report
+//        if (listener != null) {
+//            listener.onStart(root);
+//        }
+//
+//        if (root.isDirectory()) {
+//            File[] sub = root.listFiles();
+//            // report
+//            if (listener != null) {
+//                sub = listener.onFileListed(root, sub);
+//            }
+//            // core
+//            if (sub != null) {
+//                for (int i = 0; i < sub.length; i++) {
+//                    File g = sub[i];
+//                    long it = getFileSize(g, listener);
+//                    ans += it;
+//                }
+//            }
+//        } else {
+//            // listener
+//            if (listener != null) {
+//                listener.onFileListed(root, null);
+//            }
+//            // core
+//            ans = root.length();
+//        }
+//        // report
+//        if (listener != null) {
+//            listener.onFileInfo(root, ans);
+//        }
+//        return ans;
+//    }
+
+    public static Map<File, FileInfo> getFileInfoMap(File root, OnDFSFile<FileInfo> listener) {
+        Map<File, FileInfo> map = new HashMap<>();
+        getFileInfoMap(root, new OnDFSFile<>() {
             @Override
             public void onStart(File f) {
                 if (listener != null) {
@@ -277,11 +323,12 @@ public class FileUtil {
                 return sub;
             }
 
+
             @Override
-            public void onFileSize(File f, long size) {
+            public void onFileInfo(File f, FileInfo size) {
                 map.put(f, size);
                 if (listener != null) {
-                    listener.onFileSize(f, size);
+                    listener.onFileInfo(f, size);
                 }
             }
         });

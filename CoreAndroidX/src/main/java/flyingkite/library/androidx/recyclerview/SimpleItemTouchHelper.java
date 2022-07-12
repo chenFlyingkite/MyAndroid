@@ -1,13 +1,13 @@
 package flyingkite.library.androidx.recyclerview;
 
-import java.util.Collections;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Simple class to wrap {@link ItemTouchHelper} for {@link LinearLayoutManager} as handy one.
@@ -84,7 +84,7 @@ public abstract class SimpleItemTouchHelper {
 
         @Override
         public int getMovementFlags(@NonNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-            boolean isLast = viewHolder.getAdapterPosition() >= getList().size();
+            boolean isLast = viewHolder.getBindingAdapterPosition() >= getList().size();
 
             if (isLast) {
                 return 0; // Have no movement flags, so we cannot move this item
@@ -103,8 +103,8 @@ public abstract class SimpleItemTouchHelper {
 
         @Override
         public boolean onMove(@NonNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-            int fromPosition = viewHolder.getAdapterPosition();
-            int toPosition = target.getAdapterPosition();
+            int fromPosition = viewHolder.getBindingAdapterPosition();
+            int toPosition = target.getBindingAdapterPosition();
             int last = getList().size();
             boolean reachLast = fromPosition >= last || toPosition >= last;
             if (reachLast) {
@@ -123,7 +123,7 @@ public abstract class SimpleItemTouchHelper {
 
         @Override
         public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-            int position = viewHolder.getAdapterPosition();
+            int position = viewHolder.getBindingAdapterPosition();
             if (position < 0) return; // When keep clicking on delete, it keep triggering onSwiped() and it may have index = -1 = {@link RecyclerView#NO_POSITION} of previous deleted one
 
             getList().remove(position);

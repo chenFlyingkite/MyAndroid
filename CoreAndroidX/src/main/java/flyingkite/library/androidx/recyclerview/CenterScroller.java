@@ -167,7 +167,7 @@ public abstract class CenterScroller {
                 viewHolder = parent.getChildViewHolder(view);
             }
             if (viewHolder != null) {
-                adapterPos = viewHolder.getAdapterPosition();
+                adapterPos = viewHolder.getBindingAdapterPosition();
             }
         }
 
