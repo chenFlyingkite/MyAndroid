@@ -23,6 +23,10 @@ public class DialogUtil {
         @StyleRes
         private final int themeResId;
 
+        public Alert(@NonNull Activity activity, @LayoutRes int layoutId, InflateListener onInflate) {
+            this(activity, layoutId, 0, onInflate);
+        }
+
         public Alert(@NonNull Activity activity, @LayoutRes int layoutId, @StyleRes int themeId, InflateListener onInflate) {
             owner = activity;
             viewLayoutId = layoutId;

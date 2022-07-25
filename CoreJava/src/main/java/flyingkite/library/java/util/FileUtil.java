@@ -221,6 +221,11 @@ public class FileUtil {
         default void onFileInfo(File f, T info) { }
     }
 
+    // Folder count = subfolder counts of it self + 1. (Self is also a folder)
+    // For one single file : file count = 1, folder count = 0
+    // For an empty folder : file count = 0, folder count = 1
+    // If /a/ is directory and its content is /a/t.txt, /a/b, /a/c/z.txt
+    // => /a/ has 2 files (of t.txt and z.txt), has 3 folders (of a/ itself, a/b, a/c )
     public static FileInfo getFileInfo(File root, OnDFSFile<FileInfo> listener) {
         if (root == null) {
             return null;
@@ -233,6 +238,7 @@ public class FileUtil {
         }
 
         if (root.isDirectory()) {
+            ans.folderCount = 1;
             File[] sub = root.listFiles();
             // report
             if (listener != null) {
@@ -246,6 +252,8 @@ public class FileUtil {
                     if (it != null) {
                         ans.fileSize += it.fileSize;
                         ans.fileCount += it.fileCount;
+                        ans.folderCount += it.folderCount;
+                        ans.lastModified = Math.max(ans.lastModified, it.lastModified);
                     }
                 }
             }
@@ -257,6 +265,7 @@ public class FileUtil {
             // core
             ans.fileSize = root.length();
             ans.fileCount = 1;
+            ans.lastModified = root.lastModified();
         }
         // report
         if (listener != null) {
@@ -265,49 +274,9 @@ public class FileUtil {
         return ans;
     }
 
-//    public static long getFileSize(File root, OnDFSFile<Long> listener) {
-//        long ans = 0;
-//        if (root == null) {
-//            return ans;
-//        }
-//
-//        // report
-//        if (listener != null) {
-//            listener.onStart(root);
-//        }
-//
-//        if (root.isDirectory()) {
-//            File[] sub = root.listFiles();
-//            // report
-//            if (listener != null) {
-//                sub = listener.onFileListed(root, sub);
-//            }
-//            // core
-//            if (sub != null) {
-//                for (int i = 0; i < sub.length; i++) {
-//                    File g = sub[i];
-//                    long it = getFileSize(g, listener);
-//                    ans += it;
-//                }
-//            }
-//        } else {
-//            // listener
-//            if (listener != null) {
-//                listener.onFileListed(root, null);
-//            }
-//            // core
-//            ans = root.length();
-//        }
-//        // report
-//        if (listener != null) {
-//            listener.onFileInfo(root, ans);
-//        }
-//        return ans;
-//    }
-
     public static Map<File, FileInfo> getFileInfoMap(File root, OnDFSFile<FileInfo> listener) {
         Map<File, FileInfo> map = new HashMap<>();
-        getFileInfoMap(root, new OnDFSFile<>() {
+        getFileInfo(root, new OnDFSFile<>() {
             @Override
             public void onStart(File f) {
                 if (listener != null) {
