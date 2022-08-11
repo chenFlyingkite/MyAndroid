@@ -3,12 +3,16 @@ package flyingkite.library.java.util;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -103,6 +107,63 @@ public class FileUtil {
         return false;
     }
 
+    // List files in DFS order
+    public static List<File> listAllFiles(File root) {
+        List<File> ans = new ArrayList<>();
+        if (root == null) return ans;
+
+        ans.add(root);
+        if (root.isDirectory()) {
+            File[] fs = root.listFiles();
+            if (fs != null) {
+                List<File> sub;
+                for (int i = 0; i < fs.length; i++) {
+                    sub = listAllFiles(fs[i]);
+                    ans.addAll(sub);
+                }
+            }
+        }
+        return ans;
+    }
+
+    // List files in BFS order
+    public static List<File> listAllFilesBFS(File root) {
+        List<File> ans = new ArrayList<>();
+        Deque<File> queue = new ArrayDeque<>();
+        queue.add(root);
+        ans.add(root);
+        while (queue.size() > 0) {
+            File now = queue.removeFirst();
+
+            if (now.isDirectory()) {
+                File[] fs = now.listFiles();
+                if (fs != null) {
+                    for (int i = 0; i < fs.length; i++) {
+                        File it = fs[i];
+                        queue.addLast(it);
+                        ans.add(it);
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+
+    public static void copy(File dst, File src) {
+        if (FileUtil.isGone(src)) return;
+
+        if (src.isDirectory()) {
+            dst.mkdirs();
+        } else {
+            FileUtil.createNewFile(dst);
+            try {
+                copy(new FileInputStream(src), new FileOutputStream(dst));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public static void copy(InputStream is, OutputStream fos) {
         if (is == null || fos == null) return;
 
@@ -113,6 +174,7 @@ public class FileUtil {
             while ((read = is.read(buffer)) != -1) {
                 fos.write(buffer, 0, read);
             }
+            fos.flush();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -302,5 +364,42 @@ public class FileUtil {
             }
         });
         return map;
+    }
+
+    public static boolean isAPK(File f) {
+        if (isGone(f)) return false;
+        return isAPK(f.getAbsolutePath());
+    }
+
+    public static boolean isAPK(String path) {
+        if (path == null) return false;
+        String s = path.toLowerCase();
+        return s.endsWith(".apk");// || s.endsWith(".aab"); // aab cannot install
+    }
+
+    // get next name of format "{$parent}/{$leaf.name()} {$i}"
+    // i = 1, 2, ...
+    public static File getUnconflictFile(File parent, File leaf) {
+        String name = leaf.getName();
+        List<String> part = new ArrayList<>();
+        int dot = name.lastIndexOf('.');
+        if (dot >= 0) {
+            part.add(name.substring(0, dot)); // name
+            part.add(""); // blank
+            part.add(name.substring(dot)); // extension
+        } else {
+            part.add(name);
+            part.add(""); // blank
+        }
+
+        File dst = new File(parent, name);
+        int i = 1;
+        while (dst.exists()) {
+            part.set(1, " " + i);
+            String nextName = StringUtil.join(part, "", "", "");
+            dst = new File(parent, nextName);
+            i++;
+        }
+        return dst;
     }
 }

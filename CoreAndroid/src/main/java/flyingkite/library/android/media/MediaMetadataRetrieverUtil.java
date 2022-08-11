@@ -41,21 +41,22 @@ public class MediaMetadataRetrieverUtil {
         //   1~4ms : extractMetadata
         //   0~2ms : release
         MediaMetadataRetriever fetcher = null;
+        String answer = "";
         try {
             fetcher = new MediaMetadataRetriever();
             fetcher.setDataSource(path);
-            String answer = fetcher.extractMetadata(metadataKey);
-            return answer;
+            answer = fetcher.extractMetadata(metadataKey);
         } catch (RuntimeException e) {
             e.printStackTrace();
             // IllegalArgumentException for // DRA155018-0001
             // IllegalStateException for // https://fabric.io/cyberlink/android/apps/com.cyberlink.powerdirector.dra140225_01/issues/562a0d9bf5d3a7f76b03baa0
-            return exceptionValue;
+            answer = exceptionValue;
         } finally {
             if (fetcher != null) {
                 fetcher.release();
             }
         }
+        return answer;
     }
 
     public static long extractMetadataFromFilepath(String path, int metadataKey, long exceptionValue) {
