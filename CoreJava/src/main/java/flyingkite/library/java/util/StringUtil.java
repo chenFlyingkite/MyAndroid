@@ -7,6 +7,9 @@ import java.util.List;
 import flyingkite.library.java.functional.FXY;
 
 public class StringUtil {
+    public static boolean isEmpty(String s) {
+        return s == null || s.length() == 0;
+    }
 
     public static char ox(boolean o) {
         return o ? 'o' : 'x';
@@ -32,6 +35,18 @@ public class StringUtil {
             }
         }
         return null;
+    }
+
+    public static boolean endsOf(String src, String... target) {
+        if (src != null) {
+            String s = src.toLowerCase();
+            for (int i = 0; i < target.length; i++) {
+                if (s.endsWith(target[i])) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public static final FXY<Boolean, String, String> contains = String::contains;

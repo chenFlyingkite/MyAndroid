@@ -213,13 +213,6 @@ public class FileUtil {
     }
 
     public static String getExtension(String path) {
-        // Fail for file : /storage/emulated/0/DCIM/Screenshots/Screenshot_20220312-215519_One UI Home.jpg
-        // for the space...
-//        if (false) {
-//            // android.webkit.MimeTypeMap
-//            return MimeTypeMap.getFileExtensionFromUrl(path);
-//        }
-
         if (path == null) {
             return null;
         }
@@ -239,6 +232,9 @@ public class FileUtil {
         return toGbMbKbB(size, new boolean[]{true, true, true});
     }
 
+    public static int kb = 1024;
+    public static double kbf = 1.0 * kb;
+
     /**
      * Return a[0:3] so that size = a[0] GB + a[1] MB + a[2] KB + a[3] Bytes
      * @return a[0:3] so that size = a[0] GB + a[1] MB + a[2] KB + a[3] Bytes
@@ -248,8 +244,8 @@ public class FileUtil {
         long[] mod = {0, 0, 0, 0};
         long now = size;
         for (int i = mod.length - 1; i >= 0; i--) {
-            mod[i] = now % 1024;
-            now /= 1024;
+            mod[i] = now % kb;
+            now /= kb;
         }
         return mod;
     }
@@ -262,13 +258,13 @@ public class FileUtil {
         long gb = mod[0];
 
         if (gb > 0 && gbMbKb[0]) {
-            double val = gb + mb / 1024.0;
+            double val = gb + mb / kbf;
             return String.format(Locale.US, "%.2f GB", val);
         } else if (mb > 0 && gbMbKb[1]) {
-            double val = mb + kb / 1024.0;
+            double val = mb + kb / kbf;
             return String.format(Locale.US, "%.2f MB", val);
         } else if (kb > 0 && gbMbKb[2]) {
-            double val = kb + b / 1024.0;
+            double val = kb + b / kbf;
             return String.format(Locale.US, "%.2f KB", val);
         } else {
             return String.format(Locale.US, "%3d Bytes", b);
@@ -281,6 +277,8 @@ public class FileUtil {
         default File[] onFileListed(File root, File[] sub) { return sub; }
         // complete counting size under file
         default void onFileInfo(File f, T info) { }
+
+        default void onFileVisited(int visited, int found) { }
     }
 
     // Folder count = subfolder counts of it self + 1. (Self is also a folder)
@@ -338,6 +336,7 @@ public class FileUtil {
 
     public static Map<File, FileInfo> getFileInfoMap(File root, OnDFSFile<FileInfo> listener) {
         Map<File, FileInfo> map = new HashMap<>();
+        final int[] now = {0, 1}; // visited = now[0] / found = now[1]
         getFileInfo(root, new OnDFSFile<>() {
             @Override
             public void onStart(File f) {
@@ -347,9 +346,14 @@ public class FileUtil {
             }
 
             @Override
-            public File[] onFileListed(File root, File[] sub) {
+            public File[] onFileListed(File parent, File[] sub) {
+                now[0]++;
+                if (sub != null) {
+                    now[1] += sub.length;
+                }
                 if (listener != null) {
-                    return listener.onFileListed(root, sub);
+                    listener.onFileVisited(now[0], now[1]);
+                    return listener.onFileListed(parent, sub);
                 }
                 return sub;
             }
@@ -371,16 +375,38 @@ public class FileUtil {
         return isAPK(f.getAbsolutePath());
     }
 
+    // aab cannot install
     public static boolean isAPK(String path) {
-        if (path == null) return false;
-        String s = path.toLowerCase();
-        return s.endsWith(".apk");// || s.endsWith(".aab"); // aab cannot install
+        return StringUtil.endsOf(path, ".apk");
     }
 
-    // get next name of format "{$parent}/{$leaf.name()} {$i}"
+    public static boolean isTXT(String path) {
+        return StringUtil.endsOf(path, ".txt");
+    }
+
+    public static boolean isJson(String path) {
+        return StringUtil.endsOf(path, ".json");
+    }
+
+    public static boolean isPDF(String path) {
+        return StringUtil.endsOf(path, ".pdf");
+    }
+
+    public static boolean isMicrosoftExcel(String path) {
+        return StringUtil.endsOf(path, ".xls", ".xlsx", ".csv");
+    }
+
+    public static boolean isMicrosoftWord(String path) {
+        return StringUtil.endsOf(path, ".doc", ".docx");
+    }
+
+    public static boolean isMicrosoftPowerPoint(String path) {
+        return StringUtil.endsOf(path, ".ppt", ".pptx");
+    }
+
+    // get next name of format "{$parent}/{$name} {$i}"
     // i = 1, 2, ...
-    public static File getUnconflictFile(File parent, File leaf) {
-        String name = leaf.getName();
+    public static File getUnconflictFile(File parent, String name) {
         List<String> part = new ArrayList<>();
         int dot = name.lastIndexOf('.');
         if (dot >= 0) {

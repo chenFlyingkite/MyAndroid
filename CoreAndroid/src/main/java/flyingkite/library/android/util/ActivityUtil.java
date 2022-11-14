@@ -36,5 +36,11 @@ public interface ActivityUtil {
         }
     }
 
+    default String getString(int id) {
+        return getActivity().getString(id);
+    }
 
+    default String getString(int id, Object... param) {
+        return getActivity().getString(id, param);
+    }
 }

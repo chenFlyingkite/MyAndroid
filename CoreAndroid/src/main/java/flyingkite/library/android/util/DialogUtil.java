@@ -14,14 +14,18 @@ public class DialogUtil {
         void onFinishInflate(View view, AlertDialog dialog);
     }
 
-    public static class Alert implements ActivityUtil {
+    public static class Alert implements ActivityUtil, InflateListener {
 
         private final Activity owner;
         @LayoutRes
         private final int viewLayoutId;
-        private final InflateListener onViewInflated;
+        private InflateListener onViewInflated;
         @StyleRes
         private final int themeResId;
+
+        public Alert(@NonNull Activity activity, @LayoutRes int layoutId) {
+            this(activity, layoutId, 0, null);
+        }
 
         public Alert(@NonNull Activity activity, @LayoutRes int layoutId, InflateListener onInflate) {
             this(activity, layoutId, 0, onInflate);
@@ -30,8 +34,13 @@ public class DialogUtil {
         public Alert(@NonNull Activity activity, @LayoutRes int layoutId, @StyleRes int themeId, InflateListener onInflate) {
             owner = activity;
             viewLayoutId = layoutId;
-            onViewInflated = onInflate;
+            onViewInflated = onInflate == null ? this : onInflate;
             themeResId = themeId;
+        }
+
+        @Override
+        public void onFinishInflate(View view, AlertDialog dialog) {
+
         }
 
         public AlertDialog buildAndShow() {
@@ -54,7 +63,7 @@ public class DialogUtil {
             final AlertDialog dialog = new AlertDialog.Builder(owner, themeResId).setView(dialogView).create();
             dialog.setCanceledOnTouchOutside(true);
             dialog.setCancelable(true);
-
+            onFinishInflate(dialogView, dialog);
             if (onViewInflated != null) {
                 onViewInflated.onFinishInflate(dialogView, dialog);
             }
